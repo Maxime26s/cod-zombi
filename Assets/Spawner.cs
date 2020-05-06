@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Spawner : MonoBehaviour
 {
-    GameObject window, enemy;
+    public GameObject window, enemy;
     bool cd;
     // Start is called before the first frame update
     void Start()
@@ -22,7 +22,9 @@ public class Spawner : MonoBehaviour
     IEnumerator Spawn()
     {
         cd = true;
-        Instantiate(enemy, transform.position, Quaternion.identity);
+        GameObject go = Instantiate(enemy, transform.position, Quaternion.identity);
+        go.GetComponent<Enemy>().window = window;
+        Debug.Log("pog");
         yield return new WaitForSeconds(2f);
         cd = false;
     }

@@ -3,11 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
+public enum State { Spawned, TravelWindow, Chasing }
 public class Enemy : MonoBehaviour
 {
-    NavMeshAgent ai;
+    public NavMeshAgent ai;
     GameObject player;
+    GameObject[] translation = new GameObject[2];
+    public GameObject window;
     bool cd;
+    public State state = State.Spawned;
     // Start is called before the first frame update
     void Start()
     {
@@ -18,8 +22,19 @@ public class Enemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(ai.enabled)
-            ai.SetDestination(player.transform.position);
+        switch (state)
+        {
+            case State.Spawned:
+                if(window != null)
+                    ai.SetDestination(window.transform.position);
+                break;
+            case State.TravelWindow:
+                break;
+            case State.Chasing:
+                if (ai.enabled)
+                    ai.SetDestination(player.transform.position);
+                break;
+        }
     }
 
     private void OnCollisionEnter(Collision collision)
