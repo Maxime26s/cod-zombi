@@ -65,6 +65,7 @@ public class Player : MonoBehaviour
         {
             nextShootingTime = Time.time + 1f / gun.GetComponent<Gun>().fireRate;
             GameObject thing = Instantiate(bullet, bulletSpawnPoint.transform.position, transform.rotation);
+            thing.GetComponent<Bullet>().assignedPlayer = this.gameObject;
             thing.GetComponent<Bullet>().direction = bulletSpawnPoint.transform.position - transform.position;
             thing.GetComponent<Bullet>().direction.y = 0;
             Destroy(thing, 1);
@@ -73,6 +74,7 @@ public class Player : MonoBehaviour
         {
             nextShootingTime = Time.time + 1f / gun.GetComponent<Gun>().fireRate;
             GameObject thing = Instantiate(bullet, bulletSpawnPoint.transform.position, transform.rotation);
+            thing.GetComponent<Bullet>().assignedPlayer = this.gameObject;
             thing.GetComponent<Bullet>().direction = bulletSpawnPoint.transform.position - transform.position;
             thing.GetComponent<Bullet>().direction.y = 0;
             Destroy(thing, 1);
