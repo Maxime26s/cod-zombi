@@ -6,6 +6,13 @@ public class Bullet : MonoBehaviour
 {
     public Vector3 direction;
     public float speed;
+
+    private GameObject assignedPlayer;
+
+    public Bullet(GameObject player)
+    {
+        assignedPlayer = player;
+    }
     // Start is called before the first frame update
     void Start()
     {
@@ -20,18 +27,19 @@ public class Bullet : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log(other.tag);
         if (other.tag != "Player")
         {
+            if (other.tag == "Ennemy")
+            {
+                other.GetComponent<Enemy>().health -= assignedPlayer.GetComponent<Player>().gun.GetComponent<Gun>().damage;
+                assignedPlayer.GetComponent<Player>().money += (int)assignedPlayer.GetComponent<Player>().gun.GetComponent<Gun>().damage;
+            }
             Destroy(gameObject);
-            Debug.Log("lol");
-
         }
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        Debug.Log(collision.gameObject.tag);
         Destroy(gameObject);
     }
 }

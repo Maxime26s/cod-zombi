@@ -8,13 +8,13 @@ public class Player : MonoBehaviour
     public float speed, jump, gravity;
     bool onGround;
     Vector3 moveDirection = Vector3.zero;
-    public GameObject bullet, bulletSpawnPoint;
+    public GameObject bullet, bulletSpawnPoint, gun;
     LineRenderer lr;
     public int hp = 5;
     public int money;
 
-    
-    
+    private float nextShootingTime = 0f;
+   
     // Start is called before the first frame update
     void Start()
     {
@@ -32,13 +32,7 @@ public class Player : MonoBehaviour
             transform.LookAt(new Vector3(ray.GetPoint(length).x, transform.position.y, ray.GetPoint(length).z));
         }
 
-        if (Input.GetMouseButtonDown(0))
-        {
-            GameObject thing = Instantiate(bullet, bulletSpawnPoint.transform.position, transform.rotation);
-            thing.GetComponent<Bullet>().direction = bulletSpawnPoint.transform.position - transform.position;
-            thing.GetComponent<Bullet>().direction.y = 0;
-            Destroy(thing, 1);
-        }
+        Shoot();
 
         Vector3 vector = new Vector3(0, 0, 0);
         if (Input.GetKey(KeyCode.W))
@@ -64,6 +58,26 @@ public class Player : MonoBehaviour
     {
         if (collision.gameObject.tag == "Ground")
             onGround = true;
+    }
+
+    private void Shoot()
+    {
+        if (Input.GetMouseButtonDown(0) && Time.time >= nextShootingTime && gun.GetComponent<Gun>().type == TypeGun.Semi)
+        {
+            nextShootingTime = Time.time + 1f / gun.GetComponent<Gun>().fireRate;
+            GameObject thing = Instantiate(bullet, bulletSpawnPoint.transform.position, transform.rotation);
+            thing.GetComponent<Bullet>().direction = bulletSpawnPoint.transform.position - transform.position;
+            thing.GetComponent<Bullet>().direction.y = 0;
+            Destroy(thing, 1);
+        }
+        if (Input.GetMouseButton(0) && Time.time >= nextShootingTime && gun.GetComponent<Gun>().type == TypeGun.Auto)
+        {
+            nextShootingTime = Time.time + 1f / gun.GetComponent<Gun>().fireRate;
+            GameObject thing = Instantiate(bullet, bulletSpawnPoint.transform.position, transform.rotation);
+            thing.GetComponent<Bullet>().direction = bulletSpawnPoint.transform.position - transform.position;
+            thing.GetComponent<Bullet>().direction.y = 0;
+            Destroy(thing, 1);
+        }
     }
 
     bool GroundCheck()
