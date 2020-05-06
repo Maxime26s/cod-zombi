@@ -20,18 +20,14 @@ public class Bullet : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log(other.tag);
         if (other.tag != "Player")
         {
             Destroy(gameObject);
-            Debug.Log("lol");
-
         }
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        Debug.Log(collision.gameObject.tag);
         Destroy(gameObject);
     }
 }

@@ -9,8 +9,7 @@ public class Player : MonoBehaviour
     bool onGround;
     Vector3 moveDirection = Vector3.zero;
     public GameObject bullet, bulletSpawnPoint;
-    LineRenderer lr;
-    public int hp = 5;
+    public int hp = 10;
     public int money;
 
     

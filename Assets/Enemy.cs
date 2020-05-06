@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public enum State { Spawned, TravelWindow, Chasing }
+public enum State { Spawned, Chasing }
 public class Enemy : MonoBehaviour
 {
     public NavMeshAgent ai;
@@ -28,8 +28,6 @@ public class Enemy : MonoBehaviour
                 if(window != null)
                     ai.SetDestination(window.transform.position);
                 break;
-            case State.TravelWindow:
-                break;
             case State.Chasing:
                 if (ai.enabled)
                     ai.SetDestination(player.transform.position);
@@ -37,34 +35,20 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.tag == "Player")
-        {
-            ai.enabled = false;
-        }
-    }
-
-    private void OnCollisionExit(Collision collision)
-    {
-        if (collision.gameObject.tag == "Player")
-        {
-            ai.enabled = true;
-        }
-    }
-
     private void OnCollisionStay(Collision collision)
     {
-        if (collision.gameObject.tag == "Player")
+        if (collision.gameObject.tag == "Player" && !cd)
         {
-            StartCoroutine(Attack(gameObject.GetComponent<Player>()));
+            StartCoroutine(Attack(collision.gameObject.GetComponent<Player>()));
         }
     }
 
     IEnumerator Attack(Player player)
     {
         cd = true;
-        player.hp -= 1;
+        player.hp--;
+        if (player.hp <= 0)
+            Destroy(player.gameObject);
         yield return new WaitForSeconds(0.5f);
         cd = false;
     }

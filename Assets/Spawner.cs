@@ -24,7 +24,6 @@ public class Spawner : MonoBehaviour
         cd = true;
         GameObject go = Instantiate(enemy, transform.position, Quaternion.identity);
         go.GetComponent<Enemy>().window = window;
-        Debug.Log("pog");
         yield return new WaitForSeconds(2f);
         cd = false;
     }

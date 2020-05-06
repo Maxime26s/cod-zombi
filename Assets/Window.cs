@@ -52,7 +52,10 @@ public class Window : MonoBehaviour
 
     public void Repair()
     {
-        planks[hp].SetActive(true);
-        hp++;
+        if (hp < 5)
+        {
+            planks[hp].SetActive(true);
+            hp++;
+        }
     }
 }
