@@ -8,9 +8,13 @@ public class Player : MonoBehaviour
     public float speed, jump, gravity;
     bool onGround;
     Vector3 moveDirection = Vector3.zero;
-    public GameObject bullet, gun;
+    public GameObject bullet, bulletSpawnPoint;
     LineRenderer lr;
     public int hp = 5;
+    public int money;
+
+    
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -27,10 +31,11 @@ public class Player : MonoBehaviour
         {
             transform.LookAt(new Vector3(ray.GetPoint(length).x, transform.position.y, ray.GetPoint(length).z));
         }
+
         if (Input.GetMouseButtonDown(0))
         {
-            GameObject thing = Instantiate(bullet, gun.transform.position, transform.rotation);
-            thing.GetComponent<Bullet>().direction = gun.transform.position - transform.position;
+            GameObject thing = Instantiate(bullet, bulletSpawnPoint.transform.position, transform.rotation);
+            thing.GetComponent<Bullet>().direction = bulletSpawnPoint.transform.position - transform.position;
             thing.GetComponent<Bullet>().direction.y = 0;
             Destroy(thing, 1);
         }
