@@ -1,13 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Bullet : MonoBehaviour
 {
     public Vector3 direction;
     public float speed;
 
-    public GameObject assignedPlayer;
+    public Player player;
 
     // Start is called before the first frame update
     void Start()
@@ -27,12 +28,16 @@ public class Bullet : MonoBehaviour
         {
             if (other.tag == "Enemy")
             {
-                other.GetComponent<Enemy>().health -= assignedPlayer.GetComponent<Player>().gun.GetComponent<Gun>().damage;
-                assignedPlayer.GetComponent<Player>().money += (int)assignedPlayer.GetComponent<Player>().gun.GetComponent<Gun>().damage;
-                if(other.GetComponent<Enemy>().health <= 0)
+                Enemy enemy = other.GetComponent<Enemy>();
+                enemy.health -= player.gun.GetComponent<Gun>().damage;
+                player.money += (int)player.gun.GetComponent<Gun>().damage;
+                enemy.hpBar.SetActive(true);
+                enemy.hpBar.GetComponent<Slider>().value = enemy.health/enemy.maxHealth;
+                if(enemy.health <= 0)
                 {
                     Destroy(other.gameObject);
                 }
+             
             }
             Destroy(gameObject);
         }

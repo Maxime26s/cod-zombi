@@ -105,7 +105,7 @@ GameObject:
   - component: {fileID: 5381025067574387133}
   - component: {fileID: 8746202557260745489}
   - component: {fileID: 8647123147435979437}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Plank 5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -321,7 +321,7 @@ GameObject:
   - component: {fileID: 3578114379975784349}
   - component: {fileID: 3578114379975783522}
   - component: {fileID: 3578114379975784348}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Destroy Collider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -522,7 +522,7 @@ GameObject:
   - component: {fileID: 1175065851651813633}
   - component: {fileID: 3550360528238684237}
   - component: {fileID: 3437896602186816153}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Plank 4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -615,7 +615,7 @@ GameObject:
   - component: {fileID: 8720562620617939131}
   - component: {fileID: 2424580823497962350}
   - component: {fileID: 6451621527437521339}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Plank 2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -708,7 +708,7 @@ GameObject:
   - component: {fileID: 665863335927260101}
   - component: {fileID: 224233900003460675}
   - component: {fileID: 1525741650730365744}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Plank 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -894,7 +894,7 @@ GameObject:
   - component: {fileID: 7270134757287417383}
   - component: {fileID: 2212919330790972952}
   - component: {fileID: 5884669355550625740}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Plank 3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
