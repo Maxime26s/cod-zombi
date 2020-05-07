@@ -5,6 +5,7 @@ using UnityEngine;
 public class GunManager : MonoBehaviour
 {
     int lastChanged = 1;
+    public int gunOwned = 1;
 
     void Start()
     {
@@ -13,17 +14,17 @@ public class GunManager : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Alpha1) && lastChanged != 1)
+        if (Input.GetKeyDown(KeyCode.Alpha1) && lastChanged != 1 && gunOwned !=1)
         {
             changerDarme();
             lastChanged = 2;
         }
-        if (Input.GetKeyDown(KeyCode.Alpha2) && lastChanged != 2)
+        if (Input.GetKeyDown(KeyCode.Alpha2) && lastChanged != 2 && gunOwned != 1)
         {
             changerDarme();
             lastChanged = 1;
         }
-        if (Input.GetKeyDown(KeyCode.Tab))
+        if (Input.GetKeyDown(KeyCode.Tab) && gunOwned != 1)
         {
             changerDarme();
             if(lastChanged == 2)

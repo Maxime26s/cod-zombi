@@ -69,6 +69,7 @@ public class Player : MonoBehaviour
             thing.GetComponent<Bullet>().direction = bulletSpawnPoint.transform.position - transform.position;
             thing.GetComponent<Bullet>().direction.y = 0;
             Destroy(thing, 1);
+            gun.GetComponent<Gun>().ammo--;
         }
         if (Input.GetMouseButton(0) && Time.time >= nextShootingTime && gun.GetComponent<Gun>().type == TypeGun.Auto)
         {
@@ -78,6 +79,7 @@ public class Player : MonoBehaviour
             thing.GetComponent<Bullet>().direction = bulletSpawnPoint.transform.position - transform.position;
             thing.GetComponent<Bullet>().direction.y = 0;
             Destroy(thing, 1);
+            gun.GetComponent<Gun>().ammo--;
         }
     }
 

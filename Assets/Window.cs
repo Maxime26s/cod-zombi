@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Window : MonoBehaviour
 {
-    int hp = 5;
+    public int hp = 5;
     public GameObject[] planks = new GameObject[5];
     bool cd = false;
     // Start is called before the first frame update

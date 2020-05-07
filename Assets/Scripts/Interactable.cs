@@ -4,12 +4,12 @@ using UnityEngine;
 
 
 public enum TypeInteractable { Gun, Door, Cola, Window, Box }
-public class NewBehaviourScript : MonoBehaviour
+public class Interactable : MonoBehaviour
 {
-    public SphereCollider collider;
     public int price;
     public float interactionRadius = 1;
     public TypeInteractable interactable;
+    public GameObject destroyerCollider, gunInShop;
 
     public float coolDown = 1;
 
@@ -25,7 +25,7 @@ public class NewBehaviourScript : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.F) && coolDownOver == false)
+        if (Input.GetKey(KeyCode.F) && coolDownOver == false)
         {
             pressTime = Time.time + coolDown;
             coolDownOver = true;
@@ -41,10 +41,10 @@ public class NewBehaviourScript : MonoBehaviour
         }
     }
 
-    private void OnCollisionStay(Collision collision)
+    private void OnTriggerStay(Collider collision)
     {
         GameObject col = collision.gameObject;
-        if (gameObject.CompareTag("Player") && canUse)
+        if (col.CompareTag("Player") && canUse)
         {
             Interacting(col);
             canUse = false;
@@ -56,13 +56,21 @@ public class NewBehaviourScript : MonoBehaviour
         switch (interactable)
         {
             case TypeInteractable.Gun:
-                player.GetComponent<Player>().money -= price;
+                Debug.Log("lol");
+                AcheterGun(player);
                 break;
+
             case TypeInteractable.Door:
                 player.GetComponent<Player>().money -= price;
                 break;
             case TypeInteractable.Window:
-                player.GetComponent<Player>().money += price;
+                Debug.Log("lol");
+                if (destroyerCollider.GetComponent<Window>().hp < 5)
+                {
+                    Debug.Log("touchingPlayer");
+                    destroyerCollider.GetComponent<Window>().Repair();
+                    player.GetComponent<Player>().money += price;
+                }
                 break;
             case TypeInteractable.Cola:
                 player.GetComponent<Player>().money -= price;
@@ -72,4 +80,61 @@ public class NewBehaviourScript : MonoBehaviour
                 break;
         }
     }
+
+
+    private void AcheterGun(GameObject player)
+    {
+        if (player.GetComponent<Player>().money >= price)
+        {
+            player.GetComponent<Player>().money -= price;
+            if (player.GetComponentInChildren<GunManager>().gunOwned == 1)
+            {
+                foreach (Transform weapon in player.GetComponentInChildren<GunManager>().transform)
+                {
+                    if ((weapon.gameObject.GetComponent<Gun>().modele == gunInShop.GetComponent<Gun>().modele)
+                        && !weapon.gameObject.GetComponent<Gun>().isOwned)
+                    {
+                        foreach (Transform weapon2 in player.GetComponentInChildren<GunManager>().transform)
+                        {
+                            if (weapon2.gameObject.GetComponent<Gun>().inUse)
+                            {
+                                weapon2.gameObject.SetActive(false);
+                                weapon2.gameObject.GetComponent<Gun>().inUse = false;
+                            }
+                        }
+                        weapon.gameObject.GetComponent<Gun>().isOwned = true;
+                        weapon.gameObject.GetComponent<Gun>().inUse = true;
+                        weapon.gameObject.SetActive(true);
+                        player.GetComponentInChildren<GunManager>().gunOwned = 2;
+                        
+                    }
+                }
+            }
+            else if (player.GetComponentInChildren<GunManager>().gunOwned == 2)
+            {
+                foreach (Transform weapon in player.GetComponentInChildren<GunManager>().transform)
+                {
+                    if ((weapon.gameObject.GetComponent<Gun>().modele == gunInShop.GetComponent<Gun>().modele)
+                        && !weapon.gameObject.GetComponent<Gun>().isOwned)
+                    {
+                        foreach (Transform weapon2 in player.GetComponentInChildren<GunManager>().transform)
+                        {
+                            if (weapon2.gameObject.GetComponent<Gun>().inUse)
+                            {
+                                weapon2.gameObject.GetComponent<Gun>().inUse = false;
+                                weapon2.gameObject.GetComponent<Gun>().isOwned = false;
+                                weapon2.gameObject.SetActive(false);
+                            }
+                        }
+                        weapon.gameObject.GetComponent<Gun>().isOwned = true;
+                        weapon.gameObject.GetComponent<Gun>().inUse = true;
+                        weapon.gameObject.SetActive(true);
+                        
+                    }
+                }
+            }
+        }
+    }
 }
+
+
