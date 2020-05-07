@@ -48,7 +48,8 @@ public class Player : MonoBehaviour
         {
             moveDirection.y = jump;
         }
-        moveDirection.y -= gravity * Time.deltaTime;
+        if(!cc.isGrounded)
+            moveDirection.y -= gravity * Time.deltaTime;
         cc.Move(moveDirection * Time.deltaTime);
 
         Camera.main.transform.position = new Vector3(7.5f, 12, -7.5f) + transform.position;
