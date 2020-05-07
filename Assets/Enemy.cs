@@ -9,13 +9,14 @@ public class Enemy : MonoBehaviour
     public NavMeshAgent ai;
     GameObject player;
     GameObject[] translation = new GameObject[2];
-    public GameObject window;
+    public GameObject window, hpBar;
     bool cd;
     public State state = State.Spawned;
-    public float health = 100f;
+    public float health = 100f, maxHealth;
     // Start is called before the first frame update
     void Start()
     {
+        maxHealth = health;
         ai = GetComponent<NavMeshAgent>();
         player = GameObject.FindGameObjectWithTag("Player");
     }
