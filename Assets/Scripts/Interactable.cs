@@ -10,10 +10,9 @@ public class Interactable : MonoBehaviour
     public float interactionRadius = 1;
     public TypeInteractable interactable;
     public GameObject destroyerCollider, gunInShop;
-
+    public List<GameObject> box;
     public float coolDown = 1;
 
-    //private List<Gun> box;
     private bool canUse = false;
     private float pressTime;
     private bool coolDownOver = false;
@@ -76,10 +75,22 @@ public class Interactable : MonoBehaviour
                 player.GetComponent<Player>().money -= price;
                 break;
             case TypeInteractable.Box:
+                IEnumerator AfficherGun()
+                {
+                    coolDownOver = false;
+                    GameObject gunTemp = Instantiate(box[Random.Range(0, box.Count)], transform.position + transform.up, transform.rotation);
+                    yield return new WaitForSeconds(5f);
+                    //coolDownOver = true;
+                    if(gunTemp != null)
+                        Destroy(gunTemp);
+                }
+                StartCoroutine(AfficherGun());
                 player.GetComponent<Player>().money -= price;
                 break;
         }
     }
+
+
 
 
     private void AcheterGun(GameObject player)
