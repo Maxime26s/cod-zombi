@@ -11,6 +11,7 @@ public class Player : MonoBehaviour
     public GameObject bullet, bulletSpawnPoint, gun;
     public int hp = 10;
     public int money;
+    public int nbCola = 0;
 
     private float nextShootingTime = 0f;
    
@@ -64,7 +65,7 @@ public class Player : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0) && Time.time >= nextShootingTime && gun.GetComponent<Gun>().type == TypeGun.Semi)
         {
-            nextShootingTime = Time.time + 1f / gun.GetComponent<Gun>().fireRate;
+            nextShootingTime = Time.time + 1f / (gun.GetComponent<Gun>().fireRate * gun.GetComponent<Gun>().frMultiplier);
             GameObject thing = Instantiate(bullet, bulletSpawnPoint.transform.position, transform.rotation);
             thing.GetComponent<Bullet>().player = this;
             thing.GetComponent<Bullet>().direction = bulletSpawnPoint.transform.position - transform.position;
@@ -74,7 +75,7 @@ public class Player : MonoBehaviour
         }
         if (Input.GetMouseButton(0) && Time.time >= nextShootingTime && gun.GetComponent<Gun>().type == TypeGun.Auto)
         {
-            nextShootingTime = Time.time + 1f / gun.GetComponent<Gun>().fireRate;
+            nextShootingTime = Time.time + 1f / (gun.GetComponent<Gun>().fireRate * gun.GetComponent<Gun>().frMultiplier);
             GameObject thing = Instantiate(bullet, bulletSpawnPoint.transform.position, transform.rotation);
             thing.GetComponent<Bullet>().player = this;
             thing.GetComponent<Bullet>().direction = bulletSpawnPoint.transform.position - transform.position;

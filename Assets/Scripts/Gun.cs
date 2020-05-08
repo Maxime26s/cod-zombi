@@ -15,4 +15,6 @@ public class Gun : MonoBehaviour
     public bool isOwned = false;
     public bool inUse = false;
     public TypeGun type;
+    public float damageMultiplier = 1f;
+    public float frMultiplier = 1f;
 }

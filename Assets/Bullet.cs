@@ -29,8 +29,8 @@ public class Bullet : MonoBehaviour
             if (other.tag == "Enemy")
             {
                 Enemy enemy = other.GetComponent<Enemy>();
-                enemy.health -= player.gun.GetComponent<Gun>().damage;
-                player.money += (int)player.gun.GetComponent<Gun>().damage;
+                enemy.health -= (player.gun.GetComponent<Gun>().damage * player.gun.GetComponent<Gun>().damageMultiplier);
+                player.money += (int)(player.gun.GetComponent<Gun>().damage * player.gun.GetComponent<Gun>().damageMultiplier);
                 enemy.hpBar.SetActive(true);
                 enemy.hpBar.GetComponent<Slider>().value = enemy.health/enemy.maxHealth;
                 if(enemy.health <= 0)

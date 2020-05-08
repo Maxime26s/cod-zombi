@@ -4,58 +4,53 @@ using UnityEngine;
 
 public class GunManager : MonoBehaviour
 {
-    int lastChanged = 1;
-    public int gunOwned = 1;
+    public int inUse = 1;
+    public int nbGunsOwned = 1;
+    public List<ModelesGun> gunsOwned = new List<ModelesGun> { ModelesGun.Pistolet };
+    public bool muleKick = false;
 
-    void Start()
-    {
-        
-    }
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Alpha1) && lastChanged != 1 && gunOwned !=1)
+        if (Input.GetKeyDown(KeyCode.Alpha1))
         {
-            changerDarme();
-            lastChanged = 2;
+            ChangerDarme(1);
         }
-        if (Input.GetKeyDown(KeyCode.Alpha2) && lastChanged != 2 && gunOwned != 1)
+        if (Input.GetKeyDown(KeyCode.Alpha2) && nbGunsOwned > 1)
         {
-            changerDarme();
-            lastChanged = 1;
+            ChangerDarme(2);
         }
-        if (Input.GetKeyDown(KeyCode.Tab) && gunOwned != 1)
+        if (Input.GetKeyDown(KeyCode.Alpha3) && nbGunsOwned > 2)
         {
-            changerDarme();
-            if(lastChanged == 2)
-            {
-                lastChanged = 1;
-            }
-            else
-            {
-                lastChanged = 2;
-            }
+            ChangerDarme(3);
         }
-        foreach (Transform weapon in transform)
+        if (Input.GetKeyDown(KeyCode.Tab) && nbGunsOwned > 1)
         {
-            if (weapon.GetComponent<Gun>().inUse)
-                this.GetComponentInParent<Player>().gun = weapon.gameObject;
+            inUse++;
+            if (inUse > nbGunsOwned)
+                inUse = 1;
+            ChangerDarme(inUse);
         }
     }
 
-    void changerDarme()
+    public void ChangerDarme(int index)
     {
-        foreach(Transform weapon in transform)
+        foreach (Transform weapon in transform)
         {
-            if (weapon.GetComponent<Gun>().isOwned && weapon.GetComponent<Gun>().inUse)
-            {
-                weapon.GetComponent<Gun>().inUse = false;
-                weapon.gameObject.SetActive(false);
-            }
-            else if (weapon.GetComponent<Gun>().isOwned)
+            if (weapon.GetComponent<Gun>().isOwned && weapon.GetComponent<Gun>().modele == gunsOwned[index - 1])
             {
                 weapon.GetComponent<Gun>().inUse = true;
                 weapon.gameObject.SetActive(true);
+                this.GetComponentInParent<Player>().gun = weapon.gameObject;
+                inUse = index;
+                foreach (Transform weapon2 in transform)
+                {
+                    if (weapon2.GetComponent<Gun>().isOwned && weapon2.GetComponent<Gun>().inUse && weapon2.GetComponent<Gun>().modele != gunsOwned[inUse - 1])
+                    {
+                        weapon2.GetComponent<Gun>().inUse = false;
+                        weapon2.gameObject.SetActive(false);
+                    }
+                }
             }
         }
     }
