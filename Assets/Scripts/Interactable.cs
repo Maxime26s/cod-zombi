@@ -15,7 +15,7 @@ public class Interactable : MonoBehaviour
     public float coolDown = 1;
     public TypeCola typeCola;
     public List<TypeCola> listeColas = new List<TypeCola>
-    { TypeCola.StaminUp, TypeCola.JuggerNog, TypeCola.ElectricCherry, TypeCola.MuteKick, TypeCola.DoubleTap, TypeCola.Quick, TypeCola.DeadshotDai};
+    { TypeCola.JuggerNog, TypeCola.MuteKick, TypeCola.DoubleTap, TypeCola.DeadshotDai};
 
     private bool canUse = false;
     private float pressTime;
@@ -137,6 +137,7 @@ public class Interactable : MonoBehaviour
             case TypeCola.ElectricCherry:
                 break;
             case TypeCola.JuggerNog:
+                player.GetComponent<Player>().maxhealth = 200;
                 break;
             case TypeCola.MuteKick:
                 player.GetComponentInChildren<GunManager>().muleKick = true;

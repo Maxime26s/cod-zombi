@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UI;
 
 public enum State { Spawned, Chasing }
 public class Enemy : MonoBehaviour
@@ -49,9 +50,11 @@ public class Enemy : MonoBehaviour
     {
         cd = true;
         player.hp--;
+        player.regenTime = player.regenCoolDown + Time.time;
+        player.healthBar.GetComponent<Slider>().value = player.hp / (float)player.maxhealth;
         if (player.hp <= 0)
             Destroy(player.gameObject);
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.1f);
         cd = false;
     }
 }

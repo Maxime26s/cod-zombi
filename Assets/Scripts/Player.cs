@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
@@ -9,29 +10,53 @@ public class Player : MonoBehaviour
     public float speed, jump, gravity;
     bool onGround;
     Vector3 moveDirection = Vector3.zero;
-    public GameObject bulletPrefab, bulletSpawnPoint, gun;
-    public Gun gun2;
-    public int hp = 10;
+    public GameObject bulletPrefab, bulletSpawnPoint;
+    public Gun gun;
+    public float hp = 100;
     public int money;
     public int nbCola = 0;
     public bool oneShot;
     public float pointMultiplier;
     public TextMeshProUGUI ammoText;
     private float nextShootingTime = 0f;
-   
+    public float regenTime;
+    public float regenCoolDown;
+    public float maxhealth = 100;
+    public Slider healthBar;
+
     // Start is called before the first frame update
     void Start()
     {
         cc = GetComponent<CharacterController>();
+        healthBar.GetComponent<Slider>().value = 1f;
+        UpdateBulletSP();
+    }
+
+    public void UpdateBulletSP()
+    {
+        foreach (Transform transforms in gun.transform)
+            if (transforms.gameObject.CompareTag("BulletSP"))
+                bulletSpawnPoint = transforms.gameObject;
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (Time.time >= regenTime)
+        {
+            if (hp != maxhealth)
+            {
+                if (hp + (5 * Time.deltaTime) <= maxhealth)
+                    hp += (5 * Time.deltaTime);
+                else
+                    hp = maxhealth;
+            }
+            healthBar.GetComponent<Slider>().value = ((float)hp) / ((float)maxhealth);
+        }
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
         Plane plane = new Plane(Vector3.up, new Vector3(0, transform.position.y, 0));
-        if(plane.Raycast(ray, out float length))
+        if (plane.Raycast(ray, out float length))
         {
             transform.LookAt(new Vector3(ray.GetPoint(length).x, transform.position.y, ray.GetPoint(length).z));
         }
@@ -53,12 +78,13 @@ public class Player : MonoBehaviour
         {
             moveDirection.y = jump;
         }
-        if(!cc.isGrounded)
+        if (!cc.isGrounded)
             moveDirection.y -= gravity * Time.deltaTime;
         cc.Move(moveDirection * Time.deltaTime);
 
         Camera.main.transform.position = new Vector3(7.5f, 12, -7.5f) + transform.position;
     }
+
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.tag == "Ground")
@@ -67,14 +93,25 @@ public class Player : MonoBehaviour
 
     private void Shoot()
     {
-        gun2 = gun.GetComponent<Gun>();
-        if (Input.GetMouseButtonDown(0) && Time.time >= nextShootingTime && gun2.type == TypeGun.Semi)
+        if (Input.GetMouseButtonDown(0) && Time.time >= nextShootingTime && gun.type == TypeGun.Semi)
         {
             ShootBullet();
         }
-        if (Input.GetMouseButton(0) && Time.time >= nextShootingTime && gun2.type == TypeGun.Auto)
+        if (Input.GetMouseButton(0) && Time.time >= nextShootingTime && gun.type == TypeGun.Auto)
         {
             ShootBullet();
+        }
+        if (Input.GetMouseButtonDown(0) && Time.time >= nextShootingTime && gun.type == TypeGun.Rafale)
+        {
+            IEnumerator TirerRafale()
+            {
+                for (int i = 0; i < 3; i++)
+                {
+                    ShootBullet();
+                    yield return new WaitForSeconds(0.15f);
+                }
+            }
+            StartCoroutine(TirerRafale());
         }
     }
 
@@ -88,10 +125,10 @@ public class Player : MonoBehaviour
         bullet.direction.y = 0;
         bullet.oneShot = oneShot;
         bullet.pointMultiplier = pointMultiplier;
-        bullet.piercing = gun2.piercing;
+        bullet.piercing = gun.piercing;
         Destroy(go, 1);
-        gun2.ammo--;
-        ammoText.text = gun2.ammo.ToString();
+        gun.ammo--;
+        ammoText.text = gun.ammo.ToString();
     }
 
     public void AddMoney(int money)
