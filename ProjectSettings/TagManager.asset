@@ -9,6 +9,7 @@ TagManager:
   - Enemy
   - Bullet
   - Pivot
+  - BulletSP
   layers:
   - Default
   - TransparentFX

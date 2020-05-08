@@ -41,7 +41,7 @@ public class GunManager : MonoBehaviour
             {
                 weapon.GetComponent<Gun>().inUse = true;
                 weapon.gameObject.SetActive(true);
-                this.GetComponentInParent<Player>().gun = weapon.gameObject;
+                this.GetComponentInParent<Player>().gun = weapon.GetComponent<Gun>();
                 inUse = index;
                 foreach (Transform weapon2 in transform)
                 {
@@ -53,5 +53,6 @@ public class GunManager : MonoBehaviour
                 }
             }
         }
+        this.GetComponentInParent<Player>().UpdateBulletSP();
     }
 }

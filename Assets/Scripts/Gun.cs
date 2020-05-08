@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public enum TypeGun {Auto, Semi, Sniper, Explosif}
-public enum ModelesGun {Pistolet, AK, Sniper}
+public enum TypeGun {Auto, Semi, Rafale }
+public enum ModelesGun {Pistolet, AK, Sniper, PistoletRafale}
 
 public class Gun : MonoBehaviour
 {
