@@ -8,6 +8,7 @@ TagManager:
   - Window
   - Enemy
   - Bullet
+  - Pivot
   layers:
   - Default
   - TransparentFX

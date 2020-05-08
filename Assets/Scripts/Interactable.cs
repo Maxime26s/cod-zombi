@@ -4,6 +4,7 @@ using UnityEngine;
 
 
 public enum TypeInteractable { Gun, Door, Cola, Window, Box }
+public enum TypeCola { StaminUp, JuggerNog, ElectricCherry, MuteKick, DoubleTap, Quick, DeadshotDai, Random}
 public class Interactable : MonoBehaviour
 {
     public int price;
@@ -12,41 +13,46 @@ public class Interactable : MonoBehaviour
     public GameObject destroyerCollider, gunInShop;
     public List<GameObject> box;
     public float coolDown = 1;
+    public TypeCola typeCola;
+    public List<TypeCola> listeColas = new List<TypeCola>
+    { TypeCola.StaminUp, TypeCola.JuggerNog, TypeCola.ElectricCherry, TypeCola.MuteKick, TypeCola.DoubleTap, TypeCola.Quick, TypeCola.DeadshotDai};
 
     private bool canUse = false;
     private float pressTime;
     private bool coolDownOver = false;
+    private bool porteOuverte = false;
+    private bool blocked = false;
 
-    private void Start()
-    {
-        //box.Add();
-    }
 
     private void Update()
     {
-        if (Input.GetKey(KeyCode.F) && coolDownOver == false)
-        {
-            pressTime = Time.time + coolDown;
-            coolDownOver = true;
-        }
-        if (Input.GetKeyUp(KeyCode.F))
-        {
-            coolDownOver = false;
-        }
-        if (Time.time >= pressTime && coolDownOver == true)
-        {
-            canUse = true;
-            coolDownOver = false;
-        }
+
     }
 
     private void OnTriggerStay(Collider collision)
     {
         GameObject col = collision.gameObject;
-        if (col.CompareTag("Player") && canUse)
+        if (col.CompareTag("Player") && !blocked)
         {
-            Interacting(col);
-            canUse = false;
+            if (Input.GetKey(KeyCode.F) && !coolDownOver)
+            {
+                pressTime = Time.time + coolDown;
+                coolDownOver = true;
+            }
+            if (Input.GetKeyUp(KeyCode.F))
+            {
+                coolDownOver = false;
+            }
+            if (Time.time >= pressTime && coolDownOver)
+            {
+                canUse = true;
+                coolDownOver = false;
+            }
+            if (canUse)
+            {
+                Interacting(col);
+                canUse = false;
+            }
         }
     }
 
@@ -55,15 +61,24 @@ public class Interactable : MonoBehaviour
         switch (interactable)
         {
             case TypeInteractable.Gun:
-                Debug.Log("lol");
                 AcheterGun(player);
                 break;
 
             case TypeInteractable.Door:
-                player.GetComponent<Player>().money -= price;
+                if (!porteOuverte && player.GetComponent<Player>().money >= price)
+                {
+
+                    foreach (Transform pivot in transform)
+                    {
+                        if (pivot.gameObject.CompareTag("Pivot"))
+                            pivot.Rotate(0, 90, 0);
+                    }
+                    porteOuverte = true;
+                    player.GetComponent<Player>().money -= price;
+                }
+
                 break;
             case TypeInteractable.Window:
-                Debug.Log("lol");
                 if (destroyerCollider.GetComponent<Window>().hp < 5)
                 {
                     Debug.Log("touchingPlayer");
@@ -72,79 +87,119 @@ public class Interactable : MonoBehaviour
                 }
                 break;
             case TypeInteractable.Cola:
-                player.GetComponent<Player>().money -= price;
+                if (player.GetComponent<Player>().money >= price && player.GetComponent<Player>().nbCola < 4)
+                {
+                    AcheterCola(player);
+                    player.GetComponent<Player>().money -= price;
+                }
                 break;
             case TypeInteractable.Box:
-                IEnumerator AfficherGun()
+                if (player.GetComponent<Player>().money >= price)
                 {
-                    coolDownOver = false;
-                    GameObject gunTemp = Instantiate(box[Random.Range(0, box.Count)], transform.position + transform.up, transform.rotation);
-                    yield return new WaitForSeconds(5f);
-                    //coolDownOver = true;
-                    if(gunTemp != null)
-                        Destroy(gunTemp);
+                    IEnumerator AfficherGun()
+                    {
+                        blocked = true;
+                        foreach (GameObject gunShop in box)
+                        {
+                            gunShop.GetComponent<Interactable>().price = 0;
+                        }
+                        GameObject gunTemp = Instantiate(box[Random.Range(0, box.Count)], transform.position + transform.up, transform.rotation);
+                        yield return new WaitForSeconds(5f);
+                        //coolDownOver = true;
+                        if (gunTemp != null)
+                            Destroy(gunTemp);
+                        blocked = false;
+                    }
+                    StartCoroutine(AfficherGun());
+                    player.GetComponent<Player>().money -= price;
                 }
-                StartCoroutine(AfficherGun());
-                player.GetComponent<Player>().money -= price;
+                break;
+        }
+    }
+
+    private void AcheterCola(GameObject player)
+    {
+        switch (typeCola)
+        {
+            case TypeCola.DeadshotDai:
+                foreach (Transform enfant in player.transform)
+                    if (enfant.gameObject.GetComponent<GunManager>() != null)
+                        foreach (Transform gun in enfant)
+                            gun.GetComponent<Gun>().damageMultiplier = 1.3f;
+                break;
+            case TypeCola.DoubleTap:
+                foreach (Transform enfant in player.transform)
+                    if (enfant.gameObject.GetComponent<GunManager>() != null)
+                        foreach (Transform gun in enfant)
+                            gun.GetComponent<Gun>().frMultiplier = 1.3f;
+                break;
+            case TypeCola.ElectricCherry:
+                break;
+            case TypeCola.JuggerNog:
+                break;
+            case TypeCola.MuteKick:
+                player.GetComponentInChildren<GunManager>().muleKick = true;
+                break;
+            case TypeCola.Quick:
+                break;
+            case TypeCola.Random:
+                typeCola = listeColas[Random.Range(0, listeColas.Count)];
+                AcheterCola(player);
+                typeCola = TypeCola.Random;
+                break;
+            case TypeCola.StaminUp:
                 break;
         }
     }
 
 
-
-
     private void AcheterGun(GameObject player)
     {
-        if (player.GetComponent<Player>().money >= price)
+        bool alreadyOwned = false;
+        foreach (Transform weapon in player.GetComponentInChildren<GunManager>().transform)
         {
-            player.GetComponent<Player>().money -= price;
-            if (player.GetComponentInChildren<GunManager>().gunOwned == 1)
+            if ((weapon.gameObject.GetComponent<Gun>().modele == gunInShop.GetComponent<Gun>().modele)
+                        && weapon.gameObject.GetComponent<Gun>().isOwned)
             {
-                foreach (Transform weapon in player.GetComponentInChildren<GunManager>().transform)
-                {
-                    if ((weapon.gameObject.GetComponent<Gun>().modele == gunInShop.GetComponent<Gun>().modele)
-                        && !weapon.gameObject.GetComponent<Gun>().isOwned)
-                    {
-                        foreach (Transform weapon2 in player.GetComponentInChildren<GunManager>().transform)
-                        {
-                            if (weapon2.gameObject.GetComponent<Gun>().inUse)
-                            {
-                                weapon2.gameObject.SetActive(false);
-                                weapon2.gameObject.GetComponent<Gun>().inUse = false;
-                            }
-                        }
-                        weapon.gameObject.GetComponent<Gun>().isOwned = true;
-                        weapon.gameObject.GetComponent<Gun>().inUse = true;
-                        weapon.gameObject.SetActive(true);
-                        player.GetComponentInChildren<GunManager>().gunOwned = 2;
-                        
-                    }
-                }
-            }
-            else if (player.GetComponentInChildren<GunManager>().gunOwned == 2)
-            {
-                foreach (Transform weapon in player.GetComponentInChildren<GunManager>().transform)
-                {
-                    if ((weapon.gameObject.GetComponent<Gun>().modele == gunInShop.GetComponent<Gun>().modele)
-                        && !weapon.gameObject.GetComponent<Gun>().isOwned)
-                    {
-                        foreach (Transform weapon2 in player.GetComponentInChildren<GunManager>().transform)
-                        {
-                            if (weapon2.gameObject.GetComponent<Gun>().inUse)
-                            {
-                                weapon2.gameObject.GetComponent<Gun>().inUse = false;
-                                weapon2.gameObject.GetComponent<Gun>().isOwned = false;
-                                weapon2.gameObject.SetActive(false);
-                            }
-                        }
-                        weapon.gameObject.GetComponent<Gun>().isOwned = true;
-                        weapon.gameObject.GetComponent<Gun>().inUse = true;
-                        weapon.gameObject.SetActive(true);
-                        
-                    }
-                }
+                alreadyOwned = true;
             }
         }
+        if (player.GetComponent<Player>().money >= price && !alreadyOwned)
+        {
+            player.GetComponent<Player>().money -= price;
+            if (player.GetComponentInChildren<GunManager>().nbGunsOwned == 1 || 
+                (player.GetComponentInChildren<GunManager>().nbGunsOwned == 2 && player.GetComponentInChildren<GunManager>().muleKick))
+            {
+                AjouterNewGun(player, player.GetComponentInChildren<GunManager>().nbGunsOwned + 1);
+            }
+            else if ((player.GetComponentInChildren<GunManager>().nbGunsOwned == 2 && !player.GetComponentInChildren<GunManager>().muleKick) || player.GetComponentInChildren<GunManager>().nbGunsOwned == 3)
+            {
+                foreach (Transform weapon in player.GetComponentInChildren<GunManager>().transform)
+                {
+                    if (weapon.gameObject.GetComponent<Gun>().modele == gunInShop.GetComponent<Gun>().modele)
+                        weapon.gameObject.GetComponent<Gun>().isOwned = true;
+                    if (weapon.gameObject.GetComponent<Gun>().inUse)
+                    {
+                        weapon.gameObject.GetComponent<Gun>().isOwned = false;
+                        weapon.gameObject.GetComponent<Gun>().inUse = false;
+                        weapon.gameObject.SetActive(false);
+                    }
+                }
+                player.GetComponentInChildren<GunManager>().gunsOwned.RemoveAt(player.GetComponentInChildren<GunManager>().inUse - 1);
+                player.GetComponentInChildren<GunManager>().gunsOwned.Insert(player.GetComponentInChildren<GunManager>().inUse-1,
+                    gunInShop.GetComponent<Gun>().modele);
+                player.GetComponentInChildren<GunManager>().ChangerDarme(player.GetComponentInChildren<GunManager>().inUse);
+            }
+        }
+    }
+    private void AjouterNewGun(GameObject player, int index)
+    {
+        foreach (Transform weapon in player.GetComponentInChildren<GunManager>().transform)
+            if (weapon.gameObject.GetComponent<Gun>().modele == gunInShop.GetComponent<Gun>().modele)
+                weapon.gameObject.GetComponent<Gun>().isOwned = true;
+        player.GetComponentInChildren<GunManager>().nbGunsOwned = index;
+        player.GetComponentInChildren<GunManager>().gunsOwned.Add(gunInShop.GetComponent<Gun>().modele);
+        player.GetComponentInChildren<GunManager>().ChangerDarme(index);
     }
 }
 

@@ -13,6 +13,7 @@ public class Player : MonoBehaviour
     public Gun gun2;
     public int hp = 10;
     public int money;
+    public int nbCola = 0;
     public bool oneShot;
     public float pointMultiplier;
     public TextMeshProUGUI ammoText;
@@ -70,6 +71,7 @@ public class Player : MonoBehaviour
         if (Input.GetMouseButtonDown(0) && Time.time >= nextShootingTime && gun2.type == TypeGun.Semi)
         {
             ShootBullet();
+            nextShootingTime = Time.time + 1f / (gun.GetComponent<Gun>().fireRate * gun.GetComponent<Gun>().frMultiplier);
         }
         if (Input.GetMouseButton(0) && Time.time >= nextShootingTime && gun2.type == TypeGun.Auto)
         {

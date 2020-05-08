@@ -17,4 +17,6 @@ public class Gun : MonoBehaviour
     public bool inUse = false;
     public bool piercing;
     public TypeGun type;
+    public float damageMultiplier = 1f;
+    public float frMultiplier = 1f;
 }
