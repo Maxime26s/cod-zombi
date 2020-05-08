@@ -71,7 +71,6 @@ public class Player : MonoBehaviour
         if (Input.GetMouseButtonDown(0) && Time.time >= nextShootingTime && gun2.type == TypeGun.Semi)
         {
             ShootBullet();
-            nextShootingTime = Time.time + 1f / (gun.GetComponent<Gun>().fireRate * gun.GetComponent<Gun>().frMultiplier);
         }
         if (Input.GetMouseButton(0) && Time.time >= nextShootingTime && gun2.type == TypeGun.Auto)
         {
@@ -81,7 +80,7 @@ public class Player : MonoBehaviour
 
     void ShootBullet()
     {
-        nextShootingTime = Time.time + 1f / gun2.fireRate;
+        nextShootingTime = Time.time + 1f / (gun.GetComponent<Gun>().fireRate * gun.GetComponent<Gun>().frMultiplier);
         GameObject go = Instantiate(bulletPrefab, bulletSpawnPoint.transform.position, transform.rotation);
         Bullet bullet = go.GetComponent<Bullet>();
         bullet.player = this;

@@ -49,7 +49,7 @@ public class GameManager : MonoBehaviour
 
     public void MOAB()
     {
-        for (int i = 0; i < enemies.Count; i++)
+        for (int i = enemies.Count-1; i >= 0; i--)
         {
             Destroy(enemies[i]);
             enemies.RemoveAt(i);

@@ -33,15 +33,9 @@ public class Bullet : MonoBehaviour
                 if (oneShot)
                     OnKill(other, other.GetComponent<Enemy>());
                 else
-                Enemy enemy = other.GetComponent<Enemy>();
-                enemy.health -= (player.gun.GetComponent<Gun>().damage * player.gun.GetComponent<Gun>().damageMultiplier);
-                player.money += (int)(player.gun.GetComponent<Gun>().damage * player.gun.GetComponent<Gun>().damageMultiplier);
-                enemy.hpBar.SetActive(true);
-                enemy.hpBar.GetComponent<Slider>().value = enemy.health/enemy.maxHealth;
-                if(enemy.health <= 0)
                 {
                     Enemy enemy = other.GetComponent<Enemy>();
-                    enemy.health -= player.gun.GetComponent<Gun>().damage;
+                    enemy.health -= (player.gun.GetComponent<Gun>().damage * player.gun.GetComponent<Gun>().damageMultiplier);
                     enemy.hpBar.SetActive(true);
                     enemy.hpBar.GetComponent<Slider>().value = enemy.health/enemy.maxHealth;
                     if(enemy.health <= 0)

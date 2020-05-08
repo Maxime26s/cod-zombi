@@ -1082,7 +1082,7 @@ GameObject:
   - component: {fileID: 7649646476609440909}
   - component: {fileID: 2619789697204255461}
   - component: {fileID: 8451424579580347811}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: InteractCollider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1144,9 +1144,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d028ac8f86e7aa44911926a9b24bd88, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  collider: {fileID: 7649646476609440909}
   price: 10
   interactionRadius: 1
   interactable: 3
   destroyerCollider: {fileID: 3578114379975783520}
+  gunInShop: {fileID: 0}
+  box: []
   coolDown: 1
+  typeCola: 0
+  listeColas: 00000000010000000200000003000000040000000500000006000000
