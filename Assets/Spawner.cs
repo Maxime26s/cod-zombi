@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class Spawner : MonoBehaviour
 {
-    public GameObject window, enemy;
+    public GameObject window;
+    /*
     bool cd;
     // Start is called before the first frame update
     void Awake()
@@ -27,4 +28,5 @@ public class Spawner : MonoBehaviour
         yield return new WaitForSeconds(2f);
         cd = false;
     }
+    */
 }

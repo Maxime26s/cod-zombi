@@ -7,6 +7,8 @@ public class Bullet : MonoBehaviour
 {
     public Vector3 direction;
     public float speed;
+    public bool oneShot, piercing;
+    public float pointMultiplier;
 
     public Player player;
 
@@ -28,19 +30,33 @@ public class Bullet : MonoBehaviour
         {
             if (other.tag == "Enemy")
             {
-                Enemy enemy = other.GetComponent<Enemy>();
-                enemy.health -= player.gun.GetComponent<Gun>().damage;
-                player.money += (int)player.gun.GetComponent<Gun>().damage;
-                enemy.hpBar.SetActive(true);
-                enemy.hpBar.GetComponent<Slider>().value = enemy.health/enemy.maxHealth;
-                if(enemy.health <= 0)
+                if (oneShot)
+                    OnKill(other, other.GetComponent<Enemy>());
+                else
                 {
-                    Destroy(other.gameObject);
+                    Enemy enemy = other.GetComponent<Enemy>();
+                    enemy.health -= player.gun.GetComponent<Gun>().damage;
+                    enemy.hpBar.SetActive(true);
+                    enemy.hpBar.GetComponent<Slider>().value = enemy.health/enemy.maxHealth;
+                    if(enemy.health <= 0)
+                    {
+                        OnKill(other, enemy);
+                    }
+                    else
+                        player.AddMoney(10);
                 }
-             
             }
-            Destroy(gameObject);
+            if(!piercing)
+                Destroy(gameObject);
         }
+    }
+
+    private void OnKill(Collider other, Enemy enemy)
+    {
+        if (Random.Range(0, 100) <= 1)
+            GameObject.Find("GameManager").GetComponent<GameManager>().Drop(enemy.transform.position);
+        Destroy(other.gameObject);
+        player.AddMoney(100);
     }
 
     private void OnCollisionEnter(Collision collision)

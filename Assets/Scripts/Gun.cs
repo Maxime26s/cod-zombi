@@ -12,7 +12,9 @@ public class Gun : MonoBehaviour
     public float damage;
     public float fireRate;
     public int ammo;
+    public int maxAmmo;
     public bool isOwned = false;
     public bool inUse = false;
+    public bool piercing;
     public TypeGun type;
 }

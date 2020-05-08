@@ -68,7 +68,7 @@ public class Interactable : MonoBehaviour
                 {
                     Debug.Log("touchingPlayer");
                     destroyerCollider.GetComponent<Window>().Repair();
-                    player.GetComponent<Player>().money += price;
+                    player.GetComponent<Player>().AddMoney(price);
                 }
                 break;
             case TypeInteractable.Cola:

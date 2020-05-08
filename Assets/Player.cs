@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class Player : MonoBehaviour
 {
@@ -8,10 +9,13 @@ public class Player : MonoBehaviour
     public float speed, jump, gravity;
     bool onGround;
     Vector3 moveDirection = Vector3.zero;
-    public GameObject bullet, bulletSpawnPoint, gun;
+    public GameObject bulletPrefab, bulletSpawnPoint, gun;
+    public Gun gun2;
     public int hp = 10;
     public int money;
-
+    public bool oneShot;
+    public float pointMultiplier;
+    public TextMeshProUGUI ammoText;
     private float nextShootingTime = 0f;
    
     // Start is called before the first frame update
@@ -62,26 +66,36 @@ public class Player : MonoBehaviour
 
     private void Shoot()
     {
-        if (Input.GetMouseButtonDown(0) && Time.time >= nextShootingTime && gun.GetComponent<Gun>().type == TypeGun.Semi)
+        gun2 = gun.GetComponent<Gun>();
+        if (Input.GetMouseButtonDown(0) && Time.time >= nextShootingTime && gun2.type == TypeGun.Semi)
         {
-            nextShootingTime = Time.time + 1f / gun.GetComponent<Gun>().fireRate;
-            GameObject thing = Instantiate(bullet, bulletSpawnPoint.transform.position, transform.rotation);
-            thing.GetComponent<Bullet>().player = this;
-            thing.GetComponent<Bullet>().direction = bulletSpawnPoint.transform.position - transform.position;
-            thing.GetComponent<Bullet>().direction.y = 0;
-            Destroy(thing, 1);
-            gun.GetComponent<Gun>().ammo--;
+            ShootBullet();
         }
-        if (Input.GetMouseButton(0) && Time.time >= nextShootingTime && gun.GetComponent<Gun>().type == TypeGun.Auto)
+        if (Input.GetMouseButton(0) && Time.time >= nextShootingTime && gun2.type == TypeGun.Auto)
         {
-            nextShootingTime = Time.time + 1f / gun.GetComponent<Gun>().fireRate;
-            GameObject thing = Instantiate(bullet, bulletSpawnPoint.transform.position, transform.rotation);
-            thing.GetComponent<Bullet>().player = this;
-            thing.GetComponent<Bullet>().direction = bulletSpawnPoint.transform.position - transform.position;
-            thing.GetComponent<Bullet>().direction.y = 0;
-            Destroy(thing, 1);
-            gun.GetComponent<Gun>().ammo--;
+            ShootBullet();
         }
+    }
+
+    void ShootBullet()
+    {
+        nextShootingTime = Time.time + 1f / gun2.fireRate;
+        GameObject go = Instantiate(bulletPrefab, bulletSpawnPoint.transform.position, transform.rotation);
+        Bullet bullet = go.GetComponent<Bullet>();
+        bullet.player = this;
+        bullet.direction = bulletSpawnPoint.transform.position - transform.position;
+        bullet.direction.y = 0;
+        bullet.oneShot = oneShot;
+        bullet.pointMultiplier = pointMultiplier;
+        bullet.piercing = gun2.piercing;
+        Destroy(go, 1);
+        gun2.ammo--;
+        ammoText.text = gun2.ammo.ToString();
+    }
+
+    public void AddMoney(int money)
+    {
+        this.money += (int)(money * pointMultiplier);
     }
 
     bool GroundCheck()
