@@ -16,6 +16,8 @@ public class Interactable : MonoBehaviour
     private bool canUse = false;
     private float pressTime;
     private bool coolDownOver = false;
+    private bool porteOuverte = false;
+    private bool blocked = false;
 
     private void Start()
     {
@@ -24,7 +26,7 @@ public class Interactable : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKey(KeyCode.F) && coolDownOver == false)
+        if (Input.GetKey(KeyCode.F) && !coolDownOver && !blocked)
         {
             pressTime = Time.time + coolDown;
             coolDownOver = true;
@@ -55,15 +57,25 @@ public class Interactable : MonoBehaviour
         switch (interactable)
         {
             case TypeInteractable.Gun:
-                Debug.Log("lol");
+                Debug.Log("LolGun");
                 AcheterGun(player);
                 break;
 
             case TypeInteractable.Door:
-                player.GetComponent<Player>().money -= price;
+                if (!porteOuverte && player.GetComponent<Player>().money >= price)
+                {
+
+                    foreach (Transform pivot in transform)
+                    {
+                        if (pivot.gameObject.CompareTag("Pivot"))
+                            pivot.Rotate(0, 90, 0);
+                    }
+                    porteOuverte = true;
+                    player.GetComponent<Player>().money -= price;
+                }
+
                 break;
             case TypeInteractable.Window:
-                Debug.Log("lol");
                 if (destroyerCollider.GetComponent<Window>().hp < 5)
                 {
                     Debug.Log("touchingPlayer");
@@ -75,17 +87,26 @@ public class Interactable : MonoBehaviour
                 player.GetComponent<Player>().money -= price;
                 break;
             case TypeInteractable.Box:
-                IEnumerator AfficherGun()
+                if (player.GetComponent<Player>().money >= price)
                 {
-                    coolDownOver = false;
-                    GameObject gunTemp = Instantiate(box[Random.Range(0, box.Count)], transform.position + transform.up, transform.rotation);
-                    yield return new WaitForSeconds(5f);
-                    //coolDownOver = true;
-                    if(gunTemp != null)
-                        Destroy(gunTemp);
+                    Debug.Log("LolBox");
+                    IEnumerator AfficherGun()
+                    {
+                        blocked = true;
+                        foreach (GameObject gunShop in box)
+                        {
+                            gunShop.GetComponent<Interactable>().price = 0;
+                        }
+                        GameObject gunTemp = Instantiate(box[Random.Range(0, box.Count)], transform.position + transform.up, transform.rotation);
+                        yield return new WaitForSeconds(5f);
+                        //coolDownOver = true;
+                        if (gunTemp != null)
+                            Destroy(gunTemp);
+                        blocked = false;
+                    }
+                    StartCoroutine(AfficherGun());
+                    player.GetComponent<Player>().money -= price;
                 }
-                StartCoroutine(AfficherGun());
-                player.GetComponent<Player>().money -= price;
                 break;
         }
     }
@@ -117,7 +138,7 @@ public class Interactable : MonoBehaviour
                         weapon.gameObject.GetComponent<Gun>().inUse = true;
                         weapon.gameObject.SetActive(true);
                         player.GetComponentInChildren<GunManager>().gunOwned = 2;
-                        
+
                     }
                 }
             }
@@ -140,7 +161,7 @@ public class Interactable : MonoBehaviour
                         weapon.gameObject.GetComponent<Gun>().isOwned = true;
                         weapon.gameObject.GetComponent<Gun>().inUse = true;
                         weapon.gameObject.SetActive(true);
-                        
+
                     }
                 }
             }
