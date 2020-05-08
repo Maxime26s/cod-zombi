@@ -29,7 +29,6 @@ public class Player : MonoBehaviour
     void Update()
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        RaycastHit hit;
         Plane plane = new Plane(Vector3.up, new Vector3(0, transform.position.y, 0));
         if(plane.Raycast(ray, out float length))
         {
@@ -81,15 +80,22 @@ public class Player : MonoBehaviour
     void ShootBullet()
     {
         nextShootingTime = Time.time + 1f / (gun.GetComponent<Gun>().fireRate * gun.GetComponent<Gun>().frMultiplier);
-        GameObject go = Instantiate(bulletPrefab, bulletSpawnPoint.transform.position, transform.rotation);
-        Bullet bullet = go.GetComponent<Bullet>();
-        bullet.player = this;
-        bullet.direction = bulletSpawnPoint.transform.position - transform.position;
-        bullet.direction.y = 0;
-        bullet.oneShot = oneShot;
-        bullet.pointMultiplier = pointMultiplier;
-        bullet.piercing = gun2.piercing;
-        Destroy(go, 1);
+        if (!gun2.spray)
+        {
+            GameObject go = Instantiate(bulletPrefab, bulletSpawnPoint.transform.position, transform.rotation);
+            BulletConstructor(go);
+            Destroy(go, 1);
+        }
+        else
+        {
+            for (int i = 0; i < gun2.bulletAmount; i++)
+            {
+                GameObject go = Instantiate(bulletPrefab, bulletSpawnPoint.transform.position, transform.rotation);
+                BulletConstructor(go);
+                go.GetComponent<Bullet>().direction = Quaternion.Euler(0, gun2.angles[i], 0) * go.GetComponent<Bullet>().direction;
+                Destroy(go, 1);
+            }
+        }
         gun2.ammo--;
         ammoText.text = gun2.ammo.ToString();
     }
@@ -99,6 +105,24 @@ public class Player : MonoBehaviour
         this.money += (int)(money * pointMultiplier);
     }
 
+    void AngleCalculator()
+    {
+        float anglePerBullet = gun2.arc*2 / gun2.bulletAmount;
+        float[] angles = new float[gun2.bulletAmount];
+        for (int i = 0; i < gun2.bulletAmount; i++)
+            angles[i] = gun2.arc - anglePerBullet * i;
+    }
+
+    void BulletConstructor(GameObject go)
+    {
+        Bullet bullet = go.GetComponent<Bullet>();
+        bullet.player = this;
+        bullet.direction = go.transform.position - transform.position;
+        bullet.direction.y = 0;
+        bullet.oneShot = oneShot;
+        bullet.pointMultiplier = pointMultiplier;
+        bullet.piercing = gun2.piercing;
+    }
     bool GroundCheck()
     {
         RaycastHit hit;
