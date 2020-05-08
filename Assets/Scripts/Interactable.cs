@@ -13,42 +13,42 @@ public class Interactable : MonoBehaviour
     public List<GameObject> box;
     public float coolDown = 1;
 
-    private bool canUse = false;
-    private float pressTime;
-    private bool coolDownOver = false;
+    public bool canUse = false;
+    public float pressTime;
+    public bool coolDownOver = false;
     private bool porteOuverte = false;
     private bool blocked = false;
 
-    private void Start()
-    {
-        //box.Add();
-    }
 
     private void Update()
     {
-        if (Input.GetKey(KeyCode.F) && !coolDownOver && !blocked)
-        {
-            pressTime = Time.time + coolDown;
-            coolDownOver = true;
-        }
-        if (Input.GetKeyUp(KeyCode.F))
-        {
-            coolDownOver = false;
-        }
-        if (Time.time >= pressTime && coolDownOver == true)
-        {
-            canUse = true;
-            coolDownOver = false;
-        }
+
     }
 
     private void OnTriggerStay(Collider collision)
     {
         GameObject col = collision.gameObject;
-        if (col.CompareTag("Player") && canUse)
+        if (col.CompareTag("Player") && !blocked)
         {
-            Interacting(col);
-            canUse = false;
+            if (Input.GetKey(KeyCode.F) && !coolDownOver)
+            {
+                pressTime = Time.time + coolDown;
+                coolDownOver = true;
+            }
+            if (Input.GetKeyUp(KeyCode.F))
+            {
+                coolDownOver = false;
+            }
+            if (Time.time >= pressTime && coolDownOver)
+            {
+                canUse = true;
+                coolDownOver = false;
+            }
+            if (canUse)
+            {
+                Interacting(col);
+                canUse = false;
+            }
         }
     }
 
