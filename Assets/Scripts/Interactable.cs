@@ -91,6 +91,7 @@ public class Interactable : MonoBehaviour
                 {
                     AcheterCola(player);
                     player.GetComponent<Player>().money -= price;
+                    player.GetComponent<Player>().nbCola++;
                 }
                 break;
             case TypeInteractable.Box:

@@ -9,9 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3244372218679403236}
-  - component: {fileID: 3244372218679403237}
-  - component: {fileID: 3244372218679403238}
-  - component: {fileID: 3244372218679403239}
   m_Layer: 0
   m_Name: SniperShop
   m_TagString: Untagged
@@ -31,16 +28,50 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 3094008215504924577}
+  - {fileID: 5949808034239290886}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!54 &3244372218679403237
+--- !u!1 &6744009938617650114
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5949808034239290886}
+  - component: {fileID: 5110981817302696842}
+  - component: {fileID: 4765791015750741313}
+  - component: {fileID: 7348088075944481265}
+  m_Layer: 10
+  m_Name: InterractionCollider
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5949808034239290886
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6744009938617650114}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 3244372218679403236}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!54 &5110981817302696842
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3244372218679403800}
+  m_GameObject: {fileID: 6744009938617650114}
   serializedVersion: 2
   m_Mass: 1
   m_Drag: 0
@@ -50,26 +81,26 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!135 &3244372218679403238
+--- !u!135 &4765791015750741313
 SphereCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3244372218679403800}
+  m_GameObject: {fileID: 6744009938617650114}
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 1.5
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &3244372218679403239
+--- !u!114 &7348088075944481265
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3244372218679403800}
+  m_GameObject: {fileID: 6744009938617650114}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0d028ac8f86e7aa44911926a9b24bd88, type: 3}
@@ -83,6 +114,8 @@ MonoBehaviour:
     type: 3}
   box: []
   coolDown: 1
+  typeCola: 0
+  listeColas: 00000000010000000200000003000000040000000500000006000000
 --- !u!1001 &3244372217468610122
 PrefabInstance:
   m_ObjectHideFlags: 0

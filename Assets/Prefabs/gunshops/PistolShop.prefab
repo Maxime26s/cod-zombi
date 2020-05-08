@@ -9,9 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2025314400348166540}
-  - component: {fileID: 8297881934096689590}
-  - component: {fileID: 7732370890472764039}
-  - component: {fileID: 3072900946196743322}
   m_Layer: 0
   m_Name: PistolShop
   m_TagString: Untagged
@@ -31,16 +28,50 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 5838416509828866641}
+  - {fileID: 922417277584219913}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8297881934096689590
+--- !u!1 &5203643687361439557
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 922417277584219913}
+  - component: {fileID: 3343362448411421369}
+  - component: {fileID: 8512727237418007157}
+  - component: {fileID: 5630513759816320729}
+  m_Layer: 10
+  m_Name: InterractionCollider
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &922417277584219913
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5203643687361439557}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 2025314400348166540}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3343362448411421369
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4135619888267134818}
+  m_GameObject: {fileID: 5203643687361439557}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0d028ac8f86e7aa44911926a9b24bd88, type: 3}
@@ -54,13 +85,15 @@ MonoBehaviour:
     type: 3}
   box: []
   coolDown: 1
---- !u!54 &7732370890472764039
+  typeCola: 0
+  listeColas: 00000000010000000200000003000000040000000500000006000000
+--- !u!54 &8512727237418007157
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4135619888267134818}
+  m_GameObject: {fileID: 5203643687361439557}
   serializedVersion: 2
   m_Mass: 1
   m_Drag: 0
@@ -70,13 +103,13 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!135 &3072900946196743322
+--- !u!135 &5630513759816320729
 SphereCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4135619888267134818}
+  m_GameObject: {fileID: 5203643687361439557}
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_Enabled: 1
