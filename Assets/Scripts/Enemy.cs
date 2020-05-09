@@ -67,16 +67,6 @@ public class Enemy : MonoBehaviour
         player.AddMoney(100);
     }
 
-    public void Electrify()
-    {
-        IEnumerator Electrify()
-        {
-            electrified = true;
-            yield return new WaitForSeconds(0.33f);
-            electrified = false;
-        }
-        StartCoroutine(Electrify());
-    }
     IEnumerator Attack(Player player)
     {
         cd = true;

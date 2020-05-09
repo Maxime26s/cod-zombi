@@ -27,7 +27,13 @@ public class Electricity : MonoBehaviour
             Enemy enemy = collision.gameObject.GetComponent<Enemy>();
             if (!enemy.electrified)
             {
-                enemy.Electrify();
+                IEnumerator Electrify()
+                {
+                    enemy.electrified = true;
+                    yield return new WaitForSeconds(0.33f);
+                    enemy.electrified = false;
+                }
+                enemy.StartCoroutine(Electrify());
                 Instantiate(gameObject, enemy.transform);
                 enemy.TakeDamage(electricityDamage, player);
 
