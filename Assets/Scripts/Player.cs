@@ -8,20 +8,24 @@ public class Player : MonoBehaviour
 {
     CharacterController cc;
     public float speed, jump, gravity;
-    bool onGround;
     Vector3 moveDirection = Vector3.zero;
     public GameObject bulletPrefab, bulletSpawnPoint;
     public Gun gun;
-    public float hp = 100;
-    public int money;
-    public int nbCola = 0;
-    public bool oneShot;
-    public float pointMultiplier;
-    public TextMeshProUGUI ammoText;
-    private float nextShootingTime = 0f;
-    public float regenTime;
-    public float regenCoolDown;
     public float maxhealth = 100;
+    public float hp;
+    public int money;
+    [HideInInspector]
+    public int nbCola = 0;
+    [HideInInspector]
+    public bool oneShot;
+    [HideInInspector]
+    public float pointMultiplier;
+    private float nextShootingTime = 0f;
+    [HideInInspector]
+    public float regenTime;
+    [HideInInspector]
+    public float regenCoolDown;
+    public TextMeshProUGUI ammoText;
     public Slider healthBar;
 
     // Start is called before the first frame update
@@ -29,6 +33,7 @@ public class Player : MonoBehaviour
     {
         cc = GetComponent<CharacterController>();
         healthBar.GetComponent<Slider>().value = 1f;
+        hp = maxhealth;
         UpdateBulletSP();
     }
 
@@ -84,12 +89,6 @@ public class Player : MonoBehaviour
         Camera.main.transform.position = new Vector3(7.5f, 12, -7.5f) + transform.position;
     }
 
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.tag == "Ground")
-            onGround = true;
-    }
-
     private void Shoot()
     {
         if (Input.GetMouseButtonDown(0) && Time.time >= nextShootingTime && gun.type == TypeGun.Semi)
@@ -116,8 +115,8 @@ public class Player : MonoBehaviour
 
     void ShootBullet()
     {
-        nextShootingTime = Time.time + 1f / (gun.GetComponent<Gun>().fireRate * gun.GetComponent<Gun>().frMultiplier);
-        if (!gun2.spray)
+        nextShootingTime = Time.time + 1f / (gun.GetComponent<Gun>().fireRate * gun.GetComponent<Gun>().fireRateMultiplier);
+        if (!gun.spray)
         {
             GameObject go = Instantiate(bulletPrefab, bulletSpawnPoint.transform.position, transform.rotation);
             BulletConstructor(go);
@@ -125,29 +124,21 @@ public class Player : MonoBehaviour
         }
         else
         {
-            for (int i = 0; i < gun2.bulletAmount; i++)
+            for (int i = 0; i < gun.bulletAmount; i++)
             {
                 GameObject go = Instantiate(bulletPrefab, bulletSpawnPoint.transform.position, transform.rotation);
                 BulletConstructor(go);
-                go.GetComponent<Bullet>().direction = Quaternion.Euler(0, gun2.angles[i], 0) * go.GetComponent<Bullet>().direction;
+                go.GetComponent<Bullet>().direction = Quaternion.Euler(0, gun.angles[i], 0) * go.GetComponent<Bullet>().direction;
                 Destroy(go, 1);
             }
         }
-        gun2.ammo--;
-        ammoText.text = gun2.ammo.ToString();
+        gun.ammo--;
+        ammoText.text = gun.ammo.ToString();
     }
 
     public void AddMoney(int money)
     {
         this.money += (int)(money * pointMultiplier);
-    }
-
-    void AngleCalculator()
-    {
-        float anglePerBullet = gun2.arc*2 / gun2.bulletAmount;
-        float[] angles = new float[gun2.bulletAmount];
-        for (int i = 0; i < gun2.bulletAmount; i++)
-            angles[i] = gun2.arc - anglePerBullet * i;
     }
 
     void BulletConstructor(GameObject go)
@@ -158,31 +149,7 @@ public class Player : MonoBehaviour
         bullet.direction.y = 0;
         bullet.oneShot = oneShot;
         bullet.pointMultiplier = pointMultiplier;
-        bullet.piercing = gun2.piercing;
+        bullet.piercing = gun.piercing;
     }
-    bool GroundCheck()
-    {
-        RaycastHit hit;
-        float distance = 1f;
-        Vector3 dir = new Vector3(0, -1);
-
-        return Physics.Raycast(transform.position, dir, out hit, distance);
-    }
-    /*
-    void ShootLaserFromTargetPosition(Vector3 targetPosition, Vector3 direction, float length)
-    {
-        Ray ray = new Ray(targetPosition, direction);
-        RaycastHit raycastHit;
-        Vector3 endPosition = targetPosition + (length * direction);
-
-        if (Physics.Raycast(ray, out raycastHit, length))
-        {
-            endPosition = raycastHit.point;
-        }
-
-        laserLineRenderer.SetPosition(0, targetPosition);
-        laserLineRenderer.SetPosition(1, endPosition);
-    }
-    */
 }
 

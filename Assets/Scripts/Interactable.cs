@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor;
 
 
 public enum TypeInteractable { Gun, Door, Cola, Window, Box }
@@ -132,7 +133,7 @@ public class Interactable : MonoBehaviour
                 foreach (Transform enfant in player.transform)
                     if (enfant.gameObject.GetComponent<GunManager>() != null)
                         foreach (Transform gun in enfant)
-                            gun.GetComponent<Gun>().frMultiplier = 1.3f;
+                            gun.GetComponent<Gun>().fireRateMultiplier = 1.3f;
                 break;
             case TypeCola.ElectricCherry:
                 break;
@@ -204,5 +205,23 @@ public class Interactable : MonoBehaviour
         player.GetComponentInChildren<GunManager>().ChangerDarme(index);
     }
 }
+/*
+[CustomEditor(typeof(Interactable))]
+public class InteractableEditor : Editor
+{
+    public override void OnInspectorGUI()
+    {
+        base.OnInspectorGUI();
 
+        Interactable interactable = target as Interactable;
 
+        interactable.interactable = (TypeInteractable)EditorGUILayout.EnumFlagsField("Type Interactable", interactable.interactable);
+        if (interactable.interactable == TypeInteractable.Box)
+        {
+            interactable.box = EditorGUILayout.PropertyField("Box", interactable.box);
+            EditorGUILayout.
+            gun.arc = EditorGUILayout.FloatField("Arc", gun.arc);
+        }
+    }
+}
+*/
