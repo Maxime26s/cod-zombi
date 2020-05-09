@@ -5,7 +5,7 @@ using UnityEditor;
 
 
 public enum TypeGun {Auto, Semi, Rafale }
-public enum ModelesGun {M1911, AK, Sniper, B23R, Kap40, FAL, M8A1}
+public enum ModelesGun {M1911, AK, Barett, B23R, Kap40, FAL, M8A1, Olympia, Remington, M1216, FlameThrower}
 
 public class Gun : MonoBehaviour
 {
@@ -14,11 +14,8 @@ public class Gun : MonoBehaviour
     public float damage;
     public float fireRate;
     public int maxAmmo;
-    [HideInInspector]
     public int ammo;
-    [HideInInspector]
     public bool isOwned = false;
-    [HideInInspector]
     public bool inUse = false;
     [HideInInspector]
     public float damageMultiplier = 1f;
@@ -33,6 +30,7 @@ public class Gun : MonoBehaviour
     public float arc;
     [HideInInspector]
     public float[] angles;
+    public float bulletSelfDestruct = 1f;
 
     private void OnEnable()
     {

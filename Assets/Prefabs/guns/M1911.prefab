@@ -94,16 +94,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   modele: 0
+  type: 1
   damage: 15
   fireRate: 15
-  ammo: 1000
   maxAmmo: 1000
-  isOwned: 1
-  inUse: 1
-  piercing: 0
-  type: 1
+  ammo: 1000
+  isOwned: 0
+  inUse: 0
   damageMultiplier: 1
-  frMultiplier: 1
+  fireRateMultiplier: 1
+  piercing: 0
+  spray: 0
+  bulletAmount: 0
+  arc: 0
+  angles: []
+  bulletSelfDestruct: 1
 --- !u!1 &7078213386094772824
 GameObject:
   m_ObjectHideFlags: 0
