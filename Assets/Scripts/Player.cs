@@ -153,6 +153,8 @@ public class Player : MonoBehaviour
         bullet.explosionDamage = gun.explosionDamage;
         bullet.electrifying = gun.electrify;
         bullet.electricityDamage = gun.electrifyDamage;
+        bullet.fire = gun.fireEnabled;
+        bullet.fireDamage = gun.fireDamage;
         IEnumerator Dissolve()
         {
             yield return new WaitForSeconds(gun.bulletSelfDestruct * 0.8f);

@@ -7,10 +7,10 @@ public class Bullet : MonoBehaviour
 {
     public Vector3 direction;
     public float speed;
-    public float explosionDamage, electricityDamage;
+    public float explosionDamage, electricityDamage, fireDamage;
     public float dissolveTime;
-    public bool oneShot, piercing, explosive, dissolve, electrifying;
-    public GameObject explosionPrefab, deathParticles, electricityFinder;
+    public bool oneShot, piercing, explosive, dissolve, electrifying, fire;
+    public GameObject explosionPrefab, deathParticles, electricityFinder, firePrefab;
     public Player player;
 
     // Start is called before the first frame update
@@ -58,6 +58,14 @@ public class Bullet : MonoBehaviour
                         go.GetComponent<Electricity>().electricityDamage = electricityDamage;
                         go.GetComponent<Electricity>().player = player;
                         go.GetComponent<SphereCollider>().enabled = true;
+                    }
+                    if (fire)
+                    {
+                        GameObject go = Instantiate(firePrefab, transform.position, Quaternion.identity);
+                        go.GetComponent<OnFire>().player = player;
+                        go.GetComponent<OnFire>().enemy = enemy;
+                        go.GetComponent<OnFire>().fireDamage = fireDamage;
+                        go.GetComponent<OnFire>().onFire = true;
                     }
                     if (explosive)
                     {

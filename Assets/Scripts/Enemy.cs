@@ -28,7 +28,7 @@ public class Enemy : MonoBehaviour
         switch (state)
         {
             case State.Spawned:
-                if(window != null)
+                if (window != null)
                     ai.SetDestination(window.transform.position);
                 break;
             case State.Chasing:

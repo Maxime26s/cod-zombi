@@ -39,6 +39,8 @@ public class Gun : MonoBehaviour
     [HideInInspector]
     public float electrifyDamage;
     public float bulletSelfDestruct = 1f;
+    public bool fireEnabled = false;
+    public float fireDamage;
 
     private void OnEnable()
     {
