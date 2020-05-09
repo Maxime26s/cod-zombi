@@ -36,6 +36,7 @@ public class Player : MonoBehaviour
         cc = GetComponent<CharacterController>();
         healthBar.GetComponent<Slider>().value = 1f;
         hp = maxhealth;
+        pointMultiplier = 1f;
         UpdateBulletSP();
         bulletPrefab = Instantiate(bulletPrefab, transform);
         UpdateColors();
