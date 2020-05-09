@@ -108,7 +108,7 @@ public class Player : MonoBehaviour
                 for (int i = 0; i < 3; i++)
                 {
                     ShootBullet();
-                    yield return new WaitForSeconds(0.15f);
+                    yield return new WaitForSeconds(0.1f);
                 }
             }
             StartCoroutine(TirerRafale());

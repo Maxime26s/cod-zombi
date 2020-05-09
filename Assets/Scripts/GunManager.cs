@@ -6,7 +6,7 @@ public class GunManager : MonoBehaviour
 {
     public int inUse = 1;
     public int nbGunsOwned = 1;
-    public List<ModelesGun> gunsOwned = new List<ModelesGun> { ModelesGun.Pistolet };
+    public List<ModelesGun> gunsOwned = new List<ModelesGun> { ModelesGun.M1911 };
     public bool muleKick = false;
 
 

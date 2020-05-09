@@ -43,12 +43,12 @@ GameObject:
   - component: {fileID: 5856939310968991944}
   - component: {fileID: 5856939310968991947}
   m_Layer: 0
-  m_Name: Pistolet2
+  m_Name: B23R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &5856939310968991946
 Transform:
   m_ObjectHideFlags: 0
@@ -125,7 +125,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   modele: 3
   damage: 15
-  fireRate: 15
+  fireRate: 10
   ammo: 1000
   maxAmmo: 1000
   isOwned: 0
