@@ -8,20 +8,24 @@ public class Player : MonoBehaviour
 {
     CharacterController cc;
     public float speed, jump, gravity;
-    bool onGround;
     Vector3 moveDirection = Vector3.zero;
     public GameObject bulletPrefab, bulletSpawnPoint;
     public Gun gun;
-    public float hp = 100;
-    public int money;
-    public int nbCola = 0;
-    public bool oneShot;
-    public float pointMultiplier;
-    public TextMeshProUGUI ammoText;
-    private float nextShootingTime = 0f;
-    public float regenTime;
-    public float regenCoolDown;
     public float maxhealth = 100;
+    public float hp;
+    public int money;
+    [HideInInspector]
+    public int nbCola = 0;
+    [HideInInspector]
+    public bool oneShot;
+    [HideInInspector]
+    public float pointMultiplier;
+    private float nextShootingTime = 0f;
+    [HideInInspector]
+    public float regenTime;
+    [HideInInspector]
+    public float regenCoolDown;
+    public TextMeshProUGUI ammoText;
     public Slider healthBar;
 
     // Start is called before the first frame update
@@ -29,6 +33,7 @@ public class Player : MonoBehaviour
     {
         cc = GetComponent<CharacterController>();
         healthBar.GetComponent<Slider>().value = 1f;
+        hp = maxhealth;
         UpdateBulletSP();
     }
 
@@ -54,7 +59,6 @@ public class Player : MonoBehaviour
             healthBar.GetComponent<Slider>().value = ((float)hp) / ((float)maxhealth);
         }
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        RaycastHit hit;
         Plane plane = new Plane(Vector3.up, new Vector3(0, transform.position.y, 0));
         if (plane.Raycast(ray, out float length))
         {
@@ -85,12 +89,6 @@ public class Player : MonoBehaviour
         Camera.main.transform.position = new Vector3(7.5f, 12, -7.5f) + transform.position;
     }
 
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.tag == "Ground")
-            onGround = true;
-    }
-
     private void Shoot()
     {
         if (Input.GetMouseButtonDown(0) && Time.time >= nextShootingTime && gun.type == TypeGun.Semi)
@@ -117,16 +115,23 @@ public class Player : MonoBehaviour
 
     void ShootBullet()
     {
-        nextShootingTime = Time.time + 1f / (gun.GetComponent<Gun>().fireRate * gun.GetComponent<Gun>().frMultiplier);
-        GameObject go = Instantiate(bulletPrefab, bulletSpawnPoint.transform.position, transform.rotation);
-        Bullet bullet = go.GetComponent<Bullet>();
-        bullet.player = this;
-        bullet.direction = bulletSpawnPoint.transform.position - transform.position;
-        bullet.direction.y = 0;
-        bullet.oneShot = oneShot;
-        bullet.pointMultiplier = pointMultiplier;
-        bullet.piercing = gun.piercing;
-        Destroy(go, 1);
+        nextShootingTime = Time.time + 1f / (gun.GetComponent<Gun>().fireRate * gun.GetComponent<Gun>().fireRateMultiplier);
+        if (!gun.spray)
+        {
+            GameObject go = Instantiate(bulletPrefab, bulletSpawnPoint.transform.position, transform.rotation);
+            BulletConstructor(go);
+            Destroy(go, 1);
+        }
+        else
+        {
+            for (int i = 0; i < gun.bulletAmount; i++)
+            {
+                GameObject go = Instantiate(bulletPrefab, bulletSpawnPoint.transform.position, transform.rotation);
+                BulletConstructor(go);
+                go.GetComponent<Bullet>().direction = Quaternion.Euler(0, gun.angles[i], 0) * go.GetComponent<Bullet>().direction;
+                Destroy(go, 1);
+            }
+        }
         gun.ammo--;
         ammoText.text = gun.ammo.ToString();
     }
@@ -136,29 +141,15 @@ public class Player : MonoBehaviour
         this.money += (int)(money * pointMultiplier);
     }
 
-    bool GroundCheck()
+    void BulletConstructor(GameObject go)
     {
-        RaycastHit hit;
-        float distance = 1f;
-        Vector3 dir = new Vector3(0, -1);
-
-        return Physics.Raycast(transform.position, dir, out hit, distance);
+        Bullet bullet = go.GetComponent<Bullet>();
+        bullet.player = this;
+        bullet.direction = go.transform.position - transform.position;
+        bullet.direction.y = 0;
+        bullet.oneShot = oneShot;
+        bullet.pointMultiplier = pointMultiplier;
+        bullet.piercing = gun.piercing;
     }
-    /*
-    void ShootLaserFromTargetPosition(Vector3 targetPosition, Vector3 direction, float length)
-    {
-        Ray ray = new Ray(targetPosition, direction);
-        RaycastHit raycastHit;
-        Vector3 endPosition = targetPosition + (length * direction);
-
-        if (Physics.Raycast(ray, out raycastHit, length))
-        {
-            endPosition = raycastHit.point;
-        }
-
-        laserLineRenderer.SetPosition(0, targetPosition);
-        laserLineRenderer.SetPosition(1, endPosition);
-    }
-    */
 }
 

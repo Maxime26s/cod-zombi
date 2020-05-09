@@ -193,11 +193,20 @@ MonoBehaviour:
   speed: 7.07
   jump: 8
   gravity: 20
-  bullet: {fileID: 4088158279527532275, guid: 6b7603af79e85c242b6eafdfd984aae2, type: 3}
+  bulletPrefab: {fileID: 4088158279527532275, guid: 6b7603af79e85c242b6eafdfd984aae2,
+    type: 3}
   bulletSpawnPoint: {fileID: 6472604706340372579}
   gun: {fileID: 0}
-  hp: 5
+  maxhealth: 100
+  hp: 100
   money: 0
+  nbCola: 0
+  oneShot: 0
+  pointMultiplier: 0
+  regenTime: 0
+  regenCoolDown: 0
+  ammoText: {fileID: 0}
+  healthBar: {fileID: 0}
 --- !u!143 &6472604705075517090
 CharacterController:
   m_ObjectHideFlags: 0
@@ -280,12 +289,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   modele: 1
+  type: 0
   damage: 20
   fireRate: 5
+  maxAmmo: 1000
   ammo: 1000
   isOwned: 1
   inUse: 1
-  type: 0
+  damageMultiplier: 1
+  fireRateMultiplier: 1
+  piercing: 1
+  spray: 0
+  bulletAmount: 3
+  arc: 45
+  angles: []
 --- !u!1 &6472604705260314561
 GameObject:
   m_ObjectHideFlags: 0
@@ -379,12 +396,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   modele: 0
+  type: 1
   damage: 15
   fireRate: 5
+  maxAmmo: 0
   ammo: 1000
   isOwned: 1
   inUse: 0
-  type: 1
+  damageMultiplier: 1
+  fireRateMultiplier: 1
+  piercing: 0
+  spray: 0
+  bulletAmount: 0
+  arc: 0
+  angles: []
 --- !u!1 &6472604705918634751
 GameObject:
   m_ObjectHideFlags: 0
@@ -430,6 +455,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8acbc1a8bc46e3143ba2a897efb39842, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  inUse: 1
+  nbGunsOwned: 1
+  gunsOwned: 00000000
+  muleKick: 0
 --- !u!1 &6472604705961240571
 GameObject:
   m_ObjectHideFlags: 0

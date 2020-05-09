@@ -45,8 +45,10 @@ public class Bullet : MonoBehaviour
                     else
                         player.AddMoney(10);
                 }
+                if(!piercing)
+                    Destroy(gameObject);
             }
-            if(!piercing)
+            else
                 Destroy(gameObject);
         }
     }
