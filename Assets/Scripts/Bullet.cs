@@ -7,9 +7,10 @@ public class Bullet : MonoBehaviour
 {
     public Vector3 direction;
     public float speed;
-    public float explosionDamage;
-    public bool oneShot, piercing, explosive;
-    public GameObject explosionPrefab;
+    public float explosionDamage, electricityDamage;
+    public float dissolveTime;
+    public bool oneShot, piercing, explosive, dissolve, electrifying;
+    public GameObject explosionPrefab, deathParticles, electricityFinder;
     public Player player;
 
     // Start is called before the first frame update
@@ -22,6 +23,8 @@ public class Bullet : MonoBehaviour
     void Update()
     {
         transform.position += direction.normalized * speed * Time.deltaTime;
+        if (dissolve)
+            transform.localScale -= new Vector3(dissolveTime, dissolveTime, dissolveTime) * Time.deltaTime;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -35,6 +38,27 @@ public class Bullet : MonoBehaviour
                     enemy.OnKill(player);
                 else
                 {
+                    if(electrifying)
+                    {
+                        /*
+                        IEnumerator Electrify()
+                        {
+                            enemy.electrified = true;
+                            GameObject go = Instantiate(electricityFinder, transform.position, Quaternion.identity);
+                            go.GetComponent<Electricity>().electricityDamage = electricityDamage;
+                            go.GetComponent<Electricity>().player = player;
+                            go.GetComponent<SphereCollider>().enabled = true;
+                            yield return new WaitForSeconds(0.2f);
+                            if(enemy != null)
+                                enemy.electrified = false;
+                        }
+                        StartCoroutine(Electrify());
+                        */
+                        GameObject go = Instantiate(electricityFinder, enemy.transform);
+                        go.GetComponent<Electricity>().electricityDamage = electricityDamage;
+                        go.GetComponent<Electricity>().player = player;
+                        go.GetComponent<SphereCollider>().enabled = true;
+                    }
                     if (explosive)
                     {
                         GameObject go = Instantiate(explosionPrefab, transform.position, Quaternion.identity);
@@ -51,9 +75,13 @@ public class Bullet : MonoBehaviour
                 Destroy(gameObject);
         }
     }
-
     private void OnCollisionEnter(Collision collision)
     {
         Destroy(gameObject);
+    }
+
+    private void OnDestroy()
+    {
+        Instantiate(deathParticles, transform.position, transform.rotation);
     }
 }

@@ -11,6 +11,7 @@ public class Enemy : MonoBehaviour
     GameObject player;
     public GameObject window, hpBar;
     bool cd;
+    public bool electrified;
     public State state = State.Spawned;
     public float health = 100f, maxHealth;
     // Start is called before the first frame update
@@ -66,6 +67,16 @@ public class Enemy : MonoBehaviour
         player.AddMoney(100);
     }
 
+    public void Electrify()
+    {
+        IEnumerator Electrify()
+        {
+            electrified = true;
+            yield return new WaitForSeconds(0.33f);
+            electrified = false;
+        }
+        StartCoroutine(Electrify());
+    }
     IEnumerator Attack(Player player)
     {
         cd = true;

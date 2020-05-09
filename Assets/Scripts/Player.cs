@@ -151,6 +151,15 @@ public class Player : MonoBehaviour
         bullet.piercing = gun.piercing;
         bullet.explosive = gun.explosive;
         bullet.explosionDamage = gun.explosionDamage;
+        bullet.electrifying = gun.electrify;
+        bullet.electricityDamage = gun.electrifyDamage;
+        IEnumerator Dissolve()
+        {
+            yield return new WaitForSeconds(gun.bulletSelfDestruct * 0.8f);
+            bullet.dissolveTime = 0.2f / (gun.bulletSelfDestruct * 0.2f);
+            bullet.dissolve = true;
+        }
+        StartCoroutine(Dissolve());
     }
 
     public void TakeDamage(float damage)

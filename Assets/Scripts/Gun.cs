@@ -34,6 +34,10 @@ public class Gun : MonoBehaviour
     public bool explosive;
     [HideInInspector]
     public float explosionDamage;
+    [HideInInspector]
+    public bool electrify;
+    [HideInInspector]
+    public float electrifyDamage;
     public float bulletSelfDestruct = 1f;
 
     private void OnEnable()
@@ -71,6 +75,12 @@ public class GunEditor : Editor
         if (gun.explosive)
         {
             gun.explosionDamage = EditorGUILayout.FloatField("Explosion Damage", gun.explosionDamage);
+        }
+
+        gun.electrify = EditorGUILayout.Toggle("Electrified", gun.electrify);
+        if (gun.electrify)
+        {
+            gun.electrifyDamage = EditorGUILayout.FloatField("Electrify Damage", gun.electrifyDamage);
         }
     }
 }
