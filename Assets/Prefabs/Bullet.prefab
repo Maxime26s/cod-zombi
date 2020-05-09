@@ -22,7 +22,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4088158279527532287
 Transform:
   m_ObjectHideFlags: 0
@@ -165,7 +165,7 @@ TrailRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: c0a413f7a2adc2d48949443978ce5800, type: 2}
+  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -263,7 +263,7 @@ Light:
   serializedVersion: 10
   m_Type: 2
   m_Shape: 0
-  m_Color: {r: 1, g: 0.30980393, b: 0, a: 1}
+  m_Color: {r: 1, g: 0.5294118, b: 0.03529412, a: 1}
   m_Intensity: 1
   m_Range: 10
   m_SpotAngle: 30

@@ -27,6 +27,8 @@ public class Player : MonoBehaviour
     public float regenCoolDown;
     public TextMeshProUGUI ammoText;
     public Slider healthBar;
+    public Color32 color;
+    public Material material;
 
     // Start is called before the first frame update
     void Start()
@@ -35,6 +37,8 @@ public class Player : MonoBehaviour
         healthBar.GetComponent<Slider>().value = 1f;
         hp = maxhealth;
         UpdateBulletSP();
+        bulletPrefab = Instantiate(bulletPrefab, transform);
+        UpdateColors();
     }
 
     public void UpdateBulletSP()
@@ -115,6 +119,7 @@ public class Player : MonoBehaviour
 
     void ShootBullet()
     {
+        UpdateColors();
         nextShootingTime = Time.time + 1f / (gun.GetComponent<Gun>().fireRate * gun.GetComponent<Gun>().fireRateMultiplier);
         if (!gun.spray)
         {
@@ -155,6 +160,7 @@ public class Player : MonoBehaviour
         bullet.electricityDamage = gun.electrifyDamage;
         bullet.fire = gun.fireEnabled;
         bullet.fireDamage = gun.fireDamage;
+        go.SetActive(true);
         IEnumerator Dissolve()
         {
             yield return new WaitForSeconds(gun.bulletSelfDestruct * 0.8f);
@@ -172,5 +178,24 @@ public class Player : MonoBehaviour
         if (hp <= 0)
             Destroy(gameObject);
     }
+
+    void UpdateColors()
+    {
+        material = new Material(material);
+        material.SetColor("_Color", color);
+        material.SetColor("_EmissionColor", color);
+        bulletPrefab.GetComponent<Light>().color = color;
+        bulletPrefab.GetComponent<MeshRenderer>().sharedMaterial = material;
+        bulletPrefab.GetComponent<TrailRenderer>().material = material;
+    }
+    /*
+    void GenerateBulletPrefab()
+    {
+        GameObject go = new GameObject();
+        Component[] components = bulletPrefab.GetComponents<Component>();
+        for (int i = 0; i < components.Length; i++)
+            go.AddComponent<MeshFilter>(components[]);
+        Instantiate(go);
+    }*/
 }
 
