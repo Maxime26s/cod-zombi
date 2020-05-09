@@ -103,9 +103,9 @@ public class Interactable : MonoBehaviour
                         blocked = true;
                         foreach (GameObject gunShop in box)
                         {
-                            gunShop.GetComponent<Interactable>().price = 0;
+                            gunShop.GetComponentInChildren<Interactable>().price = 0;
                         }
-                        GameObject gunTemp = Instantiate(box[Random.Range(0, box.Count)], transform.position + transform.up, transform.rotation);
+                        GameObject gunTemp = Instantiate(box[Random.Range(0, box.Count)], transform.position + transform.up, transform.rotation * Quaternion.Euler(0,90,0));
                         yield return new WaitForSeconds(5f);
                         //coolDownOver = true;
                         if (gunTemp != null)

@@ -5,7 +5,7 @@ using UnityEditor;
 
 
 public enum TypeGun {Auto, Semi, Rafale }
-public enum ModelesGun {M1911, AK, Barett, B23R, Kap40, FAL, M8A1, Olympia, Remington, M1216, FlameThrower}
+public enum ModelesGun {M1911, AK, Barett, B23R, Kap40, FAL, M8A1, Olympia, Remington, M1216, FlameThrower, RPG}
 
 public class Gun : MonoBehaviour
 {
