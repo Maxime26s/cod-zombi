@@ -9,7 +9,7 @@ public class GameManager : MonoBehaviour
     List<GameObject> windows = new List<GameObject>();
     List<GameObject> guns = new List<GameObject>();
     List<GameObject> boxes = new List<GameObject>();
-    List<GameObject> powerUps = new List<GameObject>();
+    public List<GameObject> powerUps = new List<GameObject>();
 
     // Start is called before the first frame update
     void Start()

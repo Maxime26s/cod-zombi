@@ -9,7 +9,6 @@ public class Enemy : MonoBehaviour
 {
     public NavMeshAgent ai;
     GameObject player;
-    GameObject[] translation = new GameObject[2];
     public GameObject window, hpBar;
     bool cd;
     public State state = State.Spawned;
@@ -46,14 +45,31 @@ public class Enemy : MonoBehaviour
         }
     }
 
+    public void TakeDamage(float damage, Player player)
+    {
+        health -= damage;
+        hpBar.SetActive(true);
+        hpBar.GetComponent<Slider>().value = health / maxHealth;
+        if (health <= 0)
+        {
+            OnKill(player);
+        }
+        else
+            player.AddMoney(10);
+    }
+
+    public void OnKill(Player player)
+    {
+        if (Random.Range(0, 100) <= 1)
+            GameObject.Find("GameManager").GetComponent<GameManager>().Drop(transform.position);
+        Destroy(gameObject);
+        player.AddMoney(100);
+    }
+
     IEnumerator Attack(Player player)
     {
         cd = true;
-        player.hp--;
-        player.regenTime = player.regenCoolDown + Time.time;
-        player.healthBar.GetComponent<Slider>().value = player.hp / (float)player.maxhealth;
-        if (player.hp <= 0)
-            Destroy(player.gameObject);
+        player.TakeDamage(5);
         yield return new WaitForSeconds(0.1f);
         cd = false;
     }

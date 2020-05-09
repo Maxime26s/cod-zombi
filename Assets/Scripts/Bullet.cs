@@ -7,9 +7,9 @@ public class Bullet : MonoBehaviour
 {
     public Vector3 direction;
     public float speed;
-    public bool oneShot, piercing;
-    public float pointMultiplier;
-
+    public float explosionDamage;
+    public bool oneShot, piercing, explosive;
+    public GameObject explosionPrefab;
     public Player player;
 
     // Start is called before the first frame update
@@ -30,20 +30,19 @@ public class Bullet : MonoBehaviour
         {
             if (other.tag == "Enemy")
             {
+                Enemy enemy = other.GetComponent<Enemy>();
                 if (oneShot)
-                    OnKill(other, other.GetComponent<Enemy>());
+                    enemy.OnKill(player);
                 else
                 {
-                    Enemy enemy = other.GetComponent<Enemy>();
-                    enemy.health -= (player.gun.GetComponent<Gun>().damage * player.gun.GetComponent<Gun>().damageMultiplier);
-                    enemy.hpBar.SetActive(true);
-                    enemy.hpBar.GetComponent<Slider>().value = enemy.health/enemy.maxHealth;
-                    if(enemy.health <= 0)
+                    if (explosive)
                     {
-                        OnKill(other, enemy);
+                        GameObject go = Instantiate(explosionPrefab, transform.position, Quaternion.identity);
+                        go.GetComponent<Explosion>().damage = explosionDamage;
+                        go.GetComponent<Explosion>().player = player;
+                        go.GetComponent<SphereCollider>().enabled = true;
                     }
-                    else
-                        player.AddMoney(10);
+                    enemy.TakeDamage(player.gun.GetComponent<Gun>().damage * player.gun.GetComponent<Gun>().damageMultiplier, player);
                 }
                 if(!piercing)
                     Destroy(gameObject);
@@ -51,14 +50,6 @@ public class Bullet : MonoBehaviour
             else
                 Destroy(gameObject);
         }
-    }
-
-    private void OnKill(Collider other, Enemy enemy)
-    {
-        if (Random.Range(0, 100) <= 1)
-            GameObject.Find("GameManager").GetComponent<GameManager>().Drop(enemy.transform.position);
-        Destroy(other.gameObject);
-        player.AddMoney(100);
     }
 
     private void OnCollisionEnter(Collision collision)

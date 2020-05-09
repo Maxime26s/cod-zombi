@@ -148,8 +148,18 @@ public class Player : MonoBehaviour
         bullet.direction = go.transform.position - transform.position;
         bullet.direction.y = 0;
         bullet.oneShot = oneShot;
-        bullet.pointMultiplier = pointMultiplier;
         bullet.piercing = gun.piercing;
+        bullet.explosive = gun.explosive;
+        bullet.explosionDamage = gun.explosionDamage;
+    }
+
+    public void TakeDamage(float damage)
+    {
+        hp -= damage;
+        regenTime = regenCoolDown + Time.time;
+        healthBar.GetComponent<Slider>().value = hp / maxhealth;
+        if (hp <= 0)
+            Destroy(gameObject);
     }
 }
 

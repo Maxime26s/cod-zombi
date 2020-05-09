@@ -1775,6 +1775,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1863656541 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6472604705253321462, guid: 3886739fd954e714f9994970f5853e87,
+    type: 3}
+  m_PrefabInstance: {fileID: 6472604705577563066}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2eef7c163ba2c864198068b600897a0b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1867953834
 GameObject:
   m_ObjectHideFlags: 0
@@ -2065,6 +2077,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1342754736370009909, guid: 233bb0ea95fd59d4bbd8beb56a536d35,
+        type: 3}
+      propertyPath: powerUps.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1342754736370009909, guid: 233bb0ea95fd59d4bbd8beb56a536d35,
+        type: 3}
+      propertyPath: powerUps.Array.data[0]
+      value: 
+      objectReference: {fileID: 4689761324635155968, guid: 636f800887dfce348ada554f4b18b047,
+        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 233bb0ea95fd59d4bbd8beb56a536d35, type: 3}
 --- !u!1001 &2576964677602081675
@@ -2385,6 +2408,11 @@ PrefabInstance:
       propertyPath: healthBar
       value: 
       objectReference: {fileID: 1353044737}
+    - target: {fileID: 6472604705075517091, guid: 3886739fd954e714f9994970f5853e87,
+        type: 3}
+      propertyPath: gun
+      value: 
+      objectReference: {fileID: 1863656541}
     - target: {fileID: 6472604705075517095, guid: 3886739fd954e714f9994970f5853e87,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2450,10 +2478,30 @@ PrefabInstance:
       propertyPath: piercing
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6472604705253321462, guid: 3886739fd954e714f9994970f5853e87,
+        type: 3}
+      propertyPath: explosive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6472604705253321462, guid: 3886739fd954e714f9994970f5853e87,
+        type: 3}
+      propertyPath: explosionDamage
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 6472604705918634748, guid: 3886739fd954e714f9994970f5853e87,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 6472604705918634749, guid: 3886739fd954e714f9994970f5853e87,
         type: 3}
       propertyPath: gunsOwned.Array.data[0]
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7523328967697600316, guid: 3886739fd954e714f9994970f5853e87,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3886739fd954e714f9994970f5853e87, type: 3}

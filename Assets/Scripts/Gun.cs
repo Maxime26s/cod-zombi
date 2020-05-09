@@ -33,6 +33,10 @@ public class Gun : MonoBehaviour
     public float arc;
     [HideInInspector]
     public float[] angles;
+    [HideInInspector]
+    public bool explosive;
+    [HideInInspector]
+    public float explosionDamage;
 
     private void OnEnable()
     {
@@ -63,6 +67,12 @@ public class GunEditor : Editor
         {
             gun.bulletAmount = EditorGUILayout.IntField("Bullet Amount", gun.bulletAmount);
             gun.arc = EditorGUILayout.FloatField("Arc", gun.arc);
+        }
+
+        gun.explosive = EditorGUILayout.Toggle("Explosive", gun.explosive);
+        if (gun.explosive)
+        {
+            gun.explosionDamage = EditorGUILayout.FloatField("Explosion Damage", gun.explosionDamage);
         }
     }
 }

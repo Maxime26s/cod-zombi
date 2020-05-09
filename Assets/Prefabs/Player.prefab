@@ -303,6 +303,7 @@ MonoBehaviour:
   bulletAmount: 3
   arc: 45
   angles: []
+  explosive: 0
 --- !u!1 &6472604705260314561
 GameObject:
   m_ObjectHideFlags: 0
@@ -410,6 +411,7 @@ MonoBehaviour:
   bulletAmount: 0
   arc: 0
   angles: []
+  explosive: 0
 --- !u!1 &6472604705918634751
 GameObject:
   m_ObjectHideFlags: 0
