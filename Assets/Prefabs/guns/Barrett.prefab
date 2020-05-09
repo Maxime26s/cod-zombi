@@ -406,12 +406,12 @@ GameObject:
   - component: {fileID: 573772738097007083}
   - component: {fileID: 573772738097007084}
   m_Layer: 0
-  m_Name: Sniper
+  m_Name: Barrett
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &573772738097007083
 Transform:
   m_ObjectHideFlags: 0
@@ -445,13 +445,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   modele: 2
-  damage: 100
+  damage: 50
   fireRate: 1
   ammo: 1000
   maxAmmo: 0
   isOwned: 0
   inUse: 0
-  piercing: 0
+  piercing: 1
   type: 1
   damageMultiplier: 1
   frMultiplier: 1

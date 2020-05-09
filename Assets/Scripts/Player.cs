@@ -106,7 +106,7 @@ public class Player : MonoBehaviour
                 for (int i = 0; i < 3; i++)
                 {
                     ShootBullet();
-                    yield return new WaitForSeconds(0.15f);
+                    yield return new WaitForSeconds(0.1f);
                 }
             }
             StartCoroutine(TirerRafale());
@@ -120,7 +120,7 @@ public class Player : MonoBehaviour
         {
             GameObject go = Instantiate(bulletPrefab, bulletSpawnPoint.transform.position, transform.rotation);
             BulletConstructor(go);
-            Destroy(go, 1);
+            Destroy(go, gun.bulletSelfDestruct);
         }
         else
         {
@@ -129,7 +129,7 @@ public class Player : MonoBehaviour
                 GameObject go = Instantiate(bulletPrefab, bulletSpawnPoint.transform.position, transform.rotation);
                 BulletConstructor(go);
                 go.GetComponent<Bullet>().direction = Quaternion.Euler(0, gun.angles[i], 0) * go.GetComponent<Bullet>().direction;
-                Destroy(go, 1);
+                Destroy(go, gun.bulletSelfDestruct);
             }
         }
         gun.ammo--;
