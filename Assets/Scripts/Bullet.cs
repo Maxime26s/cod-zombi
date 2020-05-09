@@ -59,9 +59,9 @@ public class Bullet : MonoBehaviour
                         go.GetComponent<Electricity>().player = player;
                         go.GetComponent<SphereCollider>().enabled = true;
                     }
-                    if (fire)
+                    if (fire && enemy.GetComponentInChildren<OnFire>() == null)
                     {
-                        GameObject go = Instantiate(firePrefab, transform.position, Quaternion.identity);
+                        GameObject go = Instantiate(firePrefab, enemy.transform);
                         go.GetComponent<OnFire>().player = player;
                         go.GetComponent<OnFire>().enemy = enemy;
                         go.GetComponent<OnFire>().fireDamage = fireDamage;

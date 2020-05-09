@@ -129,18 +129,21 @@ MonoBehaviour:
   speed: 15
   explosionDamage: 0
   electricityDamage: 0
+  fireDamage: 0
   dissolveTime: 0
   oneShot: 0
   piercing: 0
   explosive: 0
   dissolve: 0
   electrifying: 0
-  electrified: 0
+  fire: 0
   explosionPrefab: {fileID: 8958343336289446308, guid: f9d05f300aae2ff49b28e835c1910366,
     type: 3}
   deathParticles: {fileID: 5227643435970384490, guid: 92e85f9f19b9c7145939025651a5cdc6,
     type: 3}
   electricityFinder: {fileID: 3863961185002890164, guid: 3e663c0428fc15c429445aacebd3e8b7,
+    type: 3}
+  firePrefab: {fileID: 5479535398137689255, guid: c62bf325de4b0a24fa0b9e7e5fc03594,
     type: 3}
   player: {fileID: 0}
 --- !u!96 &4138546752895521964
