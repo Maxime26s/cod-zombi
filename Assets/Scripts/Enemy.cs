@@ -11,15 +11,16 @@ public class Enemy : MonoBehaviour
     GameObject player;
     public GameObject window, hpBar;
     bool cd;
-    public bool electrified;
+    public bool electrified, frozen, poisoned;
     public State state = State.Spawned;
-    public float health = 100f, maxHealth;
+    public float health = 100f, maxHealth, speed;
     // Start is called before the first frame update
     void Start()
     {
         maxHealth = health;
         ai = GetComponent<NavMeshAgent>();
         player = GameObject.FindGameObjectWithTag("Player");
+        ai.speed = speed;
     }
 
     // Update is called once per frame
@@ -48,6 +49,8 @@ public class Enemy : MonoBehaviour
 
     public void TakeDamage(float damage, Player player)
     {
+        if (poisoned)
+            damage *= 1.3f;
         health -= damage;
         hpBar.SetActive(true);
         hpBar.GetComponent<Slider>().value = health / maxHealth;

@@ -41,6 +41,8 @@ public class Gun : MonoBehaviour
     public float bulletSelfDestruct = 1f;
     public bool fireEnabled = false;
     public float fireDamage;
+    public bool ice;
+    public bool poison;
 
     private void OnEnable()
     {
