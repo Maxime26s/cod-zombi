@@ -70,6 +70,8 @@ public class Bullet : MonoBehaviour
                     if (explosive)
                     {
                         GameObject go = Instantiate(explosionPrefab, transform.position, Quaternion.identity);
+                        go.GetComponent<ParticleSystemRenderer>().sharedMaterial = GetComponent<MeshRenderer>().sharedMaterial;
+                        go.GetComponent<ParticleSystemRenderer>().trailMaterial = GetComponent<MeshRenderer>().sharedMaterial;
                         go.GetComponent<Explosion>().damage = explosionDamage;
                         go.GetComponent<Explosion>().player = player;
                         go.GetComponent<SphereCollider>().enabled = true;
@@ -90,6 +92,6 @@ public class Bullet : MonoBehaviour
 
     private void OnDestroy()
     {
-        Instantiate(deathParticles, transform.position, transform.rotation);
+        Instantiate(deathParticles, transform.position, transform.rotation).GetComponent<ParticleSystemRenderer>().sharedMaterial = GetComponent<MeshRenderer>().sharedMaterial;
     }
 }
