@@ -372,9 +372,13 @@ MonoBehaviour:
   ai: {fileID: 0}
   window: {fileID: 0}
   hpBar: {fileID: 2220550608189193224}
+  electrified: 0
+  frozen: 0
+  poisoned: 0
   state: 0
   health: 100
   maxHealth: 0
+  speed: 3.5
 --- !u!195 &3194665870912266618
 NavMeshAgent:
   m_ObjectHideFlags: 0

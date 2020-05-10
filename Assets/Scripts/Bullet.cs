@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.AI;
 
 public class Bullet : MonoBehaviour
 {
@@ -9,8 +10,9 @@ public class Bullet : MonoBehaviour
     public float speed;
     public float explosionDamage, electricityDamage, fireDamage;
     public float dissolveTime;
-    public bool oneShot, piercing, explosive, dissolve, electrifying, fire;
-    public GameObject explosionPrefab, deathParticles, electricityFinder, firePrefab;
+    public bool oneShot, piercing, explosive, dissolve, electrifying, fire, ice, poison;
+    public GameObject explosionPrefab, deathParticles, electricityFinder, effectPrefab;
+    public Material fireMat, poisonMat, iceMat;
     public Player player;
 
     // Start is called before the first frame update
@@ -61,11 +63,44 @@ public class Bullet : MonoBehaviour
                     }
                     if (fire && enemy.GetComponentInChildren<OnFire>() == null)
                     {
-                        GameObject go = Instantiate(firePrefab, enemy.transform);
+                        GameObject go = Instantiate(effectPrefab, enemy.transform);
+                        go.AddComponent<OnFire>();
                         go.GetComponent<OnFire>().player = player;
                         go.GetComponent<OnFire>().enemy = enemy;
                         go.GetComponent<OnFire>().fireDamage = fireDamage;
                         go.GetComponent<OnFire>().onFire = true;
+                    }
+                    if (ice && !enemy.frozen)
+                    {
+                        GameObject go = Instantiate(effectPrefab, enemy.transform);
+                        go.GetComponent<ParticleSystemRenderer>().material = iceMat;
+                        var main = go.GetComponent<ParticleSystem>().main;
+                        main.startColor = iceMat.color - new Color32(50, 50, 50, 0);
+                        go.GetComponent<Light>().color = iceMat.color;
+                        IEnumerator Freeze()
+                        {
+                            enemy.frozen = true;
+                            other.gameObject.GetComponent<NavMeshAgent>().speed = enemy.speed * 0.8f;
+                            yield return new WaitForSeconds(2.5f);
+                            other.gameObject.GetComponent<NavMeshAgent>().speed = enemy.speed;
+                            enemy.frozen = false;
+                        }
+                        enemy.StartCoroutine(Freeze());
+                    }
+                    if (poison && !enemy.poisoned)
+                    {
+                        GameObject go = Instantiate(effectPrefab, enemy.transform);
+                        go.GetComponent<ParticleSystemRenderer>().material = poisonMat;
+                        var main = go.GetComponent<ParticleSystem>().main;
+                        main.startColor = poisonMat.color - new Color32(50, 50, 50, 0);
+                        go.GetComponent<Light>().color = poisonMat.color;
+                        IEnumerator Poison()
+                        {
+                            enemy.poisoned = true;
+                            yield return new WaitForSeconds(2.5f);
+                            enemy.poisoned = false;
+                        }
+                        enemy.StartCoroutine(Poison());
                     }
                     if (explosive)
                     {

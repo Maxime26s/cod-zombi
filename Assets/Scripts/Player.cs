@@ -161,6 +161,8 @@ public class Player : MonoBehaviour
         bullet.electricityDamage = gun.electrifyDamage;
         bullet.fire = gun.fireEnabled;
         bullet.fireDamage = gun.fireDamage;
+        bullet.ice = gun.ice;
+        bullet.poison = gun.poison;
         go.SetActive(true);
         IEnumerator Dissolve()
         {
