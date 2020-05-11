@@ -34,7 +34,7 @@ public class Enemy : MonoBehaviour
                     ai.SetDestination(window.transform.position);
                 break;
             case State.Chasing:
-                if (ai.enabled)
+                if (ai.enabled && !player.GetComponent<Player>().isDown)
                     ai.SetDestination(player.transform.position);
                 break;
         }

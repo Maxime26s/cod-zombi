@@ -4,6 +4,7 @@ using UnityEngine;
 
 public enum TypeGun {Auto, Semi, Rafale }
 public enum ModelesGun {M1911, AK, Barett, B23R, Kap40, FAL, M8A1, Olympia, Remington, M1216, FlameThrower, RPG}
+public enum PoidsGun { Light, Normal, Heavy }
 
 public class Gun : MonoBehaviour
 {
@@ -20,6 +21,7 @@ public class Gun : MonoBehaviour
     [HideInInspector]
     public float fireRateMultiplier = 1f;
     public float bulletSelfDestruct = 1f;
+    public PoidsGun poids;
     public bool isPiercing, isExplosive;
     [SerializeField]
     public SprayModifier spray;
@@ -37,6 +39,21 @@ public class Gun : MonoBehaviour
         ammo = maxAmmo;
         if (spray.enabled)
             spray.CalculateAngles();
+            if (this.transform.parent != null)
+            {
+                switch (poids)
+                {
+                    case PoidsGun.Light:
+                        this.transform.parent.parent.GetComponent<Player>().ChangeSpeed(1f);
+                        break;
+                    case PoidsGun.Normal:
+                        this.transform.parent.parent.GetComponent<Player>().ChangeSpeed(0.9f);
+                        break;
+                    case PoidsGun.Heavy:
+                        this.transform.parent.parent.GetComponent<Player>().ChangeSpeed(1f);
+                        break;
+                }
+            }
     }
 }
 

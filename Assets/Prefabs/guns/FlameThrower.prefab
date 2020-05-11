@@ -109,6 +109,7 @@ MonoBehaviour:
   poison:
     enabled: 0
     damageMultiplier: 0
+  poids: 2
 --- !u!1 &2238872330988017713
 GameObject:
   m_ObjectHideFlags: 0

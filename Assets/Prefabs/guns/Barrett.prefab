@@ -476,6 +476,7 @@ MonoBehaviour:
     bulletAmount: 0
     halfArc: 0
     angles: []
+  poids: 1
 --- !u!1 &1378071167883451463
 GameObject:
   m_ObjectHideFlags: 0
