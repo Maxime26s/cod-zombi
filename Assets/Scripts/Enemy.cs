@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 public enum State { Spawned, Chasing }
 public enum DamageType { Hit, AOE, DOT }
+public enum NumberType { Whole, Percent }
 public class Enemy : MonoBehaviour
 {
     public NavMeshAgent ai;
@@ -55,11 +56,19 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    public void TakeDamage(float damage, Player player, DamageType damageType)
+    public void TakeDamage(float damage, Player player, DamageType damageType, NumberType numberType)
     {
         if(!GameManager.Instance.oneShotEnabled)
         {
-            health -= damage * damageMultiplier;
+            switch (numberType)
+            {
+                case NumberType.Whole:
+                    health -= damage * damageMultiplier;
+                    break;
+                case NumberType.Percent:
+                    health -= damage * maxHealth * damageMultiplier;
+                    break;
+            }
             hpBar.SetActive(true);
             hpBar.GetComponent<Slider>().value = health / maxHealth;
             if (health <= 0)

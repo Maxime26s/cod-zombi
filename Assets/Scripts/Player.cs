@@ -8,40 +8,38 @@ public class Player : MonoBehaviour
 {
     const float speedConst = 7.070001f;
     CharacterController cc;
-    public float speed, jump, gravity;
+    public float speed, gravity;
     Vector3 moveDirection = Vector3.zero;
-    public GameObject bulletPrefab, bulletSpawnPoint;
+    public GameObject bulletPrefab, bulletSpawnPoint, electricCherryPrefab;
     public Gun gun;
-    public float maxhealth = 100;
+    public float maxHealth = 100;
     public float hp;
     public float money;
     [HideInInspector]
     public int nbCola = 0;
     [HideInInspector]
     private float nextShootingTime = 0f;
-    [HideInInspector]
-    public float regenTime;
-    [HideInInspector]
-    public float regenCoolDown;
+    public float regenAmount, regenCooldown;
     public TextMeshProUGUI ammoText;
     public Slider healthBar;
     public Color32 color;
     public Material material;
-    private float nextDashTime;
+    private bool dashOnCooldown, regenOnCooldown;
     [HideInInspector]
-    public float dashCoolDown;
+    public float dashCooldown;
     public List<TypeCola> colasOwned;
     public bool isDown;
     [HideInInspector]
     public bool beingRevived;
+    private Coroutine regenCoroutine;
 
     // Start is called before the first frame update
     void Start()
     {
         cc = GetComponent<CharacterController>();
         healthBar.GetComponent<Slider>().value = 1f;
-        hp = maxhealth;
-        dashCoolDown = 5f;
+        hp = maxHealth;
+        dashCooldown = 5f;
         UpdateBulletSP();
         bulletPrefab = Instantiate(bulletPrefab, transform);
         bulletPrefab.GetComponent<Bullet>().explosionPrefab = Instantiate(bulletPrefab.GetComponent<Bullet>().explosionPrefab, transform);
@@ -61,31 +59,38 @@ public class Player : MonoBehaviour
     {
         if (!isDown)
         {
-            if (Time.time >= regenTime)
+            if (!regenOnCooldown && hp != maxHealth)
             {
-                if (hp != maxhealth)
-                {
-                    if (hp + (5 * Time.deltaTime) <= maxhealth)
-                        hp += (5 * Time.deltaTime);
-                    else
-                        hp = maxhealth;
-                }
-                healthBar.GetComponent<Slider>().value = ((float)hp) / ((float)maxhealth);
+                hp += (regenAmount * Time.deltaTime);
+                if (hp >= maxHealth)
+                    hp = maxHealth;
+                healthBar.GetComponent<Slider>().value = ((float)hp) / ((float)maxHealth);
             }
 
             Shoot();
 
-            if (Input.GetButtonDown("Jump") && cc.isGrounded)
+            if (Input.GetMouseButtonDown(0))
+                ChangeSpeed(0.5f * speed / speedConst);
+            else if (Input.GetMouseButtonUp(0))
             {
-                //moveDirection.y = jump;
-                if (Time.time >= nextDashTime)
-                    StartCoroutine(Dash());
+                ChangeSpeed(1f);
+                ParticleSystem.MainModule main = electricCherryPrefab.GetComponent<ParticleSystem>().main;
+                main.loop = false;
             }
 
-            if (Input.GetMouseButtonDown(0))
-                ChangeSpeed(0.3f);
-            else if (Input.GetMouseButtonUp(0))
-                ChangeSpeed(1);
+            if (Input.GetButtonDown("Jump") && cc.isGrounded && !dashOnCooldown)
+            {
+                IEnumerator Dash()
+                {
+                    dashOnCooldown = true;
+                    ChangeSpeed(3);
+                    yield return new WaitForSeconds(0.1f);
+                    ChangeSpeed(1);
+                    yield return new WaitForSeconds(dashCooldown);
+                    dashOnCooldown = false;
+                }
+                StartCoroutine(Dash());
+            }
         }
 
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -116,18 +121,10 @@ public class Player : MonoBehaviour
         if (isDown && !beingRevived)
         {
             hp -= (2 * Time.deltaTime);
-            healthBar.GetComponent<Slider>().value = hp / maxhealth;
+            healthBar.GetComponent<Slider>().value = hp / maxHealth;
             if (hp <= 0)
                 Destroy(this);
         }
-    }
-
-    IEnumerator Dash()
-    {
-        ChangeSpeed(3);
-        yield return new WaitForSeconds(0.1f);
-        ChangeSpeed(1);
-        nextDashTime = dashCoolDown + Time.time;
     }
 
     private void Shoot()
@@ -136,11 +133,11 @@ public class Player : MonoBehaviour
         {
             ShootBullet();
         }
-        if (Input.GetMouseButton(0) && Time.time >= nextShootingTime && gun.type == TypeGun.Auto)
+        else if (Input.GetMouseButton(0) && Time.time >= nextShootingTime && gun.type == TypeGun.Auto)
         {
             ShootBullet();
         }
-        if (Input.GetMouseButtonDown(0) && Time.time >= nextShootingTime && gun.type == TypeGun.Rafale)
+        else if (Input.GetMouseButtonDown(0) && Time.time >= nextShootingTime && gun.type == TypeGun.Rafale)
         {
             IEnumerator TirerRafale()
             {
@@ -156,6 +153,8 @@ public class Player : MonoBehaviour
 
     void ShootBullet()
     {
+        if (VerifyCola(TypeCola.ElectricCherry))
+            ElectricCherry();
         nextShootingTime = Time.time + 1f / (gun.GetComponent<Gun>().fireRate * gun.GetComponent<Gun>().fireRateMultiplier);
         if (!gun.spray.enabled)
         {
@@ -208,11 +207,31 @@ public class Player : MonoBehaviour
     {
         if (!isDown)
         {
+            if (regenCoroutine != null)
+                StopCoroutine(regenCoroutine);
+            IEnumerator RegenCooldown()
+            {
+                regenOnCooldown = true;
+                yield return new WaitForSeconds(regenCooldown);
+                regenOnCooldown = false;
+            }
+            regenCoroutine = StartCoroutine(RegenCooldown());
             hp -= damage;
-            regenTime = regenCoolDown + Time.time;
-            healthBar.GetComponent<Slider>().value = hp / maxhealth;
+            healthBar.GetComponent<Slider>().value = hp / maxHealth;
             if (hp <= 0)
                 PlayerDown();
+        }
+    }
+
+    void ElectricCherry()
+    {
+        ParticleSystem.MainModule main = electricCherryPrefab.GetComponent<ParticleSystem>().main;
+        main.loop = true;
+        electricCherryPrefab.SetActive(true);
+        Collider[] colliders = Physics.OverlapSphere(transform.position, 5, 1 << 9);
+        foreach (Collider collider in colliders)
+        {
+            collider.GetComponent<Enemy>().TakeDamage(0.1f * (1 - (collider.transform.position - transform.position).magnitude / 5), this, DamageType.DOT, NumberType.Percent);
         }
     }
 
@@ -239,7 +258,7 @@ public class Player : MonoBehaviour
                 case TypeCola.ElectricCherry:
                     break;
                 case TypeCola.JuggerNog:
-                    maxhealth = 100;
+                    maxHealth = 100;
                     break;
                 case TypeCola.MuteKick:
                     this.GetComponentInChildren<GunManager>().muleKick = false;
@@ -263,7 +282,7 @@ public class Player : MonoBehaviour
                 case TypeCola.Quick:
                     break;
                 case TypeCola.StaminUp:
-                    dashCoolDown = 5f;
+                    dashCooldown = 5f;
                     break;
                 default:
                     break;
@@ -279,7 +298,7 @@ public class Player : MonoBehaviour
     {
         isDown = false;
         beingRevived = false;
-        hp = 100;
+        hp = maxHealth;
         ChangeSpeed(1f);
     }
 
@@ -296,9 +315,17 @@ public class Player : MonoBehaviour
         main.startColor = material.color;
         bulletPrefab.GetComponent<Bullet>().explosionPrefab.GetComponent<Light>().color = color;
     }
-    public void ChangeSpeed(float percentage)
+
+    public void ChangeSpeed(float multiplier)
     {
-        speed = speedConst * percentage;
+        speed = speedConst * multiplier;
+    }
+
+    public bool VerifyCola(TypeCola typeCola)
+    {
+        foreach (TypeCola cola in colasOwned)
+            if (typeCola == cola)
+                return true;
+        return false;
     }
 }
-

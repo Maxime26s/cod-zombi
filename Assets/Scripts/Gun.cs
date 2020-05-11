@@ -2,14 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum TypeGun {Auto, Semi, Rafale }
-public enum ModelesGun {M1911, AK, Barett, B23R, Kap40, FAL, M8A1, Olympia, Remington, M1216, FlameThrower, RPG}
+public enum TypeGun { Auto, Semi, Rafale }
+public enum ModelesGun { M1911, AK, Barett, B23R, Kap40, FAL, M8A1, Olympia, Remington, M1216, FlameThrower, RPG }
 public enum PoidsGun { Light, Normal, Heavy }
 
 public class Gun : MonoBehaviour
 {
     public ModelesGun modele;
     public TypeGun type;
+    public PoidsGun poids;
     public float damage;
     public float fireRate;
     public int maxAmmo;
@@ -21,7 +22,6 @@ public class Gun : MonoBehaviour
     [HideInInspector]
     public float fireRateMultiplier = 1f;
     public float bulletSelfDestruct = 1f;
-    public PoidsGun poids;
     public bool isPiercing, isExplosive;
     [SerializeField]
     public SprayModifier spray;
@@ -39,21 +39,21 @@ public class Gun : MonoBehaviour
         ammo = maxAmmo;
         if (spray.enabled)
             spray.CalculateAngles();
-            if (this.transform.parent != null)
+        if (transform.parent != null)
+        {
+            switch (poids)
             {
-                switch (poids)
-                {
-                    case PoidsGun.Light:
-                        this.transform.parent.parent.GetComponent<Player>().ChangeSpeed(1f);
-                        break;
-                    case PoidsGun.Normal:
-                        this.transform.parent.parent.GetComponent<Player>().ChangeSpeed(0.9f);
-                        break;
-                    case PoidsGun.Heavy:
-                        this.transform.parent.parent.GetComponent<Player>().ChangeSpeed(1f);
-                        break;
-                }
+                case PoidsGun.Light:
+                    transform.parent.parent.GetComponent<Player>().ChangeSpeed(1f);
+                    break;
+                case PoidsGun.Normal:
+                    transform.parent.parent.GetComponent<Player>().ChangeSpeed(0.85f);
+                    break;
+                case PoidsGun.Heavy:
+                    transform.parent.parent.GetComponent<Player>().ChangeSpeed(0.7f);
+                    break;
             }
+        }
     }
 }
 

@@ -87,11 +87,7 @@ public class Interactable : MonoBehaviour
                 }
                 break;
             case TypeInteractable.Cola:
-                bool alreadyOwned = false;
-                foreach (TypeCola cola in player.GetComponent<Player>().colasOwned)
-                    if (typeCola == cola)
-                        alreadyOwned = true;
-                if (player.GetComponent<Player>().money >= price && player.GetComponent<Player>().nbCola < 4 && !alreadyOwned)
+                if (player.GetComponent<Player>().money >= price && player.GetComponent<Player>().nbCola < 4 && !player.GetComponent<Player>().VerifyCola(typeCola))
                 {
                     AcheterCola(player);
                     player.GetComponent<Player>().money -= price;
@@ -144,7 +140,7 @@ public class Interactable : MonoBehaviour
                 player.GetComponent<Player>().colasOwned.Add(TypeCola.ElectricCherry);
                 break;
             case TypeCola.JuggerNog:
-                player.GetComponent<Player>().maxhealth = 200;
+                player.GetComponent<Player>().maxHealth = 200;
                 player.GetComponent<Player>().colasOwned.Add(TypeCola.JuggerNog);
                 break;
             case TypeCola.MuteKick:
@@ -160,7 +156,7 @@ public class Interactable : MonoBehaviour
                 typeCola = TypeCola.Random;
                 break;
             case TypeCola.StaminUp:
-                player.GetComponent<Player>().dashCoolDown = 2.5f;
+                player.GetComponent<Player>().dashCooldown = 2.5f;
                 player.GetComponent<Player>().colasOwned.Add(TypeCola.StaminUp);
                 break;
         }
@@ -216,23 +212,3 @@ public class Interactable : MonoBehaviour
         player.GetComponentInChildren<GunManager>().ChangerDarme(index);
     }
 }
-/*
-[CustomEditor(typeof(Interactable))]
-public class InteractableEditor : Editor
-{
-    public override void OnInspectorGUI()
-    {
-        base.OnInspectorGUI();
-
-        Interactable interactable = target as Interactable;
-
-        interactable.interactable = (TypeInteractable)EditorGUILayout.EnumFlagsField("Type Interactable", interactable.interactable);
-        if (interactable.interactable == TypeInteractable.Box)
-        {
-            interactable.box = EditorGUILayout.PropertyField("Box", interactable.box);
-            EditorGUILayout.
-            gun.arc = EditorGUILayout.FloatField("Arc", gun.arc);
-        }
-    }
-}
-*/

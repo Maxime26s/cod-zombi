@@ -42,7 +42,7 @@ public class Bullet : MonoBehaviour
                     em.player = player;
                     em.enemies.Add(other);
                     em.ready = true;
-                    enemy.TakeDamage(electric.damage, player, DamageType.AOE);
+                    enemy.TakeDamage(electric.damage, player, DamageType.AOE, NumberType.Whole);
                 }
                 if (fire.enabled && enemy.GetComponentInChildren<OnFire>() == null)
                 {
@@ -79,9 +79,9 @@ public class Bullet : MonoBehaviour
                     enemy.StartCoroutine(Poison());
                 }
                 if (isExplosive)
-                    enemy.TakeDamage(player.gun.GetComponent<Gun>().damage, player, DamageType.AOE);
+                    enemy.TakeDamage(player.gun.GetComponent<Gun>().damage, player, DamageType.AOE, NumberType.Whole);
                 else
-                    enemy.TakeDamage(player.gun.GetComponent<Gun>().damage * player.gun.GetComponent<Gun>().damageMultiplier, player, DamageType.Hit);
+                    enemy.TakeDamage(player.gun.GetComponent<Gun>().damage * player.gun.GetComponent<Gun>().damageMultiplier, player, DamageType.Hit, NumberType.Whole);
             }
             CheckDestroy();
         }

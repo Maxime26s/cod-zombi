@@ -39,7 +39,7 @@ public class ElectricityManager : MonoBehaviour
                     ParticleSystem.VelocityOverLifetimeModule velocityOverLifetime = go.GetComponent<ParticleSystem>().velocityOverLifetime;
                     velocityOverLifetime.z = Mathf.Sqrt(closestDistance)*10;
                     enemies.Add(closest);
-                    closest.GetComponent<Enemy>().TakeDamage(electric.damage, player, DamageType.AOE);
+                    closest.GetComponent<Enemy>().TakeDamage(electric.damage, player, DamageType.AOE, NumberType.Whole);
                 }
                 else
                 {

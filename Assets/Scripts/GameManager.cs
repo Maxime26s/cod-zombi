@@ -104,6 +104,10 @@ public class GameManager : MonoBehaviour
 
     public void ReviveAll()
     {
-
+        foreach(GameObject player in players)
+        {
+            if (player.GetComponent<Player>().isDown)
+                player.GetComponent<Player>().Revive();
+        }
     }
 }
