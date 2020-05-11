@@ -83,11 +83,11 @@ public class Bullet : MonoBehaviour
                 else
                     enemy.TakeDamage(player.gun.GetComponent<Gun>().damage * player.gun.GetComponent<Gun>().damageMultiplier, player, DamageType.Hit, NumberType.Whole);
             }
-            CheckDestroy();
+            CheckDestroy(other.CompareTag("Enemy"));
         }
     }
 
-    private void CheckDestroy()
+    private void CheckDestroy(bool isEnemy)
     {
         if (!destroying)
         {
@@ -103,18 +103,19 @@ public class Bullet : MonoBehaviour
                     GetComponent<MeshRenderer>().enabled = false;
                     GetComponent<TrailRenderer>().enabled = false;
                     GetComponent<Light>().enabled = false;
-                    Instantiate(deathParticles, transform.position, transform.rotation).GetComponent<ParticleSystemRenderer>().sharedMaterial = GetComponent<MeshRenderer>().sharedMaterial;
+                    //Instantiate(deathParticles, transform.position, transform.rotation).GetComponent<ParticleSystemRenderer>().sharedMaterial = GetComponent<MeshRenderer>().sharedMaterial;
                     Destroy(gameObject, 0.05f);
                 }
             }
             else if (!isPiercing)
                 Destroy(gameObject);
         }
+        if (!isEnemy)
+            Destroy(gameObject);
     }
 
     private void OnDestroy()
     {
-        if (!isPiercing || isPiercing)
-            Instantiate(deathParticles, transform.position, transform.rotation).GetComponent<ParticleSystemRenderer>().sharedMaterial = GetComponent<MeshRenderer>().sharedMaterial;
+        Instantiate(deathParticles, transform.position, transform.rotation).GetComponent<ParticleSystemRenderer>().sharedMaterial = GetComponent<MeshRenderer>().sharedMaterial;
     }
 }
