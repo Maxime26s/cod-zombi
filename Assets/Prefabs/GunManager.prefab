@@ -65,16 +65,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5107086283640972621}
     m_Modifications:
-    - target: {fileID: 2238872330090738034, guid: 9ba8692737ba5224292afdba6815cea3,
-        type: 3}
-      propertyPath: inUse
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2238872330090738034, guid: 9ba8692737ba5224292afdba6815cea3,
-        type: 3}
-      propertyPath: isOwned
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 2238872330090738035, guid: 9ba8692737ba5224292afdba6815cea3,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -370,16 +360,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4510530844235808081, guid: 1a7e80596e8458444bbe166614c7695f,
-        type: 3}
-      propertyPath: isOwned
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4510530844235808081, guid: 1a7e80596e8458444bbe166614c7695f,
-        type: 3}
-      propertyPath: inUse
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 4510530844235808093, guid: 1a7e80596e8458444bbe166614c7695f,
         type: 3}
       propertyPath: m_Name
@@ -405,16 +385,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5107086283640972621}
     m_Modifications:
-    - target: {fileID: 3349085090154787468, guid: 0f447cdc519f9eb40bd614885bcdc363,
-        type: 3}
-      propertyPath: isOwned
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3349085090154787468, guid: 0f447cdc519f9eb40bd614885bcdc363,
-        type: 3}
-      propertyPath: inUse
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 3349085090154787470, guid: 0f447cdc519f9eb40bd614885bcdc363,
         type: 3}
       propertyPath: m_Name
@@ -745,16 +715,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5107086283640972621}
     m_Modifications:
-    - target: {fileID: 1901700290891708706, guid: 0f527474fcff9a348b58e57fbbecff0e,
-        type: 3}
-      propertyPath: isOwned
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1901700290891708706, guid: 0f527474fcff9a348b58e57fbbecff0e,
-        type: 3}
-      propertyPath: inUse
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 1901700290891708707, guid: 0f527474fcff9a348b58e57fbbecff0e,
         type: 3}
       propertyPath: m_LocalPosition.x

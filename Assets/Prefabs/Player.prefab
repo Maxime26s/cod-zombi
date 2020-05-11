@@ -110,23 +110,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6e08a435aa7f92a4aaf8989e1d787891, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 7.07
+  speed: 7
   jump: 8
   gravity: 20
   bulletPrefab: {fileID: 4088158279527532275, guid: 6b7603af79e85c242b6eafdfd984aae2,
     type: 3}
   bulletSpawnPoint: {fileID: 0}
-  gun: {fileID: 0}
+  gun: {fileID: 8437430834640843656}
   maxhealth: 100
   hp: 100
   money: 0
   nbCola: 0
-  oneShot: 0
-  pointMultiplier: 0
   regenTime: 0
   regenCoolDown: 5
   ammoText: {fileID: 0}
   healthBar: {fileID: 0}
+  color:
+    serializedVersion: 2
+    rgba: 13390336
+  material: {fileID: 2100000, guid: c0a413f7a2adc2d48949443978ce5800, type: 2}
 --- !u!143 &3727307729407708423
 CharacterController:
   m_ObjectHideFlags: 0
@@ -236,3 +238,15 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 2920493843681437859}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &8437430834640843656 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6742006330366171947, guid: 574ede420672ffe418b0e959a5854a2e,
+    type: 3}
+  m_PrefabInstance: {fileID: 2920493843681437859}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2eef7c163ba2c864198068b600897a0b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

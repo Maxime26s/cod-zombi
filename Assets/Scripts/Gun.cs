@@ -22,6 +22,8 @@ public class Gun : MonoBehaviour
     public float bulletSelfDestruct = 1f;
     public bool isPiercing, isExplosive;
     [SerializeField]
+    public SprayModifier spray;
+    [SerializeField]
     public FireModifier fire;
     [SerializeField]
     public ElectricModifier electric;
@@ -29,8 +31,6 @@ public class Gun : MonoBehaviour
     public IceModifier ice;
     [SerializeField]
     public PoisonModifier poison;
-    [SerializeField]
-    public SprayModifier spray;
 
     private void OnEnable()
     {
@@ -76,6 +76,7 @@ public class SprayModifier
     public bool enabled;
     public int bulletAmount;
     public float halfArc;
+    [HideInInspector]
     public float[] angles;
 
     public void CalculateAngles()

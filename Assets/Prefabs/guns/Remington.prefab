@@ -136,12 +136,28 @@ MonoBehaviour:
   inUse: 0
   damageMultiplier: 1
   fireRateMultiplier: 1
-  piercing: 0
-  spray: 1
-  bulletAmount: 10
-  arc: 25
-  angles: []
   bulletSelfDestruct: 0.5
+  isPiercing: 0
+  isExplosive: 0
+  fire:
+    enabled: 0
+    damage: 0
+  electric:
+    enabled: 0
+    damage: 0
+    radius: 0
+    maxTarget: 0
+  ice:
+    enabled: 0
+    slowMultiplier: 0
+  poison:
+    enabled: 0
+    damageMultiplier: 0
+  spray:
+    enabled: 1
+    bulletAmount: 10
+    halfArc: 25
+    angles: []
 --- !u!1 &3349085091185133819
 GameObject:
   m_ObjectHideFlags: 0

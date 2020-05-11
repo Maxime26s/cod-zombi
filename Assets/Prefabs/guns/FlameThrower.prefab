@@ -83,22 +83,32 @@ MonoBehaviour:
   fireRate: 100
   maxAmmo: 10000
   ammo: 0
-  isOwned: 1
-  inUse: 1
+  isOwned: 0
+  inUse: 0
   damageMultiplier: 1
   fireRateMultiplier: 1
-  piercing: 1
-  spray: 1
-  bulletAmount: 8
-  arc: 5
-  angles: []
-  explosive: 0
-  explosionDamage: 0
-  electrify: 0
-  electrifyDamage: 0
   bulletSelfDestruct: 0.2
-  fireEnabled: 1
-  fireDamage: 15
+  isPiercing: 1
+  isExplosive: 0
+  spray:
+    enabled: 1
+    bulletAmount: 8
+    halfArc: 5
+    angles: []
+  fire:
+    enabled: 1
+    damage: 15
+  electric:
+    enabled: 0
+    damage: 0
+    radius: 0
+    maxTarget: 0
+  ice:
+    enabled: 0
+    slowMultiplier: 0
+  poison:
+    enabled: 0
+    damageMultiplier: 0
 --- !u!1 &2238872330988017713
 GameObject:
   m_ObjectHideFlags: 0
