@@ -99,6 +99,9 @@ MonoBehaviour:
   bulletSelfDestruct: 0.2
   fireEnabled: 1
   fireDamage: 15
+  ice: 0
+  poison: 0
+  poids: 2
 --- !u!1 &2238872330988017713
 GameObject:
   m_ObjectHideFlags: 0

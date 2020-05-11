@@ -251,7 +251,16 @@ MonoBehaviour:
   bulletAmount: 0
   arc: 0
   angles: []
+  explosive: 0
+  explosionDamage: 0
+  electrify: 0
+  electrifyDamage: 0
   bulletSelfDestruct: 1
+  fireEnabled: 0
+  fireDamage: 0
+  ice: 0
+  poison: 0
+  poids: 1
 --- !u!1 &1901700290950082661
 GameObject:
   m_ObjectHideFlags: 0

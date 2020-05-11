@@ -9,6 +9,16 @@ public class GunManager : MonoBehaviour
     public List<ModelesGun> gunsOwned = new List<ModelesGun> { ModelesGun.M1911 };
     public bool muleKick = false;
 
+    private bool coolDownOver;
+    private float pressTime;
+    private float coolDown = 1f;
+    private bool canUse = false;
+    private Player player;
+
+    private void Start()
+    {
+        player = this.GetComponentInParent<Player>();
+    }
 
     void Update()
     {
@@ -31,6 +41,28 @@ public class GunManager : MonoBehaviour
                 inUse = 1;
             ChangerDarme(inUse);
         }
+
+        /*
+        if (Input.GetKey(KeyCode.Q) && !coolDownOver)
+        {
+            pressTime = Time.time + coolDown;
+            coolDownOver = true;
+        }
+        if (Input.GetKeyUp(KeyCode.Q))
+        {
+            coolDownOver = false;
+        }
+        if (Time.time >= pressTime && coolDownOver)
+        {
+            canUse = true;
+            coolDownOver = false;
+        }
+        if (canUse && !player.isDown && nbGunsOwned >= 1)
+        {
+            DropGun();
+            canUse = false;
+        }
+        */
     }
 
     public void ChangerDarme(int index)
@@ -55,4 +87,20 @@ public class GunManager : MonoBehaviour
         }
         this.GetComponentInParent<Player>().UpdateBulletSP();
     }
+
+    /*
+    public void DropGun()
+    {
+        GameObject dropped = null;
+        foreach (Transform weapon in transform)
+            if (weapon.GetComponent<Gun>().modele == gunsOwned[inUse - 1])
+                dropped = Instantiate(weapon.gameObject, this.transform.position, this.transform.rotation);
+        if (dropped != null)
+        {
+            dropped.GetComponent<Rigidbody>().AddTorque(transform.forward*10);
+            //dropped.GetComponent<Rigidbody>().useGravity = true;
+            Destroy(dropped, 2f);
+        }
+    }
+    */
 }

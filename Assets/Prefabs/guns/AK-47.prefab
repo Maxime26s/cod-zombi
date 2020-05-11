@@ -207,16 +207,30 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   modele: 1
+  type: 0
   damage: 20
   fireRate: 20
-  ammo: 1000
   maxAmmo: 0
+  ammo: 1000
   isOwned: 0
   inUse: 0
-  piercing: 0
-  type: 0
   damageMultiplier: 1
-  frMultiplier: 1
+  fireRateMultiplier: 1
+  piercing: 0
+  spray: 0
+  bulletAmount: 0
+  arc: 0
+  angles: []
+  explosive: 0
+  explosionDamage: 0
+  electrify: 0
+  electrifyDamage: 0
+  bulletSelfDestruct: 1
+  fireEnabled: 0
+  fireDamage: 0
+  ice: 0
+  poison: 0
+  poids: 1
 --- !u!1 &8496639762731419139
 GameObject:
   m_ObjectHideFlags: 0

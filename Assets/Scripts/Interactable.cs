@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEditor;
 
 
-public enum TypeInteractable { Gun, Door, Cola, Window, Box }
+public enum TypeInteractable { Gun, Door, Cola, Window, Box, Debris }
 public enum TypeCola { StaminUp, JuggerNog, ElectricCherry, MuteKick, DoubleTap, Quick, DeadshotDai, Random}
 public class Interactable : MonoBehaviour
 {
@@ -25,11 +25,6 @@ public class Interactable : MonoBehaviour
     private bool blocked = false;
 
 
-    private void Update()
-    {
-
-    }
-
     private void OnTriggerStay(Collider collision)
     {
         GameObject col = collision.gameObject;
@@ -49,7 +44,7 @@ public class Interactable : MonoBehaviour
                 canUse = true;
                 coolDownOver = false;
             }
-            if (canUse)
+            if (canUse && !col.GetComponent<Player>().isDown)
             {
                 Interacting(col);
                 canUse = false;
@@ -61,6 +56,12 @@ public class Interactable : MonoBehaviour
     {
         switch (interactable)
         {
+            case TypeInteractable.Debris:
+                if(player.GetComponent<Player>().money >= price)
+                {
+                    Destroy(transform.parent.gameObject);
+                }
+                break;
             case TypeInteractable.Gun:
                 AcheterGun(player);
                 break;
@@ -88,7 +89,11 @@ public class Interactable : MonoBehaviour
                 }
                 break;
             case TypeInteractable.Cola:
-                if (player.GetComponent<Player>().money >= price && player.GetComponent<Player>().nbCola < 4)
+                bool alreadyOwned = false;
+                foreach (TypeCola cola in player.GetComponent<Player>().colasOwned)
+                    if (typeCola == cola)
+                        alreadyOwned = true;
+                if (player.GetComponent<Player>().money >= price && player.GetComponent<Player>().nbCola < 4 && !alreadyOwned)
                 {
                     AcheterCola(player);
                     player.GetComponent<Player>().money -= price;
@@ -128,22 +133,28 @@ public class Interactable : MonoBehaviour
                     if (enfant.gameObject.GetComponent<GunManager>() != null)
                         foreach (Transform gun in enfant)
                             gun.GetComponent<Gun>().damageMultiplier = 1.3f;
+                player.GetComponent<Player>().colasOwned.Add(TypeCola.DeadshotDai);
                 break;
             case TypeCola.DoubleTap:
                 foreach (Transform enfant in player.transform)
                     if (enfant.gameObject.GetComponent<GunManager>() != null)
                         foreach (Transform gun in enfant)
                             gun.GetComponent<Gun>().fireRateMultiplier = 1.3f;
+                player.GetComponent<Player>().colasOwned.Add(TypeCola.DoubleTap);
                 break;
             case TypeCola.ElectricCherry:
+                player.GetComponent<Player>().colasOwned.Add(TypeCola.ElectricCherry);
                 break;
             case TypeCola.JuggerNog:
                 player.GetComponent<Player>().maxhealth = 200;
+                player.GetComponent<Player>().colasOwned.Add(TypeCola.JuggerNog);
                 break;
             case TypeCola.MuteKick:
                 player.GetComponentInChildren<GunManager>().muleKick = true;
+                player.GetComponent<Player>().colasOwned.Add(TypeCola.MuteKick);
                 break;
             case TypeCola.Quick:
+                player.GetComponent<Player>().colasOwned.Add(TypeCola.Quick);
                 break;
             case TypeCola.Random:
                 typeCola = listeColas[Random.Range(0, listeColas.Count)];
@@ -151,6 +162,8 @@ public class Interactable : MonoBehaviour
                 typeCola = TypeCola.Random;
                 break;
             case TypeCola.StaminUp:
+                player.GetComponent<Player>().dashCoolDown = 2.5f;
+                player.GetComponent<Player>().colasOwned.Add(TypeCola.StaminUp);
                 break;
         }
     }

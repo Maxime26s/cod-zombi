@@ -4,8 +4,9 @@ using UnityEngine;
 using UnityEditor;
 
 
-public enum TypeGun {Auto, Semi, Rafale }
-public enum ModelesGun {M1911, AK, Barett, B23R, Kap40, FAL, M8A1, Olympia, Remington, M1216, FlameThrower, RPG}
+public enum TypeGun { Auto, Semi, Rafale }
+public enum ModelesGun { M1911, AK, Barett, B23R, Kap40, FAL, M8A1, Olympia, Remington, M1216, FlameThrower, RPG }
+public enum PoidsGun { Light, Normal, Heavy }
 
 public class Gun : MonoBehaviour
 {
@@ -43,18 +44,34 @@ public class Gun : MonoBehaviour
     public float fireDamage;
     public bool ice;
     public bool poison;
+    public PoidsGun poids;
 
     private void OnEnable()
     {
         ammo = maxAmmo;
         if (spray)
         {
-            float anglePerBullet = arc * 2 / (bulletAmount-1);
+            float anglePerBullet = arc * 2 / (bulletAmount - 1);
             angles = new float[bulletAmount];
             for (int i = 0; i < bulletAmount; i++)
             {
-                    angles[i] = arc - anglePerBullet * i;
-            }   
+                angles[i] = arc - anglePerBullet * i;
+            }
+            if (this.transform.parent != null)
+            {
+                switch (poids)
+                {
+                    case PoidsGun.Light:
+                        this.transform.parent.parent.GetComponent<Player>().ChangeSpeed(1f);
+                        break;
+                    case PoidsGun.Normal:
+                        this.transform.parent.parent.GetComponent<Player>().ChangeSpeed(0.9f);
+                        break;
+                    case PoidsGun.Heavy:
+                        this.transform.parent.parent.GetComponent<Player>().ChangeSpeed(1f);
+                        break;
+                }
+            }
         }
     }
 }
