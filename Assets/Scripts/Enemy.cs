@@ -5,6 +5,7 @@ using UnityEngine.AI;
 using UnityEngine.UI;
 
 public enum State { Spawned, Chasing }
+public enum DamageType { Hit, AOE, DOT }
 public class Enemy : MonoBehaviour
 {
     public NavMeshAgent ai;
@@ -13,7 +14,7 @@ public class Enemy : MonoBehaviour
     bool cd;
     public bool electrified, frozen, poisoned;
     public State state = State.Spawned;
-    public float health = 100f, maxHealth, speed;
+    public float health = 100f, maxHealth, speed, damageMultiplier;
     // Start is called before the first frame update
     void Start()
     {
@@ -41,40 +42,53 @@ public class Enemy : MonoBehaviour
 
     private void OnCollisionStay(Collision collision)
     {
-        if (collision.gameObject.tag == "Player" && !cd)
+        if (collision.gameObject.CompareTag("Player") && !cd)
         {
+            IEnumerator Attack(Player player)
+            {
+                cd = true;
+                player.TakeDamage(5);
+                yield return new WaitForSeconds(0.1f);
+                cd = false;
+            }
             StartCoroutine(Attack(collision.gameObject.GetComponent<Player>()));
         }
     }
 
-    public void TakeDamage(float damage, Player player)
+    public void TakeDamage(float damage, Player player, DamageType damageType)
     {
-        if (poisoned)
-            damage *= 1.3f;
-        health -= damage;
-        hpBar.SetActive(true);
-        hpBar.GetComponent<Slider>().value = health / maxHealth;
-        if (health <= 0)
+        if(!GameManager.Instance.oneShotEnabled)
         {
-            OnKill(player);
+            health -= damage * damageMultiplier;
+            hpBar.SetActive(true);
+            hpBar.GetComponent<Slider>().value = health / maxHealth;
+            if (health <= 0)
+            {
+                OnKill(player);
+            }
+            else
+            {
+                switch (damageType)
+                {
+                    case DamageType.Hit:
+                        player.AddMoney(10);
+                        break;
+                    case DamageType.AOE:
+                        player.AddMoney(5);
+                        break;
+                }
+            }
         }
         else
-            player.AddMoney(10);
+            OnKill(player);
     }
 
     public void OnKill(Player player)
     {
         if (Random.Range(0, 100) <= 1)
-            GameObject.Find("GameManager").GetComponent<GameManager>().Drop(transform.position);
-        Destroy(gameObject);
+            GameManager.Instance.Drop(transform.position);
+        GameManager.Instance.enemies.Remove(gameObject);
         player.AddMoney(100);
-    }
-
-    IEnumerator Attack(Player player)
-    {
-        cd = true;
-        player.TakeDamage(5);
-        yield return new WaitForSeconds(0.1f);
-        cd = false;
+        Destroy(gameObject);
     }
 }

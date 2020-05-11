@@ -7,21 +7,10 @@ public class Window : MonoBehaviour
     public int hp = 5;
     public GameObject[] planks = new GameObject[5];
     bool cd = false;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "Enemy")
+        if (other.CompareTag("Enemy"))
         {
             //other.gameObject.GetComponent<Enemy>().ai.enabled = false;
         }
@@ -29,7 +18,7 @@ public class Window : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-        if (other.tag == "Enemy")
+        if (other.CompareTag("Enemy"))
         {
             if (hp != 0 && !cd)
             {

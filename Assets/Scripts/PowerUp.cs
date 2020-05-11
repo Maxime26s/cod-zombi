@@ -27,28 +27,30 @@ public class PowerUp : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.tag == "Player")
+        if(other.CompareTag("Player"))
         {
             switch (type)
             {
                 case TypePowerUp.MaxAmmo:
-                    GameObject.Find("GameManager").GetComponent<GameManager>().MaxAmmo();
+                    GameManager.Instance.MaxAmmo();
                     break;
                 case TypePowerUp.Carpenter:
-                    GameObject.Find("GameManager").GetComponent<GameManager>().Carpenter();
+                    GameManager.Instance.Carpenter();
                     break;
                 case TypePowerUp.MOAB:
-                    GameObject.Find("GameManager").GetComponent<GameManager>().MOAB();
+                    GameManager.Instance.MOAB();
                     break;
                 case TypePowerUp.DoublePoint:
-                    GameObject.Find("GameManager").GetComponent<GameManager>().DoublePoint();
+                    GameManager.Instance.DoublePoint();
                     break;
                 case TypePowerUp.OneShot:
-                    GameObject.Find("GameManager").GetComponent<GameManager>().OneShot();
+                    GameManager.Instance.OneShot();
                     break;
                 case TypePowerUp.FireSale:
+                    GameManager.Instance.FireSale();
                     break;
                 case TypePowerUp.ReviveAll:
+                    GameManager.Instance.ReviveAll();
                     break;
             }
             Destroy(gameObject);

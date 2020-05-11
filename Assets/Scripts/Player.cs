@@ -13,13 +13,10 @@ public class Player : MonoBehaviour
     public Gun gun;
     public float maxhealth = 100;
     public float hp;
-    public int money;
+    public float money;
     [HideInInspector]
     public int nbCola = 0;
     [HideInInspector]
-    public bool oneShot;
-    [HideInInspector]
-    public float pointMultiplier;
     private float nextShootingTime = 0f;
     [HideInInspector]
     public float regenTime;
@@ -36,9 +33,10 @@ public class Player : MonoBehaviour
         cc = GetComponent<CharacterController>();
         healthBar.GetComponent<Slider>().value = 1f;
         hp = maxhealth;
-        pointMultiplier = 1f;
         UpdateBulletSP();
         bulletPrefab = Instantiate(bulletPrefab, transform);
+        bulletPrefab.GetComponent<Bullet>().explosionPrefab = Instantiate(bulletPrefab.GetComponent<Bullet>().explosionPrefab, transform);
+        material = new Material(material);
         UpdateColors();
     }
 
@@ -120,9 +118,8 @@ public class Player : MonoBehaviour
 
     void ShootBullet()
     {
-        UpdateColors();
         nextShootingTime = Time.time + 1f / (gun.GetComponent<Gun>().fireRate * gun.GetComponent<Gun>().fireRateMultiplier);
-        if (!gun.spray)
+        if (!gun.spray.enabled)
         {
             GameObject go = Instantiate(bulletPrefab, bulletSpawnPoint.transform.position, transform.rotation);
             BulletConstructor(go);
@@ -130,11 +127,11 @@ public class Player : MonoBehaviour
         }
         else
         {
-            for (int i = 0; i < gun.bulletAmount; i++)
+            for (int i = 0; i < gun.spray.bulletAmount; i++)
             {
                 GameObject go = Instantiate(bulletPrefab, bulletSpawnPoint.transform.position, transform.rotation);
                 BulletConstructor(go);
-                go.GetComponent<Bullet>().direction = Quaternion.Euler(0, gun.angles[i], 0) * go.GetComponent<Bullet>().direction;
+                go.GetComponent<Bullet>().direction = Quaternion.Euler(0, gun.spray.angles[i], 0) * go.GetComponent<Bullet>().direction;
                 Destroy(go, gun.bulletSelfDestruct);
             }
         }
@@ -144,7 +141,7 @@ public class Player : MonoBehaviour
 
     public void AddMoney(int money)
     {
-        this.money += (int)(money * pointMultiplier);
+        this.money += (int)(money * GameManager.Instance.pointMultiplier);
     }
 
     void BulletConstructor(GameObject go)
@@ -153,14 +150,10 @@ public class Player : MonoBehaviour
         bullet.player = this;
         bullet.direction = go.transform.position - transform.position;
         bullet.direction.y = 0;
-        bullet.oneShot = oneShot;
-        bullet.piercing = gun.piercing;
-        bullet.explosive = gun.explosive;
-        bullet.explosionDamage = gun.explosionDamage;
-        bullet.electrifying = gun.electrify;
-        bullet.electricityDamage = gun.electrifyDamage;
-        bullet.fire = gun.fireEnabled;
-        bullet.fireDamage = gun.fireDamage;
+        bullet.isPiercing = gun.isPiercing;
+        bullet.isExplosive = gun.isExplosive;
+        bullet.electric = gun.electric;
+        bullet.fire = gun.fire;
         bullet.ice = gun.ice;
         bullet.poison = gun.poison;
         go.SetActive(true);
@@ -182,23 +175,18 @@ public class Player : MonoBehaviour
             Destroy(gameObject);
     }
 
-    void UpdateColors()
+    public void UpdateColors()
     {
-        material = new Material(material);
-        material.SetColor("_Color", color);
+        material.SetColor("_BaseColor", color);
         material.SetColor("_EmissionColor", color);
         bulletPrefab.GetComponent<Light>().color = color;
         bulletPrefab.GetComponent<MeshRenderer>().sharedMaterial = material;
         bulletPrefab.GetComponent<TrailRenderer>().material = material;
+        bulletPrefab.GetComponent<Bullet>().explosionPrefab.GetComponent<ParticleSystemRenderer>().sharedMaterial = material;
+        bulletPrefab.GetComponent<Bullet>().explosionPrefab.GetComponent<ParticleSystemRenderer>().trailMaterial = material;
+        ParticleSystem.MainModule main = bulletPrefab.GetComponent<Bullet>().explosionPrefab.GetComponent<ParticleSystem>().main;
+        main.startColor = material.color;
+        bulletPrefab.GetComponent<Bullet>().explosionPrefab.GetComponent<Light>().color = color;
     }
-    /*
-    void GenerateBulletPrefab()
-    {
-        GameObject go = new GameObject();
-        Component[] components = bulletPrefab.GetComponents<Component>();
-        for (int i = 0; i < components.Length; i++)
-            go.AddComponent<MeshFilter>(components[]);
-        Instantiate(go);
-    }*/
 }
 

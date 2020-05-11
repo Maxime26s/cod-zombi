@@ -13,7 +13,7 @@ public class OnFire : MonoBehaviour
     {
         if (onFire)
         {
-            enemy.TakeDamage(fireDamage * Time.deltaTime, player);
+            enemy.TakeDamage(fireDamage * Time.deltaTime, player, DamageType.DOT);
         }
     }
 }

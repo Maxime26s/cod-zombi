@@ -1,8 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEditor;
-
 
 public enum TypeGun {Auto, Semi, Rafale }
 public enum ModelesGun {M1911, AK, Barett, B23R, Kap40, FAL, M8A1, Olympia, Remington, M1216, FlameThrower, RPG}
@@ -21,70 +19,72 @@ public class Gun : MonoBehaviour
     public float damageMultiplier = 1f;
     [HideInInspector]
     public float fireRateMultiplier = 1f;
-    public bool piercing;
-    [HideInInspector]
-    public bool spray;
-    [HideInInspector]
-    public int bulletAmount;
-    [HideInInspector]
-    public float arc;
-    [HideInInspector]
-    public float[] angles;
-    [HideInInspector]
-    public bool explosive;
-    [HideInInspector]
-    public float explosionDamage;
-    [HideInInspector]
-    public bool electrify;
-    [HideInInspector]
-    public float electrifyDamage;
     public float bulletSelfDestruct = 1f;
-    public bool fireEnabled = false;
-    public float fireDamage;
-    public bool ice;
-    public bool poison;
+    public bool isPiercing, isExplosive;
+    [SerializeField]
+    public FireModifier fire;
+    [SerializeField]
+    public ElectricModifier electric;
+    [SerializeField]
+    public IceModifier ice;
+    [SerializeField]
+    public PoisonModifier poison;
+    [SerializeField]
+    public SprayModifier spray;
 
     private void OnEnable()
     {
         ammo = maxAmmo;
-        if (spray)
-        {
-            float anglePerBullet = arc * 2 / (bulletAmount-1);
-            angles = new float[bulletAmount];
-            for (int i = 0; i < bulletAmount; i++)
-            {
-                    angles[i] = arc - anglePerBullet * i;
-            }   
-        }
+        if (spray.enabled)
+            spray.CalculateAngles();
     }
 }
 
-[CustomEditor(typeof(Gun))]
-public class GunEditor : Editor
+[System.Serializable]
+public class FireModifier
 {
-    public override void OnInspectorGUI()
+    public bool enabled;
+    public float damage;
+}
+
+[System.Serializable]
+public class ElectricModifier
+{
+    public bool enabled;
+    public float damage;
+    public float radius;
+    public int maxTarget;
+}
+
+[System.Serializable]
+public class IceModifier
+{
+    public bool enabled;
+    public float slowMultiplier;
+}
+
+[System.Serializable]
+public class PoisonModifier
+{
+    public bool enabled;
+    public float damageMultiplier;
+}
+
+[System.Serializable]
+public class SprayModifier
+{
+    public bool enabled;
+    public int bulletAmount;
+    public float halfArc;
+    public float[] angles;
+
+    public void CalculateAngles()
     {
-        base.OnInspectorGUI();
-
-        Gun gun = target as Gun;
-
-        gun.spray = EditorGUILayout.Toggle("Spray", gun.spray);
-        if (gun.spray)
+        float anglePerBullet = halfArc * 2 / (bulletAmount - 1);
+        angles = new float[bulletAmount];
+        for (int i = 0; i < bulletAmount; i++)
         {
-            gun.bulletAmount = EditorGUILayout.IntField("Bullet Amount", gun.bulletAmount);
-            gun.arc = EditorGUILayout.FloatField("Arc", gun.arc);
-        }
-
-        gun.explosive = EditorGUILayout.Toggle("Explosive", gun.explosive);
-        if (gun.explosive)
-        {
-            gun.explosionDamage = EditorGUILayout.FloatField("Explosion Damage", gun.explosionDamage);
-        }
-
-        gun.electrify = EditorGUILayout.Toggle("Electrified", gun.electrify);
-        if (gun.electrify)
-        {
-            gun.electrifyDamage = EditorGUILayout.FloatField("Electrify Damage", gun.electrifyDamage);
+            angles[i] = halfArc - anglePerBullet * i;
         }
     }
 }

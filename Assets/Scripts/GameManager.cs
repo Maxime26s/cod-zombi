@@ -1,26 +1,37 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class GameManager : MonoBehaviour
 {
+    public static GameManager Instance { get; private set; }
+    private void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            Instance = this;
+        }
+    }
+
     List<GameObject> players = new List<GameObject>();
     public List<GameObject> enemies = new List<GameObject>();
     List<GameObject> windows = new List<GameObject>();
     List<GameObject> guns = new List<GameObject>();
     List<GameObject> boxes = new List<GameObject>();
     public List<GameObject> powerUps = new List<GameObject>();
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public TextMeshProUGUI entity;
+    public bool oneShotEnabled;
+    public float pointMultiplier;
 
     // Update is called once per frame
     void Update()
     {
-
+        entity.text = enemies.Count.ToString();
     }
 
     public void Drop(Vector3 position)
@@ -62,11 +73,9 @@ public class GameManager : MonoBehaviour
     {
         IEnumerator DoublePointManager()
         {
-            for (int i = 0; i < players.Count; i++)
-                players[i].GetComponent<Player>().pointMultiplier = 2;
+            pointMultiplier = 2;
             yield return new WaitForSeconds(10f);
-            for (int i = 0; i < players.Count; i++)
-                players[i].GetComponent<Player>().pointMultiplier = 1;
+            pointMultiplier = 1;
         }
         StartCoroutine(DoublePointManager());
     }
@@ -74,11 +83,9 @@ public class GameManager : MonoBehaviour
     {
         IEnumerator OneShotManager()
         {
-            for (int i = 0; i < players.Count; i++)
-                players[i].GetComponent<Player>().oneShot = true;
+            oneShotEnabled = true;
             yield return new WaitForSeconds(10f);
-            for (int i = 0; i < players.Count; i++)
-                players[i].GetComponent<Player>().oneShot = false;
+            oneShotEnabled = false;
         }
         StartCoroutine(OneShotManager());
     }
@@ -93,5 +100,10 @@ public class GameManager : MonoBehaviour
                 boxes[i].GetComponent<Interactable>().price = 900;
         }
         StartCoroutine(FireSaleManager());
+    }
+
+    public void ReviveAll()
+    {
+
     }
 }

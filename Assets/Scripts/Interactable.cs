@@ -24,12 +24,6 @@ public class Interactable : MonoBehaviour
     private bool porteOuverte = false;
     private bool blocked = false;
 
-
-    private void Update()
-    {
-
-    }
-
     private void OnTriggerStay(Collider collision)
     {
         GameObject col = collision.gameObject;
@@ -82,7 +76,6 @@ public class Interactable : MonoBehaviour
             case TypeInteractable.Window:
                 if (destroyerCollider.GetComponent<Window>().hp < 5)
                 {
-                    Debug.Log("touchingPlayer");
                     destroyerCollider.GetComponent<Window>().Repair();
                     player.GetComponent<Player>().AddMoney(price);
                 }

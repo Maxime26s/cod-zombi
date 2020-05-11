@@ -127,10 +127,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   direction: {x: 0, y: 0, z: 0}
   speed: 15
-  explosionDamage: 0
   electricityDamage: 0
   fireDamage: 0
   dissolveTime: 0
+  electricityMaxTarget: 5
   oneShot: 0
   piercing: 0
   explosive: 0
@@ -139,17 +139,21 @@ MonoBehaviour:
   fire: 0
   ice: 0
   poison: 0
+  destroying: 0
   explosionPrefab: {fileID: 8958343336289446308, guid: f9d05f300aae2ff49b28e835c1910366,
     type: 3}
   deathParticles: {fileID: 5227643435970384490, guid: 92e85f9f19b9c7145939025651a5cdc6,
     type: 3}
   electricityFinder: {fileID: 3863961185002890164, guid: 3e663c0428fc15c429445aacebd3e8b7,
     type: 3}
-  effectPrefab: {fileID: 5479535398137689255, guid: c62bf325de4b0a24fa0b9e7e5fc03594,
+  firePrefab: {fileID: 5479535398137689255, guid: c62bf325de4b0a24fa0b9e7e5fc03594,
     type: 3}
-  fireMat: {fileID: 2100000, guid: 18ed69d7faf2dec44b7acb912b8f8993, type: 2}
-  poisonMat: {fileID: 2100000, guid: c545ca1eee2c3824faaf17874186142c, type: 2}
-  iceMat: {fileID: 2100000, guid: 4108dd969c511a046b6138e8044b091e, type: 2}
+  icePrefab: {fileID: 3447998520075753411, guid: 459f7ce6b9c2b2941816acd3f6622ddb,
+    type: 3}
+  poisonPrefab: {fileID: 2550700662774537878, guid: a5ec537400eaaf64e828b1113f86e5dd,
+    type: 3}
+  electricityManager: {fileID: 8212969352335581984, guid: f62f6b4ee3aa336489797d836611c78e,
+    type: 3}
   player: {fileID: 0}
 --- !u!96 &4138546752895521964
 TrailRenderer:
