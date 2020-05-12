@@ -41,18 +41,21 @@ public class Gun : MonoBehaviour
             spray.CalculateAngles();
         if (transform.parent != null)
         {
-            switch (poids)
-            {
-                case PoidsGun.Light:
-                    transform.parent.parent.GetComponent<Player>().ChangeSpeed(1f);
-                    break;
-                case PoidsGun.Normal:
-                    transform.parent.parent.GetComponent<Player>().ChangeSpeed(0.85f);
-                    break;
-                case PoidsGun.Heavy:
-                    transform.parent.parent.GetComponent<Player>().ChangeSpeed(0.7f);
-                    break;
-            }
+            transform.parent.parent.GetComponent<Player>().ChangeSpeed(GetSpeedModifier());
+        }
+    }
+    public float GetSpeedModifier()
+    {
+        switch (poids)
+        {
+            case PoidsGun.Light:
+                return 1f;
+            case PoidsGun.Normal:
+                return 0.85f;
+            case PoidsGun.Heavy:
+                return 0.7f;
+            default:
+                return 1f;
         }
     }
 }

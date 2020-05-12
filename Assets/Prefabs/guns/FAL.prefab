@@ -238,6 +238,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   modele: 5
   type: 1
+  poids: 1
   damage: 25
   fireRate: 10
   maxAmmo: 1000
@@ -268,7 +269,6 @@ MonoBehaviour:
   poison:
     enabled: 0
     damageMultiplier: 0
-  poids: 1
 --- !u!1 &1901700290950082661
 GameObject:
   m_ObjectHideFlags: 0

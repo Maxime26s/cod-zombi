@@ -94,8 +94,7 @@ public class Bullet : MonoBehaviour
             destroying = true;
             if (isExplosive)
             {
-                GameObject go = Instantiate(explosionPrefab, transform.position, Quaternion.identity);
-                go.SetActive(true);
+                Instantiate(explosionPrefab, transform.position, Quaternion.identity).SetActive(true);
                 gameObject.AddComponent<SphereCollider>().isTrigger = true;
                 GetComponent<SphereCollider>().radius = 15;
                 if (!isPiercing)
@@ -103,7 +102,6 @@ public class Bullet : MonoBehaviour
                     GetComponent<MeshRenderer>().enabled = false;
                     GetComponent<TrailRenderer>().enabled = false;
                     GetComponent<Light>().enabled = false;
-                    //Instantiate(deathParticles, transform.position, transform.rotation).GetComponent<ParticleSystemRenderer>().sharedMaterial = GetComponent<MeshRenderer>().sharedMaterial;
                     Destroy(gameObject, 0.05f);
                 }
             }
@@ -116,6 +114,6 @@ public class Bullet : MonoBehaviour
 
     private void OnDestroy()
     {
-        Instantiate(deathParticles, transform.position, transform.rotation).GetComponent<ParticleSystemRenderer>().sharedMaterial = GetComponent<MeshRenderer>().sharedMaterial;
+        Instantiate(deathParticles, transform.position, transform.rotation);
     }
 }

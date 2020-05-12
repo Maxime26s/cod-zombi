@@ -95,6 +95,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   modele: 4
   type: 0
+  poids: 0
   damage: 10
   fireRate: 30
   maxAmmo: 1000

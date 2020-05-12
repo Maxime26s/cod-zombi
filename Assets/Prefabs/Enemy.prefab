@@ -58,7 +58,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 671383299819834434}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -372,6 +372,10 @@ MonoBehaviour:
   ai: {fileID: 0}
   window: {fileID: 0}
   hpBar: {fileID: 2220550608189193224}
+  deathParticle: {fileID: 7748724878120433881, guid: b7d4b41bd2d3ee246ade1a9dfc4b9aea,
+    type: 3}
+  hitParticle: {fileID: 8635107121035335043, guid: c2fcbbb9be48651459c51374157d9ce4,
+    type: 3}
   electrified: 0
   frozen: 0
   poisoned: 0
@@ -380,6 +384,8 @@ MonoBehaviour:
   maxHealth: 0
   speed: 3.5
   damageMultiplier: 1
+  startTime: 0
+  animSpeed: 1
 --- !u!195 &3194665870912266618
 NavMeshAgent:
   m_ObjectHideFlags: 0

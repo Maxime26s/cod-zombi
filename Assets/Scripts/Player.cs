@@ -24,7 +24,7 @@ public class Player : MonoBehaviour
     public Slider healthBar;
     public Color32 color;
     public Material material;
-    private bool dashOnCooldown, regenOnCooldown;
+    private bool dashOnCooldown, isDashing, regenOnCooldown, ammoIsFlashing;
     [HideInInspector]
     public float dashCooldown;
     public List<TypeCola> colasOwned;
@@ -43,6 +43,7 @@ public class Player : MonoBehaviour
         UpdateBulletSP();
         bulletPrefab = Instantiate(bulletPrefab, transform);
         bulletPrefab.GetComponent<Bullet>().explosionPrefab = Instantiate(bulletPrefab.GetComponent<Bullet>().explosionPrefab, transform);
+        bulletPrefab.GetComponent<Bullet>().deathParticles = Instantiate(bulletPrefab.GetComponent<Bullet>().deathParticles, transform);
         material = new Material(material);
         UpdateColors();
     }
@@ -64,14 +65,13 @@ public class Player : MonoBehaviour
                 hp += (regenAmount * Time.deltaTime);
                 if (hp >= maxHealth)
                     hp = maxHealth;
-                healthBar.GetComponent<Slider>().value = ((float)hp) / ((float)maxHealth);
+                healthBar.GetComponent<Slider>().value = hp / maxHealth;
             }
 
             Shoot();
-
-            if (Input.GetMouseButtonDown(0))
-                ChangeSpeed(0.5f * speed / speedConst);
-            else if (Input.GetMouseButtonUp(0))
+            if (Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1))
+                ChangeSpeed(0.5f * gun.GetSpeedModifier());
+            else if (Input.GetMouseButtonUp(0) && !Input.GetMouseButton(1) || Input.GetMouseButtonUp(1) && !Input.GetMouseButton(0))
             {
                 ChangeSpeed(1f);
                 ParticleSystem.MainModule main = electricCherryPrefab.GetComponent<ParticleSystem>().main;
@@ -83,9 +83,14 @@ public class Player : MonoBehaviour
                 IEnumerator Dash()
                 {
                     dashOnCooldown = true;
+                    isDashing = true;
                     ChangeSpeed(3);
                     yield return new WaitForSeconds(0.1f);
-                    ChangeSpeed(1);
+                    if (Input.GetMouseButton(0) || Input.GetMouseButton(1))
+                        ChangeSpeed(0.5f * gun.GetSpeedModifier());
+                    else
+                        ChangeSpeed(1f);
+                    isDashing = false;
                     yield return new WaitForSeconds(dashCooldown);
                     dashOnCooldown = false;
                 }
@@ -153,27 +158,60 @@ public class Player : MonoBehaviour
 
     void ShootBullet()
     {
+        nextShootingTime = Time.time + 1f / (gun.GetComponent<Gun>().fireRate * gun.GetComponent<Gun>().fireRateMultiplier);
         if (VerifyCola(TypeCola.ElectricCherry))
             ElectricCherry();
-        nextShootingTime = Time.time + 1f / (gun.GetComponent<Gun>().fireRate * gun.GetComponent<Gun>().fireRateMultiplier);
         if (!gun.spray.enabled)
         {
-            GameObject go = Instantiate(bulletPrefab, bulletSpawnPoint.transform.position, transform.rotation);
-            BulletConstructor(go);
-            Destroy(go, gun.bulletSelfDestruct);
-        }
-        else
-        {
-            for (int i = 0; i < gun.spray.bulletAmount; i++)
+            if (gun.ammo > 0)
             {
                 GameObject go = Instantiate(bulletPrefab, bulletSpawnPoint.transform.position, transform.rotation);
                 BulletConstructor(go);
-                go.GetComponent<Bullet>().direction = Quaternion.Euler(0, gun.spray.angles[i], 0) * go.GetComponent<Bullet>().direction;
                 Destroy(go, gun.bulletSelfDestruct);
             }
+            else
+                Instantiate(bulletPrefab.GetComponent<Bullet>().deathParticles, bulletSpawnPoint.transform.position, transform.rotation).SetActive(true);
+
         }
-        gun.ammo--;
-        ammoText.text = gun.ammo.ToString();
+        else
+        {
+            if (gun.ammo > 0)
+            {
+                for (int i = 0; i < gun.spray.bulletAmount; i++)
+                {
+
+                    GameObject go = Instantiate(bulletPrefab, bulletSpawnPoint.transform.position, transform.rotation);
+                    BulletConstructor(go);
+                    go.GetComponent<Bullet>().direction = Quaternion.Euler(0, gun.spray.angles[i], 0) * go.GetComponent<Bullet>().direction;
+                    Destroy(go, gun.bulletSelfDestruct);
+                }
+            }
+            else
+                Instantiate(bulletPrefab.GetComponent<Bullet>().deathParticles, bulletSpawnPoint.transform.position, transform.rotation).SetActive(true);
+        }
+        if (gun.ammo > 0)
+        {
+            gun.ammo--;
+            ammoText.text = gun.ammo.ToString();
+            if (gun.ammo == 0)
+                ammoText.color = Color.red;
+        }
+        else if (!ammoIsFlashing)
+        {
+            IEnumerator NoAmmo()
+            {
+                ammoIsFlashing = true;
+                for (int i = 0; i < 3; i++)
+                {
+                    ammoText.color = Color.white;
+                    yield return new WaitForSeconds(0.1f);
+                    ammoText.color = Color.red;
+                    yield return new WaitForSeconds(0.1f);
+                }
+                ammoIsFlashing = false;
+            }
+            StartCoroutine(NoAmmo());
+        }
     }
 
     public void AddMoney(int money)
@@ -261,8 +299,8 @@ public class Player : MonoBehaviour
                     maxHealth = 100;
                     break;
                 case TypeCola.MuteKick:
-                    this.GetComponentInChildren<GunManager>().muleKick = false;
-                    if (this.GetComponentInChildren<GunManager>().nbGunsOwned == 3)
+                    GetComponentInChildren<GunManager>().muleKick = false;
+                    if (GetComponentInChildren<GunManager>().nbGunsOwned == 3)
                         foreach (Transform enfant in this.transform)
                             if (enfant.gameObject.GetComponent<GunManager>() != null)
                             {
@@ -277,7 +315,7 @@ public class Player : MonoBehaviour
                                     }
                                 }
                             }
-                    this.GetComponentInChildren<GunManager>().nbGunsOwned = 2;
+                    GetComponentInChildren<GunManager>().nbGunsOwned = 2;
                     break;
                 case TypeCola.Quick:
                     break;
@@ -314,6 +352,7 @@ public class Player : MonoBehaviour
         ParticleSystem.MainModule main = bulletPrefab.GetComponent<Bullet>().explosionPrefab.GetComponent<ParticleSystem>().main;
         main.startColor = material.color;
         bulletPrefab.GetComponent<Bullet>().explosionPrefab.GetComponent<Light>().color = color;
+        bulletPrefab.GetComponent<Bullet>().deathParticles.GetComponent<ParticleSystemRenderer>().sharedMaterial = material;
     }
 
     public void ChangeSpeed(float multiplier)

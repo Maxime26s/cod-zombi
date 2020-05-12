@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UI;
 
+public enum EnemyType { Slow, Normal, Jog, Fast, Sprint } 
 public enum State { Spawned, Chasing }
 public enum DamageType { Hit, AOE, DOT }
 public enum NumberType { Whole, Percent }
@@ -11,11 +12,11 @@ public class Enemy : MonoBehaviour
 {
     public NavMeshAgent ai;
     GameObject player;
-    public GameObject window, hpBar;
+    public GameObject window, hpBar, deathParticle;
     bool cd;
     public bool electrified, frozen, poisoned;
     public State state = State.Spawned;
-    public float health = 100f, maxHealth, speed, damageMultiplier;
+    public float health = 100f, maxHealth, speed, damageMultiplier, startTime, animSpeed;
     // Start is called before the first frame update
     void Start()
     {
@@ -58,38 +59,41 @@ public class Enemy : MonoBehaviour
 
     public void TakeDamage(float damage, Player player, DamageType damageType, NumberType numberType)
     {
-        if(!GameManager.Instance.oneShotEnabled)
+        if (damage > 0)
         {
-            switch (numberType)
+            if (!GameManager.Instance.oneShotEnabled)
             {
-                case NumberType.Whole:
-                    health -= damage * damageMultiplier;
-                    break;
-                case NumberType.Percent:
-                    health -= damage * maxHealth * damageMultiplier;
-                    break;
-            }
-            hpBar.SetActive(true);
-            hpBar.GetComponent<Slider>().value = health / maxHealth;
-            if (health <= 0)
-            {
-                OnKill(player);
-            }
-            else
-            {
-                switch (damageType)
+                switch (numberType)
                 {
-                    case DamageType.Hit:
-                        player.AddMoney(10);
+                    case NumberType.Whole:
+                        health -= damage * damageMultiplier;
                         break;
-                    case DamageType.AOE:
-                        player.AddMoney(5);
+                    case NumberType.Percent:
+                        health -= damage * maxHealth * damageMultiplier;
                         break;
                 }
+                hpBar.SetActive(true);
+                hpBar.GetComponent<Slider>().value = health / maxHealth;
+                if (health <= 0)
+                {
+                    OnKill(player);
+                }
+                else
+                {
+                    switch (damageType)
+                    {
+                        case DamageType.Hit:
+                            player.AddMoney(10);
+                            break;
+                        case DamageType.AOE:
+                            player.AddMoney(5);
+                            break;
+                    }
+                }
             }
+            else
+                OnKill(player);
         }
-        else
-            OnKill(player);
     }
 
     public void OnKill(Player player)
@@ -99,5 +103,10 @@ public class Enemy : MonoBehaviour
         GameManager.Instance.enemies.Remove(gameObject);
         player.AddMoney(100);
         Destroy(gameObject);
+    }
+
+    private void OnDestroy()
+    {
+        Instantiate(deathParticle, transform.position, Quaternion.identity);
     }
 }

@@ -208,29 +208,37 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   modele: 1
   type: 0
+  poids: 1
   damage: 20
   fireRate: 20
-  maxAmmo: 0
+  maxAmmo: 1000
   ammo: 1000
   isOwned: 0
   inUse: 0
   damageMultiplier: 1
   fireRateMultiplier: 1
-  piercing: 0
-  spray: 0
-  bulletAmount: 0
-  arc: 0
-  angles: []
-  explosive: 0
-  explosionDamage: 0
-  electrify: 0
-  electrifyDamage: 0
   bulletSelfDestruct: 1
-  fireEnabled: 0
-  fireDamage: 0
-  ice: 0
-  poison: 0
-  poids: 1
+  isPiercing: 0
+  isExplosive: 0
+  spray:
+    enabled: 0
+    bulletAmount: 0
+    halfArc: 0
+    angles: []
+  fire:
+    enabled: 0
+    damage: 0
+  electric:
+    enabled: 0
+    damage: 0
+    radius: 0
+    maxTarget: 0
+  ice:
+    enabled: 0
+    slowMultiplier: 0
+  poison:
+    enabled: 0
+    damageMultiplier: 0
 --- !u!1 &8496639762731419139
 GameObject:
   m_ObjectHideFlags: 0
