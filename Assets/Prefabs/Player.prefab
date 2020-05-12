@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 3727307729407708418}
   - component: {fileID: 3727307729407708419}
   - component: {fileID: 3727307729407708420}
-  - component: {fileID: 3727307729407708421}
   - component: {fileID: 3727307729407708422}
   - component: {fileID: 3727307729407708423}
   - component: {fileID: 9198138208197453385}
@@ -85,20 +84,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!136 &3727307729407708421
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3727307729407708424}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 0.5
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &3727307729407708422
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -120,7 +105,7 @@ MonoBehaviour:
   gun: {fileID: 8437430834640843656}
   maxHealth: 100
   hp: 100
-  money: 0
+  money: 10000
   nbCola: 0
   regenAmount: 5
   regenCooldown: 5

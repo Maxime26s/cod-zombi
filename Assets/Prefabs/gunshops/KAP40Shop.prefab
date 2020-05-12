@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8939298800610352783}
   m_Layer: 0
-  m_Name: KAP40
+  m_Name: KAP40Shop
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -43,7 +43,7 @@ GameObject:
   - component: {fileID: 8939298801031832135}
   - component: {fileID: 8939298801031832128}
   - component: {fileID: 8939298801031832129}
-  - component: {fileID: 8939298801031832134}
+  - component: {fileID: 4477128592138029699}
   m_Layer: 10
   m_Name: InterractionCollider
   m_TagString: Untagged
@@ -94,7 +94,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &8939298801031832134
+--- !u!114 &4477128592138029699
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -103,19 +103,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 8939298801031832132}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0d028ac8f86e7aa44911926a9b24bd88, type: 3}
+  m_Script: {fileID: 11500000, guid: b01a3a53a05b8764686e79cdb5e7ddd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   price: 900
-  interactionRadius: 1
-  interactable: 0
   destroyerCollider: {fileID: 0}
-  gunInShop: {fileID: 4510530844235808093, guid: 1a7e80596e8458444bbe166614c7695f,
-    type: 3}
   box: []
-  coolDown: 1
-  typeCola: 0
-  listeColas: 00000000010000000200000003000000040000000500000006000000
+  blocked: 0
+  gunInShop: {fileID: 4798122518788864483}
 --- !u!1001 &8939298801662313662
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -185,6 +180,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1a7e80596e8458444bbe166614c7695f, type: 3}
+--- !u!1 &4798122518788864483 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4510530844235808093, guid: 1a7e80596e8458444bbe166614c7695f,
+    type: 3}
+  m_PrefabInstance: {fileID: 8939298801662313662}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &4798122518788864494 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4510530844235808080, guid: 1a7e80596e8458444bbe166614c7695f,

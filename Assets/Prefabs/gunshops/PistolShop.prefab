@@ -41,9 +41,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 922417277584219913}
-  - component: {fileID: 3343362448411421369}
   - component: {fileID: 8512727237418007157}
   - component: {fileID: 5630513759816320729}
+  - component: {fileID: 9026303173850539625}
   m_Layer: 10
   m_Name: InterractionCollider
   m_TagString: Untagged
@@ -65,28 +65,6 @@ Transform:
   m_Father: {fileID: 2025314400348166540}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3343362448411421369
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5203643687361439557}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0d028ac8f86e7aa44911926a9b24bd88, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  price: 200
-  interactionRadius: 1
-  interactable: 0
-  destroyerCollider: {fileID: 0}
-  gunInShop: {fileID: 4433777800778297382, guid: fc1f1760afe80ae409b83d12e669d3dd,
-    type: 3}
-  box: []
-  coolDown: 1
-  typeCola: 0
-  listeColas: 00000000010000000200000003000000040000000500000006000000
 --- !u!54 &8512727237418007157
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -116,6 +94,23 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 1.5
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &9026303173850539625
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5203643687361439557}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b01a3a53a05b8764686e79cdb5e7ddd4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  price: 200
+  destroyerCollider: {fileID: 0}
+  box: []
+  blocked: 0
+  gunInShop: {fileID: 5838416509828866652}
 --- !u!1001 &7818752026044994170
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -132,7 +127,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 09d262cb2040b694f8675081376b9d91, type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 4433777800778297387, guid: fc1f1760afe80ae409b83d12e669d3dd,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -190,6 +185,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fc1f1760afe80ae409b83d12e669d3dd, type: 3}
+--- !u!1 &5838416509828866652 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4433777800778297382, guid: fc1f1760afe80ae409b83d12e669d3dd,
+    type: 3}
+  m_PrefabInstance: {fileID: 7818752026044994170}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &5838416509828866641 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4433777800778297387, guid: fc1f1760afe80ae409b83d12e669d3dd,

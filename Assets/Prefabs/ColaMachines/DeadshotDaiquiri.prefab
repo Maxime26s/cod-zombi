@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2461962790384098893}
   - component: {fileID: 2461962790384098894}
   - component: {fileID: 2461962790384098895}
-  - component: {fileID: 2461962790384098892}
+  - component: {fileID: 6059907476679177050}
   m_Layer: 10
   m_Name: InterractionCollider
   m_TagString: Untagged
@@ -62,7 +62,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &2461962790384098892
+--- !u!114 &6059907476679177050
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -71,18 +71,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 2461962790384098890}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0d028ac8f86e7aa44911926a9b24bd88, type: 3}
+  m_Script: {fileID: 11500000, guid: 8a335759ee81dab489d6ec6623f4d89d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  price: 1000
-  interactionRadius: 1
-  interactable: 2
+  price: 2500
   destroyerCollider: {fileID: 0}
   gunInShop: {fileID: 0}
   box: []
-  coolDown: 1
+  blocked: 0
   typeCola: 6
-  listeColas: 00000000010000000200000003000000040000000500000006000000
+  listeColas: 010000000300000004000000060000000200000000000000
 --- !u!1 &2461962791887909574
 GameObject:
   m_ObjectHideFlags: 0

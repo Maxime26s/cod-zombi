@@ -33,6 +33,7 @@ public class Gun : MonoBehaviour
     public IceModifier ice;
     [SerializeField]
     public PoisonModifier poison;
+    public GameObject prefab;
 
     private void OnEnable()
     {
@@ -41,7 +42,10 @@ public class Gun : MonoBehaviour
             spray.CalculateAngles();
         if (transform.parent != null)
         {
+            if (transform.parent.parent != null)
+            {
             transform.parent.parent.GetComponent<Player>().ChangeSpeed(GetSpeedModifier());
+            }
         }
     }
     public float GetSpeedModifier()

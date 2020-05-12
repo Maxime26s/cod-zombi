@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3357884933336638827}
   - component: {fileID: 7318503313447233123}
   - component: {fileID: 8844667001266201537}
-  - component: {fileID: 3123309661776471846}
+  - component: {fileID: 8787905966616408083}
   m_Layer: 10
   m_Name: InterractionCollider
   m_TagString: Untagged
@@ -62,7 +62,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &3123309661776471846
+--- !u!114 &8787905966616408083
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -71,19 +71,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 6126412226145343046}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0d028ac8f86e7aa44911926a9b24bd88, type: 3}
+  m_Script: {fileID: 11500000, guid: b01a3a53a05b8764686e79cdb5e7ddd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   price: 1200
-  interactionRadius: 1
-  interactable: 0
   destroyerCollider: {fileID: 0}
-  gunInShop: {fileID: 8496639762292400845, guid: 35e63d66c26db314d9efd99054f1baf1,
-    type: 3}
   box: []
-  coolDown: 1
-  typeCola: 0
-  listeColas: 00000000010000000200000003000000040000000500000006000000
+  blocked: 0
+  gunInShop: {fileID: 7934212304446945279}
 --- !u!1 &7428276237442922026
 GameObject:
   m_ObjectHideFlags: 0
@@ -127,12 +122,12 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 09d262cb2040b694f8675081376b9d91, type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 8496639762217085835, guid: 35e63d66c26db314d9efd99054f1baf1,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 09d262cb2040b694f8675081376b9d91, type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 8496639762292400842, guid: 35e63d66c26db314d9efd99054f1baf1,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -202,14 +197,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 09d262cb2040b694f8675081376b9d91, type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 8496639763048219798, guid: 35e63d66c26db314d9efd99054f1baf1,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 09d262cb2040b694f8675081376b9d91, type: 2}
-    m_RemovedComponents: []
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 1716649901978556058, guid: 35e63d66c26db314d9efd99054f1baf1, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 35e63d66c26db314d9efd99054f1baf1, type: 3}
+--- !u!1 &7934212304446945279 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8496639762292400845, guid: 35e63d66c26db314d9efd99054f1baf1,
+    type: 3}
+  m_PrefabInstance: {fileID: 2013633315880441138}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &7934212304446945272 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8496639762292400842, guid: 35e63d66c26db314d9efd99054f1baf1,
