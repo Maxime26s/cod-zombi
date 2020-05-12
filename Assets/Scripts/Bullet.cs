@@ -114,6 +114,6 @@ public class Bullet : MonoBehaviour
 
     private void OnDestroy()
     {
-        Instantiate(deathParticles, transform.position, transform.rotation);
+        Instantiate(deathParticles, transform.position, transform.rotation).SetActive(true);
     }
 }

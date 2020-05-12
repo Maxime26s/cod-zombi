@@ -16,7 +16,6 @@ public class PlayerInteractions : MonoBehaviour
             canUse = false;
             yield return new WaitForSeconds(coolDown);
             inter.Interacting(transform.parent.gameObject.GetComponent<Player>());
-            Debug.Log(1);
             inter = null;
             canUse = true;
         }

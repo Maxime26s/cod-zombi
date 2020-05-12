@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UI;
 
-public enum EnemyType { Slow, Normal, Jog, Fast, Sprint } 
+public enum EnemyType { Slow, Normal, Jog, Fast, Sprint }
 public enum State { Spawned, Chasing }
 public enum DamageType { Hit, AOE, DOT }
 public enum NumberType { Whole, Percent }

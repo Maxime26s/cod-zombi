@@ -328,14 +328,45 @@ public class Player : MonoBehaviour
                     break;
             }
         }
-        hp = 100;
+        /*
+        foreach (Transform enfant in this.transform)
+            if (enfant.gameObject.GetComponent<GunManager>() != null)
+                foreach (Transform gun2 in enfant)
+                {
+                    if (gun2.GetComponent<Gun>().modele == ModelesGun.M1911)
+                    {
+                        gun2.gameObject.SetActive(true);
+                        gun = gun2.GetComponent<Gun>();
+                    }
+                    else
+                        gun2.gameObject.SetActive(false);
+                }
+                */
         colasOwned.Clear();
         nbCola = 0;
         ChangeSpeed(0.2f);
+        /*
+        IEnumerator TestMort()
+        {
+            yield return new WaitForSeconds(10f);
+            Revive();
+        }
+        StartCoroutine(TestMort());
+        */
     }
 
     public void Revive()
     {
+        /*
+        foreach (Transform enfant in this.transform)
+            if (enfant.gameObject.GetComponent<GunManager>() != null)
+            {
+                foreach (Transform gun2 in enfant)
+                    if (gun2.GetComponent<Gun>().modele == ModelesGun.M1911)
+                        gun2.gameObject.SetActive(false);
+                enfant.gameObject.GetComponent<GunManager>().ChangerDarme(1);
+            }
+            */
         isDown = false;
         beingRevived = false;
         hp = maxHealth;
