@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4282249577967252115}
   - component: {fileID: 4282249577967252116}
   - component: {fileID: 4282249577967252117}
-  - component: {fileID: 4282249577967252114}
+  - component: {fileID: 2615613345746099234}
   m_Layer: 10
   m_Name: InterractionCollider
   m_TagString: Untagged
@@ -62,7 +62,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &4282249577967252114
+--- !u!114 &2615613345746099234
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -71,19 +71,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 4282249577967252112}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0d028ac8f86e7aa44911926a9b24bd88, type: 3}
+  m_Script: {fileID: 11500000, guid: b01a3a53a05b8764686e79cdb5e7ddd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  price: 1500
-  interactionRadius: 1
-  interactable: 0
+  price: 1200
   destroyerCollider: {fileID: 0}
-  gunInShop: {fileID: 3349085090154787470, guid: 0f447cdc519f9eb40bd614885bcdc363,
-    type: 3}
   box: []
-  coolDown: 1
-  typeCola: 0
-  listeColas: 00000000010000000200000003000000040000000500000006000000
+  blocked: 0
+  gunInShop: {fileID: 8309735579880617180}
 --- !u!1 &4282249579464264755
 GameObject:
   m_ObjectHideFlags: 0
@@ -185,6 +180,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0f447cdc519f9eb40bd614885bcdc363, type: 3}
+--- !u!1 &8309735579880617180 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3349085090154787470, guid: 0f447cdc519f9eb40bd614885bcdc363,
+    type: 3}
+  m_PrefabInstance: {fileID: 6712698114262615634}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &8309735579880617181 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3349085090154787471, guid: 0f447cdc519f9eb40bd614885bcdc363,

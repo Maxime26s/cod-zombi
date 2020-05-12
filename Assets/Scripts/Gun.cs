@@ -33,6 +33,7 @@ public class Gun : MonoBehaviour
     public IceModifier ice;
     [SerializeField]
     public PoisonModifier poison;
+    public GameObject prefab;
 
     private void OnEnable()
     {
@@ -41,18 +42,22 @@ public class Gun : MonoBehaviour
             spray.CalculateAngles();
         if (transform.parent != null)
         {
-            switch (poids)
+            if (transform.parent.parent != null)
             {
-                case PoidsGun.Light:
-                    transform.parent.parent.GetComponent<Player>().ChangeSpeed(1f);
-                    break;
-                case PoidsGun.Normal:
-                    transform.parent.parent.GetComponent<Player>().ChangeSpeed(0.85f);
-                    break;
-                case PoidsGun.Heavy:
-                    transform.parent.parent.GetComponent<Player>().ChangeSpeed(0.7f);
-                    break;
+                switch (poids)
+                {
+                    case PoidsGun.Light:
+                        transform.parent.parent.GetComponent<Player>().ChangeSpeed(1f);
+                        break;
+                    case PoidsGun.Normal:
+                        transform.parent.parent.GetComponent<Player>().ChangeSpeed(0.85f);
+                        break;
+                    case PoidsGun.Heavy:
+                        transform.parent.parent.GetComponent<Player>().ChangeSpeed(0.7f);
+                        break;
+                }
             }
+
         }
     }
 }

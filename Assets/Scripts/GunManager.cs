@@ -42,7 +42,6 @@ public class GunManager : MonoBehaviour
             ChangerDarme(inUse);
         }
 
-        /*
         if (Input.GetKey(KeyCode.Q) && !coolDownOver)
         {
             pressTime = Time.time + coolDown;
@@ -57,12 +56,13 @@ public class GunManager : MonoBehaviour
             canUse = true;
             coolDownOver = false;
         }
-        if (canUse && !player.isDown && nbGunsOwned >= 1)
+        if (canUse && !player.isDown && nbGunsOwned > 1)
         {
-            DropGun();
             canUse = false;
+            DropGun();
         }
-        */
+        else if (canUse)
+            canUse = false;
     }
 
     public void ChangerDarme(int index)
@@ -88,19 +88,40 @@ public class GunManager : MonoBehaviour
         this.GetComponentInParent<Player>().UpdateBulletSP();
     }
 
-    /*
     public void DropGun()
     {
         GameObject dropped = null;
         foreach (Transform weapon in transform)
             if (weapon.GetComponent<Gun>().modele == gunsOwned[inUse - 1])
-                dropped = Instantiate(weapon.gameObject, this.transform.position, this.transform.rotation);
+            {
+                dropped = Instantiate(weapon.gameObject.GetComponent<Gun>().prefab, transform.position, this.transform.rotation);
+                weapon.gameObject.GetComponent<Gun>().isOwned = false;
+                weapon.gameObject.GetComponent<Gun>().inUse = false;
+                weapon.gameObject.SetActive(false);
+                gunsOwned.Remove(weapon.gameObject.GetComponent<Gun>().modele);
+                nbGunsOwned--;
+                break;
+            }
+        ChangerDarme(1);
         if (dropped != null)
         {
-            dropped.GetComponent<Rigidbody>().AddTorque(transform.forward*10);
-            //dropped.GetComponent<Rigidbody>().useGravity = true;
-            Destroy(dropped, 2f);
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            Plane plane = new Plane(Vector3.up, new Vector3(0, transform.position.y, 0));
+            if (plane.Raycast(ray, out float length))
+            {
+                Vector3 pos = (new Vector3(ray.GetPoint(length).x, transform.position.y, ray.GetPoint(length).z));
+                dropped.transform.LookAt(pos);
+            }
+            dropped.GetComponent<Rigidbody>().AddForce(dropped.transform.forward * 500);
+            dropped.GetComponent<Rigidbody>().useGravity = true;
+            foreach (Transform child in dropped.transform)
+            {
+                if (child.gameObject.CompareTag("Dropped"))
+                {
+                    child.gameObject.SetActive(true);
+                }
+            }
+            Destroy(dropped, 30f);
         }
     }
-    */
 }

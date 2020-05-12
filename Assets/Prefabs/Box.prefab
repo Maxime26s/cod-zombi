@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 790893423291379297}
   - component: {fileID: 4557921205429934015}
   - component: {fileID: 9093085821887737161}
-  - component: {fileID: 943280153723743340}
+  - component: {fileID: 2480759024378514103}
   m_Layer: 10
   m_Name: InterractionCollider
   m_TagString: Untagged
@@ -62,7 +62,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1.5, y: 2, z: 2}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &943280153723743340
+--- !u!114 &2480759024378514103
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -71,18 +71,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 965920862293956870}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0d028ac8f86e7aa44911926a9b24bd88, type: 3}
+  m_Script: {fileID: 11500000, guid: 2259a0302df66774daea279660c70f33, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   price: 950
-  interactionRadius: 1
-  interactable: 4
   destroyerCollider: {fileID: 0}
-  gunInShop: {fileID: 0}
+  blocked: 0
   box:
   - {fileID: 7428276237442922026, guid: ce7389132fb38e746948c75705636637, type: 3}
-  - {fileID: 3244372218679403800, guid: ce1896b1219008d4b8edc7016d328d55, type: 3}
-  - {fileID: 4135619888267134818, guid: 2c1b9cb870ab1c849a4cdd8cd8d17aa3, type: 3}
   - {fileID: 3771117515332391952, guid: bcf1202aba290c74290142be5ce67f45, type: 3}
   - {fileID: 1721806973894762309, guid: 19e43bd598326094b8fb4c17acb530b5, type: 3}
   - {fileID: 2016835051203825119, guid: cd976586be0a1b849940e0350fedc818, type: 3}
@@ -90,11 +86,10 @@ MonoBehaviour:
   - {fileID: 3864812462269962187, guid: 1b2048f37c879dd4d90183b870115cf8, type: 3}
   - {fileID: 2146899246994587936, guid: fdb3387a7ac15a040bec2a8568e94f59, type: 3}
   - {fileID: 989719970933379948, guid: 69d88f817202fa946b7fe4a9f51c4b0a, type: 3}
+  - {fileID: 4135619888267134818, guid: 2c1b9cb870ab1c849a4cdd8cd8d17aa3, type: 3}
   - {fileID: 4282249579464264755, guid: 82413fcc4b1061644b3d1e213156f554, type: 3}
   - {fileID: 173220848575538360, guid: 5bb4eef37be7e254da49154a928261d5, type: 3}
-  coolDown: 1
-  typeCola: 0
-  listeColas: 00000000010000000200000003000000040000000500000006000000
+  - {fileID: 3244372218679403800, guid: ce1896b1219008d4b8edc7016d328d55, type: 3}
 --- !u!1 &9212570568336187331
 GameObject:
   m_ObjectHideFlags: 0

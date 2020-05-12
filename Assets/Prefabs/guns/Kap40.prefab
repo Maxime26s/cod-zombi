@@ -1,5 +1,49 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &721347221694875129
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4235953378556540168}
+  - component: {fileID: 183797367394094686}
+  m_Layer: 14
+  m_Name: PhysicsCollider
+  m_TagString: Dropped
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &4235953378556540168
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 721347221694875129}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4510530844235808080}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &183797367394094686
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 721347221694875129}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2.14, y: 1.94, z: 1.5}
+  m_Center: {x: 0.24, y: 0.13, z: 0}
 --- !u!1 &4510530844235808093
 GameObject:
   m_ObjectHideFlags: 0
@@ -12,6 +56,7 @@ GameObject:
   - component: {fileID: 4510530844235808083}
   - component: {fileID: 4510530844235808082}
   - component: {fileID: 4510530844235808081}
+  - component: {fileID: 423960855605417774}
   m_Layer: 0
   m_Name: Kap40
   m_TagString: Untagged
@@ -31,6 +76,8 @@ Transform:
   m_LocalScale: {x: 0.15856, y: 0.2270324, z: 0.7818}
   m_Children:
   - {fileID: 1477801494912402884}
+  - {fileID: 6632970169521191389}
+  - {fileID: 4235953378556540168}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -95,6 +142,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   modele: 4
   type: 0
+  poids: 0
   damage: 10
   fireRate: 30
   maxAmmo: 1000
@@ -125,6 +173,23 @@ MonoBehaviour:
   poison:
     enabled: 0
     damageMultiplier: 0
+  prefab: {fileID: 4510530844235808093}
+--- !u!54 &423960855605417774
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4510530844235808093}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &7000198137681874723
 GameObject:
   m_ObjectHideFlags: 0
@@ -155,3 +220,65 @@ Transform:
   m_Father: {fileID: 4510530844235808080}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &8623215233866146238
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6632970169521191389}
+  - component: {fileID: 4689605204057277275}
+  - component: {fileID: 5122184343611832620}
+  m_Layer: 10
+  m_Name: PickUpCollider
+  m_TagString: Dropped
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &6632970169521191389
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8623215233866146238}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4510530844235808080}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &4689605204057277275
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8623215233866146238}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2.39, y: 1.7, z: 1.32}
+  m_Center: {x: 0.24, y: 0.19, z: 0}
+--- !u!114 &5122184343611832620
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8623215233866146238}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ba2050606c080d44ca875621774ddb83, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  price: 0
+  destroyerCollider: {fileID: 0}
+  box: []
+  blocked: 0
+  gunInShop: {fileID: 4510530844235808093}

@@ -10,6 +10,7 @@ TagManager:
   - Bullet
   - Pivot
   - BulletSP
+  - Dropped
   layers:
   - Default
   - TransparentFX
@@ -25,7 +26,7 @@ TagManager:
   - Projectile
   - InvisibleEnemy
   - InvisibleBoth
-  - 
+  - Invisible
   - 
   - 
   - 

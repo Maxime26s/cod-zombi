@@ -6,6 +6,8 @@ using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
+    [HideInInspector]
+    public Dictionary<string, float> distances = new Dictionary<string, float>() { };
     const float speedConst = 7.070001f;
     CharacterController cc;
     public float speed, gravity;
