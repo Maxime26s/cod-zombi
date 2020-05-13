@@ -27,4 +27,9 @@ public class Box : Interactable
             player.GetComponent<Player>().money -= price;
         }
     }
+
+    public override void UpdateMessage()
+    {
+        message = "Maintenez F pour ouvrir la boîte\nCoût: "+price;
+    }
 }

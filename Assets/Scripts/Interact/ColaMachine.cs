@@ -64,4 +64,9 @@ public class ColaMachine : Interactable
                 break;
         }
     }
+
+    public override void UpdateMessage()
+    {
+        message = "Maintenez F pour "+typeCola.ToString()+"\nCoût: " + price;
+    }
 }

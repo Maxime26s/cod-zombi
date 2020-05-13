@@ -18,4 +18,12 @@ public class Door : Interactable
             player.GetComponent<Player>().money -= price;
         }
     }
+
+    public override void UpdateMessage()
+    {
+        if (porteOuverte)
+            message = "Cette porte est ouverte";
+        else
+            message = "Maintez F pour ouvrir la porte\n Coût: " + price;
+    }
 }

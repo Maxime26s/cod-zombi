@@ -17,6 +17,8 @@ public class Enemy : MonoBehaviour
     public bool electrified, frozen, poisoned;
     public State state = State.Spawned;
     public float health = 100f, maxHealth, speed, damageMultiplier, startTime, animSpeed;
+
+    public EnemyType enemyType = EnemyType.Normal;
     // Start is called before the first frame update
     void Start()
     {
@@ -24,11 +26,13 @@ public class Enemy : MonoBehaviour
         ai = GetComponent<NavMeshAgent>();
         player = GameObject.FindGameObjectWithTag("Player");
         ai.speed = speed;
+        ai.angularSpeed = 210;
     }
 
     // Update is called once per frame
     void Update()
     {
+        ChangeType(enemyType);
         switch (state)
         {
             case State.Spawned:
@@ -108,5 +112,27 @@ public class Enemy : MonoBehaviour
     private void OnDestroy()
     {
         Instantiate(deathParticle, transform.position, Quaternion.identity);
+    }
+
+    public void ChangeType(EnemyType t)
+    {
+        switch (t)
+        {
+            case EnemyType.Slow:
+                ai.speed = 2;
+                break;
+            case EnemyType.Normal:
+                ai.speed = 3;
+                break;
+            case EnemyType.Jog:
+                ai.speed = 4.5f;
+                break;
+            case EnemyType.Fast:
+                ai.speed = 6;
+                break;
+            case EnemyType.Sprint:
+                ai.speed = 7;
+                break;
+        }
     }
 }

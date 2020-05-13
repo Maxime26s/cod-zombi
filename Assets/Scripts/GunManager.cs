@@ -22,47 +22,51 @@ public class GunManager : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Alpha1))
+        if (!player.isDown)
         {
-            ChangerDarme(1);
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha2) && nbGunsOwned > 1)
-        {
-            ChangerDarme(2);
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha3) && nbGunsOwned > 2)
-        {
-            ChangerDarme(3);
-        }
-        if (Input.GetKeyDown(KeyCode.Tab) && nbGunsOwned > 1)
-        {
-            inUse++;
-            if (inUse > nbGunsOwned)
-                inUse = 1;
-            ChangerDarme(inUse);
+            if (Input.GetKeyDown(KeyCode.Alpha1))
+            {
+                ChangerDarme(1);
+            }
+            if (Input.GetKeyDown(KeyCode.Alpha2) && nbGunsOwned > 1)
+            {
+                ChangerDarme(2);
+            }
+            if (Input.GetKeyDown(KeyCode.Alpha3) && nbGunsOwned > 2)
+            {
+                ChangerDarme(3);
+            }
+            if (Input.GetKeyDown(KeyCode.Tab) && nbGunsOwned > 1)
+            {
+                inUse++;
+                if (inUse > nbGunsOwned)
+                    inUse = 1;
+                ChangerDarme(inUse);
+            }
+
+            if (Input.GetKey(KeyCode.Q) && !coolDownOver)
+            {
+                pressTime = Time.time + coolDown;
+                coolDownOver = true;
+            }
+            if (Input.GetKeyUp(KeyCode.Q))
+            {
+                coolDownOver = false;
+            }
+            if (Time.time >= pressTime && coolDownOver)
+            {
+                canUse = true;
+                coolDownOver = false;
+            }
+            if (canUse && !player.isDown && nbGunsOwned > 1)
+            {
+                canUse = false;
+                DropGun();
+            }
+            else if (canUse)
+                canUse = false;
         }
 
-        if (Input.GetKey(KeyCode.Q) && !coolDownOver)
-        {
-            pressTime = Time.time + coolDown;
-            coolDownOver = true;
-        }
-        if (Input.GetKeyUp(KeyCode.Q))
-        {
-            coolDownOver = false;
-        }
-        if (Time.time >= pressTime && coolDownOver)
-        {
-            canUse = true;
-            coolDownOver = false;
-        }
-        if (canUse && !player.isDown && nbGunsOwned > 1)
-        {
-            canUse = false;
-            DropGun();
-        }
-        else if (canUse)
-            canUse = false;
     }
 
     public void ChangerDarme(int index)

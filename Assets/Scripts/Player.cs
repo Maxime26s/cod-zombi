@@ -70,7 +70,6 @@ public class Player : MonoBehaviour
                 healthBar.GetComponent<Slider>().value = hp / maxHealth;
             }
 
-            Shoot();
             if (Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1))
                 ChangeSpeed(0.5f * gun.GetSpeedModifier());
             else if (Input.GetMouseButtonUp(0) && !Input.GetMouseButton(1) || Input.GetMouseButtonUp(1) && !Input.GetMouseButton(0))
@@ -132,6 +131,7 @@ public class Player : MonoBehaviour
             if (hp <= 0)
                 Destroy(this);
         }
+        Shoot();
     }
 
     private void Shoot()
@@ -328,7 +328,6 @@ public class Player : MonoBehaviour
                     break;
             }
         }
-        /*
         foreach (Transform enfant in this.transform)
             if (enfant.gameObject.GetComponent<GunManager>() != null)
                 foreach (Transform gun2 in enfant)
@@ -341,23 +340,14 @@ public class Player : MonoBehaviour
                     else
                         gun2.gameObject.SetActive(false);
                 }
-                */
+        hp = 100;
         colasOwned.Clear();
         nbCola = 0;
         ChangeSpeed(0.2f);
-        /*
-        IEnumerator TestMort()
-        {
-            yield return new WaitForSeconds(10f);
-            Revive();
-        }
-        StartCoroutine(TestMort());
-        */
     }
 
     public void Revive()
     {
-        /*
         foreach (Transform enfant in this.transform)
             if (enfant.gameObject.GetComponent<GunManager>() != null)
             {
@@ -366,7 +356,6 @@ public class Player : MonoBehaviour
                         gun2.gameObject.SetActive(false);
                 enfant.gameObject.GetComponent<GunManager>().ChangerDarme(1);
             }
-            */
         isDown = false;
         beingRevived = false;
         hp = maxHealth;

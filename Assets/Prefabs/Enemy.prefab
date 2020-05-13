@@ -247,7 +247,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 0}
   m_FillRect: {fileID: 3828558566392102950}
   m_HandleRect: {fileID: 0}
@@ -359,8 +359,6 @@ MonoBehaviour:
   window: {fileID: 0}
   hpBar: {fileID: 2220550608189193224}
   deathParticle: {fileID: 7748724878120433881, guid: b7d4b41bd2d3ee246ade1a9dfc4b9aea,
-    type: 3}
-  hitParticle: {fileID: 8635107121035335043, guid: c2fcbbb9be48651459c51374157d9ce4,
     type: 3}
   electrified: 0
   frozen: 0

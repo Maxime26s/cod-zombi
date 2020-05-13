@@ -76,4 +76,9 @@ public class GunDropped : Interactable
         gm.gunsOwned.Add(gunInShop.GetComponent<Gun>().modele);
         gm.ChangerDarme(index);
     }
+
+    public override void UpdateMessage()
+    {
+        message = "Maintenez F pour un "+gunInShop.GetComponent<Gun>().modele.ToString();
+    }
 }

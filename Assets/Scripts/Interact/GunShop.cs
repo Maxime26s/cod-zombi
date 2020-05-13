@@ -56,4 +56,9 @@ public class GunShop : Interactable
         gm.gunsOwned.Add(gunInShop.GetComponent<Gun>().modele);
         gm.ChangerDarme(index);
     }
+
+    public override void UpdateMessage()
+    {
+        message = "Maintenez F pour acheter "+gunInShop.GetComponent<Gun>().modele.ToString()+"\nCoût: " + price;
+    }
 }

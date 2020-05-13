@@ -29,4 +29,12 @@ public class Windows : Interactable
         }
         routine = StartCoroutine(RepairWindow());
     }
+
+    public override void UpdateMessage()
+    {
+        if (destroyerCollider.GetComponent<Window>().hp < 5)
+            message = "Maintenez F pour réparer";
+        else
+            message = "Fenêtre réparée";
+    }
 }
