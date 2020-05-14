@@ -107,9 +107,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   price: 200
-  destroyerCollider: {fileID: 0}
-  box: []
   blocked: 0
+  message: 
   gunInShop: {fileID: 5838416509828866652}
 --- !u!1001 &7818752026044994170
 PrefabInstance:
@@ -122,11 +121,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Pistolet
-      objectReference: {fileID: 0}
-    - target: {fileID: 4433777800778297385, guid: fc1f1760afe80ae409b83d12e669d3dd,
-        type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 4433777800778297387, guid: fc1f1760afe80ae409b83d12e669d3dd,
         type: 3}

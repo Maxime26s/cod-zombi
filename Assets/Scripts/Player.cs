@@ -159,7 +159,7 @@ public class Player : MonoBehaviour
         if (!cc.isGrounded)
             moveDirection.y -= gravity * Time.deltaTime;
 
-        Camera.main.transform.position = new Vector3(7.5f, 12, -7.5f) + transform.position;
+        //Camera.main.transform.position = new Vector3(7.5f, 12, -7.5f) + transform.position;
 
         if (isDown && !beingRevived)
         {
@@ -405,7 +405,7 @@ public class Player : MonoBehaviour
 
     public void UpdateColors()
     {
-        material.SetColor("_BaseColor", color);
+        material.SetColor("_Color", color);
         material.SetColor("_EmissionColor", color);
         bulletPrefab.GetComponent<Light>().color = color;
         bulletPrefab.GetComponent<MeshRenderer>().sharedMaterial = material;
@@ -484,8 +484,9 @@ public class Player : MonoBehaviour
     void ViewObstructed()
     {
         Vector3 playerPos = transform.position + (Camera.main.transform.position - transform.position).normalized * obstructionPlayerModifier;
+        Vector3 cameraPos = transform.position + new Vector3(7, 10, -7);
         int layermask = 1 << 0;
-        RaycastHit[] hits = Physics.CapsuleCastAll(Camera.main.transform.position, playerPos, obstructionRadius, playerPos - Camera.main.transform.position, Vector3.Distance(Camera.main.transform.position, playerPos), layermask);
+        RaycastHit[] hits = Physics.CapsuleCastAll(cameraPos, playerPos, obstructionRadius, playerPos - cameraPos, Vector3.Distance(cameraPos, playerPos), layermask);
         foreach (RaycastHit hit in hits)
         {
             hit.transform.GetComponent<MeshRenderer>().shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.ShadowsOnly;

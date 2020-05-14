@@ -75,9 +75,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   price: 1200
-  destroyerCollider: {fileID: 0}
-  box: []
   blocked: 0
+  message: 
   gunInShop: {fileID: 7934212304446945279}
 --- !u!1 &7428276237442922026
 GameObject:
@@ -118,16 +117,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7428276237442922022}
     m_Modifications:
-    - target: {fileID: 8496639761882788544, guid: 35e63d66c26db314d9efd99054f1baf1,
-        type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 8496639762217085835, guid: 35e63d66c26db314d9efd99054f1baf1,
-        type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 0}
     - target: {fileID: 8496639762292400842, guid: 35e63d66c26db314d9efd99054f1baf1,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -188,23 +177,7 @@ PrefabInstance:
       propertyPath: m_Name
       value: AK-47
       objectReference: {fileID: 0}
-    - target: {fileID: 8496639762292400845, guid: 35e63d66c26db314d9efd99054f1baf1,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8496639762731419390, guid: 35e63d66c26db314d9efd99054f1baf1,
-        type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 8496639763048219798, guid: 35e63d66c26db314d9efd99054f1baf1,
-        type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 1716649901978556058, guid: 35e63d66c26db314d9efd99054f1baf1, type: 3}
+    m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 35e63d66c26db314d9efd99054f1baf1, type: 3}
 --- !u!1 &7934212304446945279 stripped
 GameObject:

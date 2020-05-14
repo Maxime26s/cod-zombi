@@ -5,12 +5,11 @@ TagManager:
   serializedVersion: 2
   tags:
   - Ground
-  - Window
-  - Enemy
   - Bullet
-  - Pivot
-  - BulletSP
   - Dropped
+  - BulletSP
+  - Enemy
+  - Pivot
   layers:
   - Default
   - TransparentFX

@@ -107,9 +107,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   price: 1000
-  destroyerCollider: {fileID: 0}
-  box: []
   blocked: 0
+  message: 
   gunInShop: {fileID: 3094008215504924576}
 --- !u!1001 &3244372217468610122
 PrefabInstance:
@@ -118,40 +117,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 3244372218679403236}
     m_Modifications:
-    - target: {fileID: 573772736420400911, guid: 8dbb2125a115ae847b8e3dad63ac5dc7,
-        type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 573772736508715869, guid: 8dbb2125a115ae847b8e3dad63ac5dc7,
-        type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 573772737815418571, guid: 8dbb2125a115ae847b8e3dad63ac5dc7,
-        type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 573772737872651949, guid: 8dbb2125a115ae847b8e3dad63ac5dc7,
-        type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 573772738057178401, guid: 8dbb2125a115ae847b8e3dad63ac5dc7,
-        type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 0}
     - target: {fileID: 573772738097007082, guid: 8dbb2125a115ae847b8e3dad63ac5dc7,
         type: 3}
       propertyPath: m_Name
       value: Sniper
-      objectReference: {fileID: 0}
-    - target: {fileID: 573772738097007082, guid: 8dbb2125a115ae847b8e3dad63ac5dc7,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 573772738097007083, guid: 8dbb2125a115ae847b8e3dad63ac5dc7,
         type: 3}
