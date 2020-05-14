@@ -6,7 +6,8 @@ public class Window : MonoBehaviour
 {
     public int hp = 5;
     public GameObject[] planks = new GameObject[5];
-    bool cd = false;
+    [HideInInspector]
+    public bool cd = false;
 
     private void OnTriggerEnter(Collider other)
     {
@@ -22,6 +23,7 @@ public class Window : MonoBehaviour
         {
             if (hp != 0 && !cd)
             {
+
                 IEnumerator TakeDamage()
                 {
                     cd = true;

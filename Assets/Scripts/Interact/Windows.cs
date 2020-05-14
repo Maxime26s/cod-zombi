@@ -6,6 +6,8 @@ public class Windows : Interactable
 {
     public GameObject destroyerCollider;
     private Coroutine routine = null;
+    private float damageCD = 1f;
+    private float nextDamageTime;
 
     private void Update()
     {
@@ -16,6 +18,16 @@ public class Windows : Interactable
         }
     }
 
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.CompareTag("Player") && destroyerCollider.GetComponent<Window>().cd && Time.time > nextDamageTime)
+        {
+            other.GetComponent<Player>().TakeDamage(10);
+            nextDamageTime = Time.time + damageCD;
+        }
+            
+    }
+
     public override void Interacting(Player player)
     {
         IEnumerator RepairWindow()
@@ -24,7 +36,10 @@ public class Windows : Interactable
             {
                 destroyerCollider.GetComponent<Window>().Repair();
                 player.GetComponent<Player>().AddMoney(price);
-                yield return new WaitForSeconds(1f);
+                if (player.GetComponentInChildren<PlayerInteractions>().quickActions)
+                    yield return new WaitForSeconds(0.1f);
+                else
+                    yield return new WaitForSeconds(1f);
             }
         }
         routine = StartCoroutine(RepairWindow());

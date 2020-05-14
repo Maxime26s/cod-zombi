@@ -35,6 +35,13 @@ public class Player : MonoBehaviour
     public bool beingRevived;
     private Coroutine regenCoroutine;
 
+    //UI
+    public List<Sprite> perksSprites;
+    public List<Sprite> modifiersSprite;
+    private List<Image> modifiersImages = new List<Image> { };
+    private List<Image> perksImages = new List<Image> { };
+    public GameObject perksUI, perksPrefab, gunModifiersUI, gunModifiersPrefabs;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -48,6 +55,32 @@ public class Player : MonoBehaviour
         bulletPrefab.GetComponent<Bullet>().deathParticles = Instantiate(bulletPrefab.GetComponent<Bullet>().deathParticles, transform);
         material = new Material(material);
         UpdateColors();
+        ammoText.text = gun.ammo.ToString();
+        foreach (Sprite sprite in perksSprites)
+        {
+            GameObject go = new GameObject();
+            go.AddComponent<LayoutElement>();
+            Image image = go.AddComponent<Image>();
+            image.sprite = sprite;
+            image.GetComponent<LayoutElement>().preferredHeight = 50;
+            image.GetComponent<LayoutElement>().preferredWidth = 50;
+            perksImages.Add(image);
+        }
+        foreach (Image typeCola in perksImages)
+        {
+            typeCola.transform.SetParent(perksPrefab.transform);
+        }
+        foreach (Sprite sprite in modifiersSprite)
+        {
+            GameObject go = new GameObject();
+            go.AddComponent<LayoutElement>();
+            Image image = go.AddComponent<Image>();
+            image.sprite = sprite;
+            image.GetComponent<LayoutElement>().preferredHeight = 50;
+            image.GetComponent<LayoutElement>().preferredWidth = 50;
+            modifiersImages.Add(image);
+        }
+        UpdateGunEffects();
     }
 
     public void UpdateBulletSP()
@@ -320,6 +353,7 @@ public class Player : MonoBehaviour
                     GetComponentInChildren<GunManager>().nbGunsOwned = 2;
                     break;
                 case TypeCola.Quick:
+                    this.GetComponentInChildren<PlayerInteractions>().quickActions = false;
                     break;
                 case TypeCola.StaminUp:
                     dashCooldown = 5f;
@@ -344,6 +378,8 @@ public class Player : MonoBehaviour
         colasOwned.Clear();
         nbCola = 0;
         ChangeSpeed(0.2f);
+        this.GetComponentInChildren<Revive>().enabled = true;
+        UpdatePerks();
     }
 
     public void Revive()
@@ -360,6 +396,7 @@ public class Player : MonoBehaviour
         beingRevived = false;
         hp = maxHealth;
         ChangeSpeed(1f);
+        this.GetComponentInChildren<Revive>().enabled = false;
     }
 
     public void UpdateColors()
@@ -388,5 +425,55 @@ public class Player : MonoBehaviour
             if (typeCola == cola)
                 return true;
         return false;
+    }
+
+    public void UpdatePerks()
+    {
+        if (!isDown)
+        {
+            foreach (int typeCola in colasOwned)
+            {
+                perksImages[typeCola].transform.SetParent(perksUI.transform);
+            }
+        }
+        else
+        {
+            foreach (Image typeCola in perksImages)
+            {
+                typeCola.transform.SetParent(perksPrefab.transform);
+            }
+        }
+    }
+
+    public void UpdateGunEffects()
+    {
+        if (gun.spray.enabled)
+            modifiersImages[(int)Effects.Spray].transform.SetParent(gunModifiersUI.transform);
+        else
+            modifiersImages[(int)Effects.Spray].transform.SetParent(gunModifiersPrefabs.transform);
+        if (gun.fire.enabled)
+            modifiersImages[(int)Effects.Fire].transform.SetParent(gunModifiersUI.transform);
+        else
+            modifiersImages[(int)Effects.Fire].transform.SetParent(gunModifiersPrefabs.transform);
+        if (gun.electric.enabled)
+            modifiersImages[(int)Effects.Electric].transform.SetParent(gunModifiersUI.transform);
+        else
+            modifiersImages[(int)Effects.Electric].transform.SetParent(gunModifiersPrefabs.transform);
+        if (gun.ice.enabled)
+            modifiersImages[(int)Effects.Ice].transform.SetParent(gunModifiersUI.transform);
+        else
+            modifiersImages[(int)Effects.Ice].transform.SetParent(gunModifiersPrefabs.transform);
+        if (gun.poison.enabled)
+            modifiersImages[(int)Effects.Poison].transform.SetParent(gunModifiersUI.transform);
+        else
+            modifiersImages[(int)Effects.Poison].transform.SetParent(gunModifiersPrefabs.transform);
+        if (gun.isPiercing)
+            modifiersImages[(int)Effects.Piercing].transform.SetParent(gunModifiersUI.transform);
+        else
+            modifiersImages[(int)Effects.Piercing].transform.SetParent(gunModifiersPrefabs.transform);
+        if (gun.isExplosive)
+            modifiersImages[(int)Effects.Explosive].transform.SetParent(gunModifiersUI.transform);
+        else
+            modifiersImages[(int)Effects.Explosive].transform.SetParent(gunModifiersPrefabs.transform);
     }
 }

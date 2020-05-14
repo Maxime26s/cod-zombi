@@ -6,7 +6,7 @@ public class ColaMachine : Interactable
 {
     public TypeCola typeCola;
     public List<TypeCola> listeColas = new List<TypeCola>
-    { TypeCola.JuggerNog, TypeCola.MuteKick, TypeCola.DoubleTap, TypeCola.DeadshotDai, TypeCola.ElectricCherry, TypeCola.StaminUp};
+    { TypeCola.JuggerNog, TypeCola.MuteKick, TypeCola.DoubleTap, TypeCola.DeadshotDai, TypeCola.ElectricCherry, TypeCola.StaminUp, TypeCola.Quick};
 
     public override void Interacting(Player player)
     {
@@ -41,6 +41,7 @@ public class ColaMachine : Interactable
                 break;
             case TypeCola.JuggerNog:
                 player.maxHealth = 200;
+                player.hp = player.maxHealth;
                 player.colasOwned.Add(TypeCola.JuggerNog);
                 break;
             case TypeCola.MuteKick:
@@ -49,6 +50,7 @@ public class ColaMachine : Interactable
                 break;
             case TypeCola.Quick:
                 player.colasOwned.Add(TypeCola.Quick);
+                player.GetComponentInChildren<PlayerInteractions>().quickActions = true;
                 break;
             case TypeCola.Random:
                 typeCola = listeColas[Random.Range(0, listeColas.Count)];
@@ -63,6 +65,7 @@ public class ColaMachine : Interactable
                 player.colasOwned.Add(TypeCola.StaminUp);
                 break;
         }
+        player.UpdatePerks();
     }
 
     public override void UpdateMessage()

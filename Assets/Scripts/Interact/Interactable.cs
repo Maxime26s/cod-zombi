@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEditor;
 
 
-public enum TypeInteractable { Gun, Door, Cola, Window, Box, Debris, GunDropped }
 public enum TypeCola { StaminUp, JuggerNog, ElectricCherry, MuteKick, DoubleTap, Quick, DeadshotDai, Random}
 public abstract class Interactable : MonoBehaviour
 {

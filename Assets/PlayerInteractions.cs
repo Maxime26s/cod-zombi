@@ -6,10 +6,12 @@ using TMPro;
 public class PlayerInteractions : MonoBehaviour
 {
     Interactable inter;
-    public float coolDown = 1f;
     private TextMeshProUGUI text;
     public GameObject ui;
+    [HideInInspector]
+    public bool quickActions = false;
 
+    private float actionCoolDown = 1f;
     private bool canUse = true;
 
     private void Start()
@@ -23,13 +25,17 @@ public class PlayerInteractions : MonoBehaviour
         IEnumerator Buy()
         {
             canUse = false;
-            yield return new WaitForSeconds(coolDown);
-            inter.Interacting(transform.parent.gameObject.GetComponent<Player>());
+            yield return new WaitForSeconds(actionCoolDown);
+            inter.Interacting(transform.parent.GetComponent<Player>());
             inter = null;
             canUse = true;
         }
         if (inter != null)
         {
+            if ((inter.GetComponent<Revive>() != null || inter.GetComponent<Windows>() != null) && quickActions)
+                actionCoolDown = 0.1f;
+            else
+                actionCoolDown = 1f;
             inter.UpdateMessage();
             text.text = inter.message;
             if (inter.blocked)

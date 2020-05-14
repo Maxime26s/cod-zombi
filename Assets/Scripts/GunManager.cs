@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class GunManager : MonoBehaviour
 {
@@ -8,6 +9,7 @@ public class GunManager : MonoBehaviour
     public int nbGunsOwned = 1;
     public List<ModelesGun> gunsOwned = new List<ModelesGun> { ModelesGun.M1911 };
     public bool muleKick = false;
+    public TextMeshProUGUI tmp;
 
     private bool coolDownOver;
     private float pressTime;
@@ -18,6 +20,7 @@ public class GunManager : MonoBehaviour
     private void Start()
     {
         player = this.GetComponentInParent<Player>();
+        tmp.text = player.gun.modele.ToString();
     }
 
     void Update()
@@ -90,6 +93,8 @@ public class GunManager : MonoBehaviour
             }
         }
         this.GetComponentInParent<Player>().UpdateBulletSP();
+        tmp.text = gunsOwned[inUse-1].ToString();
+        player.UpdateGunEffects();
     }
 
     public void DropGun()
