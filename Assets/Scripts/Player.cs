@@ -34,6 +34,9 @@ public class Player : MonoBehaviour
     [HideInInspector]
     public bool beingRevived;
     private Coroutine regenCoroutine;
+    public List<RaycastHit> obstructions = new List<RaycastHit>();
+    public float obstructionPlayerModifier;
+    public float obstructionRadius;
 
     // Start is called before the first frame update
     void Start()
@@ -60,6 +63,7 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        ViewObstructed();
         if (!isDown)
         {
             if (!regenOnCooldown && hp != maxHealth)
@@ -368,5 +372,31 @@ public class Player : MonoBehaviour
             if (typeCola == cola)
                 return true;
         return false;
+    }
+
+    void ViewObstructed()
+    {
+        Vector3 playerPos = transform.position + (Camera.main.transform.position - transform.position).normalized * obstructionPlayerModifier;
+        int layermask = 1 << 0;
+        RaycastHit[] hits = Physics.CapsuleCastAll(Camera.main.transform.position, playerPos, obstructionRadius, playerPos - Camera.main.transform.position, Vector3.Distance(Camera.main.transform.position, playerPos), layermask);
+        foreach (RaycastHit hit in hits)
+        {
+            hit.transform.GetComponent<MeshRenderer>().shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.ShadowsOnly;
+        }
+        foreach (RaycastHit obstruction in obstructions)
+        {
+            bool isFound = false;
+            foreach (RaycastHit hit in hits)
+            {
+                if (obstruction.transform == hit.transform)
+                {
+                    isFound = true;
+                    break;
+                }
+            }
+            if (!isFound)
+                obstruction.transform.GetComponent<MeshRenderer>().shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On;
+        }
+        obstructions = new List<RaycastHit>(hits);
     }
 }

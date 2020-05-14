@@ -360,8 +360,6 @@ MonoBehaviour:
   hpBar: {fileID: 2220550608189193224}
   deathParticle: {fileID: 7748724878120433881, guid: b7d4b41bd2d3ee246ade1a9dfc4b9aea,
     type: 3}
-  hitParticle: {fileID: 8635107121035335043, guid: c2fcbbb9be48651459c51374157d9ce4,
-    type: 3}
   electrified: 0
   frozen: 0
   poisoned: 0

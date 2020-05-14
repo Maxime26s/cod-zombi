@@ -119,6 +119,8 @@ MonoBehaviour:
   colasOwned: 
   isDown: 0
   beingRevived: 0
+  obstructionPlayerModifier: 9
+  obstructionRadius: 1
 --- !u!143 &3727307729407708423
 CharacterController:
   m_ObjectHideFlags: 0
