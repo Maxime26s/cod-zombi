@@ -121,6 +121,26 @@ MonoBehaviour:
   beingRevived: 0
   obstructionPlayerModifier: 9
   obstructionRadius: 1
+  perksSprites:
+  - {fileID: 210992130430962138, guid: e131b478caa0d964599986f76aeb5c77, type: 3}
+  - {fileID: 7718430410883610042, guid: e131b478caa0d964599986f76aeb5c77, type: 3}
+  - {fileID: 21300000, guid: 1bdc8ad457f677645bdc347c9ee3533b, type: 3}
+  - {fileID: 4387486307754041183, guid: e131b478caa0d964599986f76aeb5c77, type: 3}
+  - {fileID: 1907596758085553333, guid: e131b478caa0d964599986f76aeb5c77, type: 3}
+  - {fileID: 1787104830511094915, guid: e131b478caa0d964599986f76aeb5c77, type: 3}
+  - {fileID: 21300000, guid: 049c89f2bc5af6c4193ab66c2d9138df, type: 3}
+  modifiersSprite:
+  - {fileID: 21300000, guid: 25eb902fd0117f345960eadcf359356f, type: 3}
+  - {fileID: 21300000, guid: 7cec708902162f24ca6bf8babb35a5c3, type: 3}
+  - {fileID: 21300000, guid: c5bb5d008e5e49241b55ed1f705ce8b2, type: 3}
+  - {fileID: 21300000, guid: a62341d5f0a67b245b4c535890dea9aa, type: 3}
+  - {fileID: 21300000, guid: 81decc07526c2f5439f3f7ae52b0fc27, type: 3}
+  - {fileID: 21300000, guid: 58060af0dd923eb49b99b54e388905cd, type: 3}
+  - {fileID: 21300000, guid: 5e1c269ae7c46d949ab5f0d885925a9d, type: 3}
+  perksUI: {fileID: 0}
+  perksPrefab: {fileID: 0}
+  gunModifiersUI: {fileID: 0}
+  gunModifiersPrefabs: {fileID: 0}
 --- !u!143 &3727307729407708423
 CharacterController:
   m_ObjectHideFlags: 0
@@ -136,7 +156,7 @@ CharacterController:
   m_Radius: 0.5
   m_SlopeLimit: 45
   m_StepOffset: 0.5
-  m_SkinWidth: 0.08
+  m_SkinWidth: 0.05
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!54 &9198138208197453385

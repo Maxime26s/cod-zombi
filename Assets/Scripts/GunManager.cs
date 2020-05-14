@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class GunManager : MonoBehaviour
 {
@@ -8,6 +9,7 @@ public class GunManager : MonoBehaviour
     public int nbGunsOwned = 1;
     public List<ModelesGun> gunsOwned = new List<ModelesGun> { ModelesGun.M1911 };
     public bool muleKick = false;
+    public TextMeshProUGUI tmp;
 
     private bool coolDownOver;
     private float pressTime;
@@ -18,51 +20,56 @@ public class GunManager : MonoBehaviour
     private void Start()
     {
         player = this.GetComponentInParent<Player>();
+        tmp.text = player.gun.modele.ToString();
     }
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Alpha1))
+        if (!player.isDown)
         {
-            ChangerDarme(1);
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha2) && nbGunsOwned > 1)
-        {
-            ChangerDarme(2);
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha3) && nbGunsOwned > 2)
-        {
-            ChangerDarme(3);
-        }
-        if (Input.GetKeyDown(KeyCode.Tab) && nbGunsOwned > 1)
-        {
-            inUse++;
-            if (inUse > nbGunsOwned)
-                inUse = 1;
-            ChangerDarme(inUse);
+            if (Input.GetKeyDown(KeyCode.Alpha1))
+            {
+                ChangerDarme(1);
+            }
+            if (Input.GetKeyDown(KeyCode.Alpha2) && nbGunsOwned > 1)
+            {
+                ChangerDarme(2);
+            }
+            if (Input.GetKeyDown(KeyCode.Alpha3) && nbGunsOwned > 2)
+            {
+                ChangerDarme(3);
+            }
+            if (Input.GetKeyDown(KeyCode.Tab) && nbGunsOwned > 1)
+            {
+                inUse++;
+                if (inUse > nbGunsOwned)
+                    inUse = 1;
+                ChangerDarme(inUse);
+            }
+
+            if (Input.GetKey(KeyCode.Q) && !coolDownOver)
+            {
+                pressTime = Time.time + coolDown;
+                coolDownOver = true;
+            }
+            if (Input.GetKeyUp(KeyCode.Q))
+            {
+                coolDownOver = false;
+            }
+            if (Time.time >= pressTime && coolDownOver)
+            {
+                canUse = true;
+                coolDownOver = false;
+            }
+            if (canUse && !player.isDown && nbGunsOwned > 1)
+            {
+                canUse = false;
+                DropGun();
+            }
+            else if (canUse)
+                canUse = false;
         }
 
-        if (Input.GetKey(KeyCode.Q) && !coolDownOver)
-        {
-            pressTime = Time.time + coolDown;
-            coolDownOver = true;
-        }
-        if (Input.GetKeyUp(KeyCode.Q))
-        {
-            coolDownOver = false;
-        }
-        if (Time.time >= pressTime && coolDownOver)
-        {
-            canUse = true;
-            coolDownOver = false;
-        }
-        if (canUse && !player.isDown && nbGunsOwned > 1)
-        {
-            canUse = false;
-            DropGun();
-        }
-        else if (canUse)
-            canUse = false;
     }
 
     public void ChangerDarme(int index)
@@ -86,6 +93,8 @@ public class GunManager : MonoBehaviour
             }
         }
         this.GetComponentInParent<Player>().UpdateBulletSP();
+        tmp.text = gunsOwned[inUse-1].ToString();
+        player.UpdateGunEffects();
     }
 
     public void DropGun()

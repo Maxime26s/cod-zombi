@@ -9,4 +9,9 @@ public class Debris : Interactable
         if (player.GetComponent<Player>().money >= price)
             Destroy(transform.parent.gameObject);
     }
+
+    public override void UpdateMessage()
+    {
+        message = "Maintenez F pour dégager les obstacles\nCoût: " + price;
+    }
 }
