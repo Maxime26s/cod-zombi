@@ -34,9 +34,10 @@ public class Player : MonoBehaviour
     [HideInInspector]
     public bool beingRevived;
     private Coroutine regenCoroutine;
-    public List<RaycastHit> obstructions = new List<RaycastHit>();
+    public List<Collider> obstructions = new List<Collider>();
     public float obstructionPlayerModifier;
     public float obstructionRadius;
+    public Vector3 obstructionBox;
 
     //UI
     public List<Sprite> perksSprites;
@@ -58,6 +59,7 @@ public class Player : MonoBehaviour
         bulletPrefab.GetComponent<Bullet>().deathParticles = Instantiate(bulletPrefab.GetComponent<Bullet>().deathParticles, transform);
         material = new Material(material);
         UpdateColors();
+        ObjectPooler.Instance.itemsToPool.Add("Projectile", new ObjectPoolItem(bulletPrefab));
         ammoText.text = gun.ammo.ToString();
         foreach (Sprite sprite in perksSprites)
         {
@@ -204,13 +206,11 @@ public class Player : MonoBehaviour
         {
             if (gun.ammo > 0)
             {
-                GameObject go = Instantiate(bulletPrefab, bulletSpawnPoint.transform.position, transform.rotation);
+                GameObject go = ObjectPooler.Instance.GetPooledObject("Projectile");
                 BulletConstructor(go);
-                Destroy(go, gun.bulletSelfDestruct);
             }
             else
                 Instantiate(bulletPrefab.GetComponent<Bullet>().deathParticles, bulletSpawnPoint.transform.position, transform.rotation).SetActive(true);
-
         }
         else
         {
@@ -218,11 +218,9 @@ public class Player : MonoBehaviour
             {
                 for (int i = 0; i < gun.spray.bulletAmount; i++)
                 {
-
-                    GameObject go = Instantiate(bulletPrefab, bulletSpawnPoint.transform.position, transform.rotation);
+                    GameObject go = ObjectPooler.Instance.GetPooledObject("Projectile");
                     BulletConstructor(go);
                     go.GetComponent<Bullet>().direction = Quaternion.Euler(0, gun.spray.angles[i], 0) * go.GetComponent<Bullet>().direction;
-                    Destroy(go, gun.bulletSelfDestruct);
                 }
             }
             else
@@ -260,6 +258,9 @@ public class Player : MonoBehaviour
 
     void BulletConstructor(GameObject go)
     {
+        go.transform.position = bulletSpawnPoint.transform.position;
+        go.transform.rotation = transform.rotation;
+        go.transform.localScale = bulletPrefab.transform.localScale;
         Bullet bullet = go.GetComponent<Bullet>();
         bullet.player = this;
         bullet.direction = go.transform.position - transform.position;
@@ -270,14 +271,8 @@ public class Player : MonoBehaviour
         bullet.fire = gun.fire;
         bullet.ice = gun.ice;
         bullet.poison = gun.poison;
+        bullet.bulletSelfDestruct = gun.bulletSelfDestruct;
         go.SetActive(true);
-        IEnumerator Dissolve()
-        {
-            yield return new WaitForSeconds(gun.bulletSelfDestruct * 0.8f);
-            bullet.dissolveTime = 0.2f / (gun.bulletSelfDestruct * 0.2f);
-            bullet.dissolve = true;
-        }
-        StartCoroutine(Dissolve());
     }
 
     public void TakeDamage(float damage)
@@ -483,18 +478,20 @@ public class Player : MonoBehaviour
 
     void ViewObstructed()
     {
-        Vector3 playerPos = transform.position + (Camera.main.transform.position - transform.position).normalized * obstructionPlayerModifier;
         Vector3 cameraPos = transform.position + new Vector3(7, 10, -7);
+        Vector3 playerPos = transform.position + (cameraPos - transform.position).normalized * obstructionPlayerModifier;
         int layermask = 1 << 0;
-        RaycastHit[] hits = Physics.CapsuleCastAll(cameraPos, playerPos, obstructionRadius, playerPos - cameraPos, Vector3.Distance(cameraPos, playerPos), layermask);
-        foreach (RaycastHit hit in hits)
+        List<Collider> allhits = new List<Collider>(Physics.OverlapCapsule(cameraPos, playerPos, obstructionRadius, layermask));
+        //allhits.AddRange(new List<Collider>(Physics.OverlapBox(cameraPos, obstructionBox, Camera.main.transform.rotation, layermask)));
+        //List<Collider> allhits = new List<Collider>(Physics.OverlapBox(cameraPos, obstructionBox, Camera.main.transform.rotation, layermask));
+        foreach (Collider hit in allhits)
         {
             hit.transform.GetComponent<MeshRenderer>().shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.ShadowsOnly;
         }
-        foreach (RaycastHit obstruction in obstructions)
+        foreach (Collider obstruction in obstructions)
         {
             bool isFound = false;
-            foreach (RaycastHit hit in hits)
+            foreach (Collider hit in allhits)
             {
                 if (obstruction.transform == hit.transform)
                 {
@@ -505,6 +502,6 @@ public class Player : MonoBehaviour
             if (!isFound)
                 obstruction.transform.GetComponent<MeshRenderer>().shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On;
         }
-        obstructions = new List<RaycastHit>(hits);
+        obstructions = allhits;
     }
 }

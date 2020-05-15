@@ -8,14 +8,29 @@ public class Bullet : MonoBehaviour
 {
     public Vector3 direction;
     public float speed;
-    public float dissolveTime;
-    public bool isPiercing, isExplosive, dissolve, destroying;
+    public float dissolveTime, bulletSelfDestruct;
+    public bool isPiercing, isExplosive, destroying;
     public GameObject explosionPrefab, deathParticles, firePrefab, icePrefab, poisonPrefab, electricPrefab;
     public Player player;
     public FireModifier fire;
     public ElectricModifier electric;
     public IceModifier ice;
     public PoisonModifier poison;
+    public Coroutine destroyCoroutine;
+
+    private void OnEnable()
+    {
+        if(destroyCoroutine!=null)
+            StopCoroutine(destroyCoroutine);
+        IEnumerator Destroy()
+        {
+            yield return new WaitForSeconds(bulletSelfDestruct);
+            gameObject.SetActive(false);
+        }
+        destroyCoroutine = StartCoroutine(Destroy());
+        destroying = false;
+        GetComponent<TrailRenderer>().Clear();
+    }
 
     // Update is called once per frame
     void Update()
@@ -23,8 +38,6 @@ public class Bullet : MonoBehaviour
         if (!destroying || isPiercing)
         {
             transform.position += direction.normalized * speed * Time.deltaTime;
-            if (dissolve)
-                transform.localScale -= new Vector3(dissolveTime, dissolveTime, dissolveTime) * Time.deltaTime;
         }
     }
 
@@ -102,17 +115,17 @@ public class Bullet : MonoBehaviour
                     GetComponent<MeshRenderer>().enabled = false;
                     GetComponent<TrailRenderer>().enabled = false;
                     GetComponent<Light>().enabled = false;
-                    Destroy(gameObject, 0.05f);
+                    gameObject.SetActive(false);
                 }
             }
             else if (!isPiercing)
-                Destroy(gameObject);
+                gameObject.SetActive(false);
         }
         if (!isEnemy)
-            Destroy(gameObject);
+            gameObject.SetActive(false);
     }
 
-    private void OnDestroy()
+    private void OnDisable()
     {
         Instantiate(deathParticles, transform.position, transform.rotation).SetActive(true);
     }

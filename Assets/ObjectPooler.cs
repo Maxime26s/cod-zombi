@@ -3,61 +3,72 @@ using System.Collections;
 using System.Collections.Generic;
 
 [System.Serializable]
-
 public class ObjectPoolItem
 {
     public GameObject objectToPool;
+    public string name;
     public int amountToPool;
     public bool shouldExpand;
+    public List<GameObject> pooledObjects = new List<GameObject>();
+
+    public ObjectPoolItem(GameObject objectToPool, int amountToPool = 10, bool shouldExpand = true)
+    {
+        this.objectToPool = objectToPool;
+        this.amountToPool = amountToPool;
+        this.shouldExpand = shouldExpand;
+    }
 }
 
 public class ObjectPooler : MonoBehaviour
 {
 
-    public static ObjectPooler SharedInstance;
-    public List<ObjectPoolItem> itemsToPool;
-    public List<GameObject> pooledObjects;
-
-    void Awake()
+    public static ObjectPooler Instance { get; private set; }
+    private void Awake()
     {
-        SharedInstance = this;
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            Instance = this;
+        }
     }
+
+    public Dictionary<string, ObjectPoolItem> itemsToPool = new Dictionary<string, ObjectPoolItem>();
 
     // Use this for initialization
     void Start()
     {
-        pooledObjects = new List<GameObject>();
-        foreach (ObjectPoolItem item in itemsToPool)
+        foreach (KeyValuePair<string, ObjectPoolItem> item in itemsToPool)
         {
-            for (int i = 0; i < item.amountToPool; i++)
+            for (int i = 0; i < item.Value.amountToPool; i++)
             {
-                GameObject obj = (GameObject)Instantiate(item.objectToPool);
+                GameObject obj = (GameObject)Instantiate(item.Value.objectToPool);
                 obj.SetActive(false);
-                pooledObjects.Add(obj);
+                item.Value.pooledObjects.Add(obj);
             }
         }
     }
 
-    public GameObject GetPooledObject(string tag)
+    public GameObject GetPooledObject(string name)
     {
-        for (int i = 0; i < pooledObjects.Count; i++)
+        ObjectPoolItem item = itemsToPool[name];
+        if (item.pooledObjects != null)
         {
-            if (!pooledObjects[i].activeInHierarchy && pooledObjects[i].tag == tag)
+            for (int i = 0; i < item.pooledObjects.Count; i++)
             {
-                return pooledObjects[i];
-            }
-        }
-        foreach (ObjectPoolItem item in itemsToPool)
-        {
-            if (item.objectToPool.tag == tag)
-            {
-                if (item.shouldExpand)
+                if (!item.pooledObjects[i].activeInHierarchy)
                 {
-                    GameObject obj = (GameObject)Instantiate(item.objectToPool);
-                    obj.SetActive(false);
-                    pooledObjects.Add(obj);
-                    return obj;
+                    return item.pooledObjects[i];
                 }
+            }
+            if (item.shouldExpand)
+            {
+                GameObject obj = Instantiate(item.objectToPool);
+                obj.SetActive(false);
+                item.pooledObjects.Add(obj);
+                return obj;
             }
         }
         return null;
