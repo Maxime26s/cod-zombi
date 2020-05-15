@@ -107,7 +107,7 @@ public class Bullet : MonoBehaviour
             destroying = true;
             if (isExplosive)
             {
-                Instantiate(explosionPrefab, transform.position, Quaternion.identity).SetActive(true);
+                ObjectPooler.Instance.GetPooledObject(player.playerName + "BulletExplosion").SetActive(true);
                 gameObject.AddComponent<SphereCollider>().isTrigger = true;
                 GetComponent<SphereCollider>().radius = 15;
                 if (!isPiercing)
@@ -127,6 +127,9 @@ public class Bullet : MonoBehaviour
 
     private void OnDisable()
     {
-        Instantiate(deathParticles, transform.position, transform.rotation).SetActive(true);
+        GameObject go = ObjectPooler.Instance.GetPooledObject(player.playerName + "BulletDeath");
+        go.transform.position = transform.position;
+        go.transform.rotation = transform.rotation;
+        go.SetActive(true);
     }
 }

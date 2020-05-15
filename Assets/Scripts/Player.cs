@@ -6,8 +6,8 @@ using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
-    [HideInInspector]
-    public Dictionary<string, float> distances = new Dictionary<string, float>() { };
+    #region Variables
+    public string playerName;
     const float speedConst = 7.070001f;
     CharacterController cc;
     public float speed, gravity;
@@ -45,8 +45,7 @@ public class Player : MonoBehaviour
     private List<Image> modifiersImages = new List<Image> { };
     private List<Image> perksImages = new List<Image> { };
     public GameObject perksUI, perksPrefab, gunModifiersUI, gunModifiersPrefabs;
-
-    // Start is called before the first frame update
+    #endregion
     void Start()
     {
         cc = GetComponent<CharacterController>();
@@ -59,7 +58,9 @@ public class Player : MonoBehaviour
         bulletPrefab.GetComponent<Bullet>().deathParticles = Instantiate(bulletPrefab.GetComponent<Bullet>().deathParticles, transform);
         material = new Material(material);
         UpdateColors();
-        ObjectPooler.Instance.itemsToPool.Add("Projectile", new ObjectPoolItem(bulletPrefab));
+        ObjectPooler.Instance.itemsToPool.Add(playerName + "Bullet", new ObjectPoolItem(bulletPrefab));
+        ObjectPooler.Instance.itemsToPool.Add(playerName + "BulletExplosion", new ObjectPoolItem(bulletPrefab.GetComponent<Bullet>().explosionPrefab));
+        ObjectPooler.Instance.itemsToPool.Add(playerName + "BulletDeath", new ObjectPoolItem(bulletPrefab.GetComponent<Bullet>().deathParticles));
         ammoText.text = gun.ammo.ToString();
         foreach (Sprite sprite in perksSprites)
         {
@@ -95,7 +96,6 @@ public class Player : MonoBehaviour
                 bulletSpawnPoint = transforms.gameObject;
     }
 
-    // Update is called once per frame
     void Update()
     {
         ViewObstructed();
@@ -206,7 +206,7 @@ public class Player : MonoBehaviour
         {
             if (gun.ammo > 0)
             {
-                GameObject go = ObjectPooler.Instance.GetPooledObject("Projectile");
+                GameObject go = ObjectPooler.Instance.GetPooledObject(playerName + "Bullet");
                 BulletConstructor(go);
             }
             else
@@ -218,7 +218,7 @@ public class Player : MonoBehaviour
             {
                 for (int i = 0; i < gun.spray.bulletAmount; i++)
                 {
-                    GameObject go = ObjectPooler.Instance.GetPooledObject("Projectile");
+                    GameObject go = ObjectPooler.Instance.GetPooledObject(playerName + "Bullet");
                     BulletConstructor(go);
                     go.GetComponent<Bullet>().direction = Quaternion.Euler(0, gun.spray.angles[i], 0) * go.GetComponent<Bullet>().direction;
                 }
@@ -377,7 +377,7 @@ public class Player : MonoBehaviour
         colasOwned.Clear();
         nbCola = 0;
         ChangeSpeed(0.2f);
-        this.GetComponentInChildren<Revive>().enabled = true;
+        GetComponentInChildren<Revive>().enabled = true;
         UpdatePerks();
     }
 

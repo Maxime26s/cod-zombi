@@ -36,18 +36,14 @@ public class ObjectPooler : MonoBehaviour
     }
 
     public Dictionary<string, ObjectPoolItem> itemsToPool = new Dictionary<string, ObjectPoolItem>();
+    public List<GameObject> poolOnStart = new List<GameObject>();
 
     // Use this for initialization
     void Start()
     {
-        foreach (KeyValuePair<string, ObjectPoolItem> item in itemsToPool)
+        foreach (GameObject obj in poolOnStart)
         {
-            for (int i = 0; i < item.Value.amountToPool; i++)
-            {
-                GameObject obj = (GameObject)Instantiate(item.Value.objectToPool);
-                obj.SetActive(false);
-                item.Value.pooledObjects.Add(obj);
-            }
+            itemsToPool.Add(obj.name, new ObjectPoolItem(obj));
         }
     }
 
