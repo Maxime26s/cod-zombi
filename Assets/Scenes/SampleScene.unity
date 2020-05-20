@@ -891,6 +891,21 @@ PrefabInstance:
       propertyPath: gunModifiersPrefabs
       value: 
       objectReference: {fileID: 1521254003}
+    - target: {fileID: 3727307729407708422, guid: e0074871fa9d8ae4cbdfc592d0dfab5f,
+        type: 3}
+      propertyPath: obstructionBox.x
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 3727307729407708422, guid: e0074871fa9d8ae4cbdfc592d0dfab5f,
+        type: 3}
+      propertyPath: obstructionBox.y
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 3727307729407708422, guid: e0074871fa9d8ae4cbdfc592d0dfab5f,
+        type: 3}
+      propertyPath: obstructionBox.z
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 3727307729407708424, guid: e0074871fa9d8ae4cbdfc592d0dfab5f,
         type: 3}
       propertyPath: m_Name
