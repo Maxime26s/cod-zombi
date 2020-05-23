@@ -265,8 +265,8 @@ public class Player : MonoBehaviour
         bullet.player = this;
         bullet.direction = go.transform.position - transform.position;
         bullet.direction.y = 0;
-        bullet.isPiercing = gun.isPiercing;
-        bullet.isExplosive = gun.isExplosive;
+        bullet.piercing = gun.piercing;
+        bullet.explosive = gun.explosive;
         bullet.electric = gun.electric;
         bullet.fire = gun.fire;
         bullet.ice = gun.ice;
@@ -409,7 +409,6 @@ public class Player : MonoBehaviour
         bulletPrefab.GetComponent<Bullet>().explosionPrefab.GetComponent<ParticleSystemRenderer>().trailMaterial = material;
         ParticleSystem.MainModule main = bulletPrefab.GetComponent<Bullet>().explosionPrefab.GetComponent<ParticleSystem>().main;
         main.startColor = material.color;
-        bulletPrefab.GetComponent<Bullet>().explosionPrefab.GetComponent<Light>().color = color;
         bulletPrefab.GetComponent<Bullet>().deathParticles.GetComponent<ParticleSystemRenderer>().sharedMaterial = material;
     }
 
@@ -466,14 +465,32 @@ public class Player : MonoBehaviour
             modifiersImages[(int)Effects.Poison].transform.SetParent(gunModifiersUI.transform);
         else
             modifiersImages[(int)Effects.Poison].transform.SetParent(gunModifiersPrefabs.transform);
-        if (gun.isPiercing)
+        if (gun.piercing.enabled)
             modifiersImages[(int)Effects.Piercing].transform.SetParent(gunModifiersUI.transform);
         else
             modifiersImages[(int)Effects.Piercing].transform.SetParent(gunModifiersPrefabs.transform);
-        if (gun.isExplosive)
+        if (gun.explosive.enabled)
             modifiersImages[(int)Effects.Explosive].transform.SetParent(gunModifiersUI.transform);
         else
             modifiersImages[(int)Effects.Explosive].transform.SetParent(gunModifiersPrefabs.transform);
+        if (gun.pap)
+        {
+            material.SetVector("_Color", material.color);
+            material.SetVector("_EmissionColor", material.color);
+            bulletPrefab.GetComponent<Light>().enabled = true;
+            bulletPrefab.GetComponent<Bullet>().deathParticles.GetComponent<ParticleSystemRenderer>().sharedMaterial = material;
+            bulletPrefab.GetComponent<Bullet>().explosionPrefab.GetComponent<ParticleSystemRenderer>().sharedMaterial = material;
+            bulletPrefab.GetComponent<Bullet>().explosionPrefab.GetComponent<ParticleSystemRenderer>().trailMaterial = material;
+        }
+        else
+        {
+            material.SetVector("_Color", material.color * 0.75f);
+            material.SetVector("_EmissionColor", material.color * 0.75f);
+            bulletPrefab.GetComponent<Light>().enabled = false;
+            bulletPrefab.GetComponent<Bullet>().deathParticles.GetComponent<ParticleSystemRenderer>().sharedMaterial = material;
+            bulletPrefab.GetComponent<Bullet>().explosionPrefab.GetComponent<ParticleSystemRenderer>().sharedMaterial = material;
+            bulletPrefab.GetComponent<Bullet>().explosionPrefab.GetComponent<ParticleSystemRenderer>().trailMaterial = material;
+        }
     }
 
     void ViewObstructed()

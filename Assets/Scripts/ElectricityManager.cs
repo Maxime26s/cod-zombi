@@ -12,7 +12,6 @@ public class ElectricityManager : MonoBehaviour
 
     private void Update()
     {
-
         if (ready)
         {
             if (enemies.Count == electric.maxTarget)
@@ -34,10 +33,12 @@ public class ElectricityManager : MonoBehaviour
                 if (closest != null)
                 {
 
-                    GameObject go = Instantiate(electricityEffect, enemies[enemies.Count - 1].transform.position, Quaternion.identity);
+                    GameObject go = ObjectPooler.Instance.GetPooledObject("ElectricityChain");
+                    go.transform.position = enemies[enemies.Count - 1].transform.position;
                     go.transform.LookAt(closest.transform);
                     ParticleSystem.VelocityOverLifetimeModule velocityOverLifetime = go.GetComponent<ParticleSystem>().velocityOverLifetime;
                     velocityOverLifetime.z = Mathf.Sqrt(closestDistance)*10;
+                    go.SetActive(true);
                     enemies.Add(closest);
                     closest.GetComponent<Enemy>().TakeDamage(electric.damage, player, DamageType.AOE, NumberType.Whole);
                 }
@@ -50,14 +51,13 @@ public class ElectricityManager : MonoBehaviour
             {
                 Destroy(gameObject);
             }
-        }
-
-        bool IsEnemyTouched(Collider collider)
-        {
-            foreach (Collider enemy in enemies)
-                if (collider == enemy)
-                    return true;
-            return false;
-        }
+        }  
+    }
+    bool IsEnemyTouched(Collider collider)
+    {
+        foreach (Collider enemy in enemies)
+            if (collider == enemy)
+                return true;
+        return false;
     }
 }

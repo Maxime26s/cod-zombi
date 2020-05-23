@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8212969352335581987}
   - component: {fileID: 5456627777210499786}
   m_Layer: 0
-  m_Name: ElectricityManager
+  m_Name: Electricity
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -44,9 +44,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ready: 0
-  maxTarget: 0
-  damage: 0
+  electric:
+    enabled: 0
+    damage: 0
+    radius: 0
+    maxTarget: 0
   player: {fileID: 0}
   enemies: []
-  electricityEffect: {fileID: 3973117331738834225, guid: 35e90391d9e391742816b2c00d0c0782,
+  electricityEffect: {fileID: 3973117331738834225, guid: c2187284c6bace044af486b16346767a,
     type: 3}

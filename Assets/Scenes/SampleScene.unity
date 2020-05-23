@@ -341,8 +341,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   poolOnStart:
-  - {fileID: 3194665870912266619, guid: e077483b1ca5f9048843be4c352033dd, type: 3}
-  - {fileID: 7748724878120433881, guid: b7d4b41bd2d3ee246ade1a9dfc4b9aea, type: 3}
+  - {fileID: 3973117331738834225, guid: c2187284c6bace044af486b16346767a, type: 3}
 --- !u!1 &760873529
 GameObject:
   m_ObjectHideFlags: 0
@@ -905,6 +904,11 @@ PrefabInstance:
         type: 3}
       propertyPath: obstructionBox.z
       value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 3727307729407708422, guid: e0074871fa9d8ae4cbdfc592d0dfab5f,
+        type: 3}
+      propertyPath: color.rgba
+      value: 13410816
       objectReference: {fileID: 0}
     - target: {fileID: 3727307729407708424, guid: e0074871fa9d8ae4cbdfc592d0dfab5f,
         type: 3}

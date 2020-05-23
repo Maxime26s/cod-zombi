@@ -8,10 +8,12 @@ public class Bullet : MonoBehaviour
 {
     public Vector3 direction;
     public float speed;
-    public float dissolveTime, bulletSelfDestruct;
-    public bool isPiercing, isExplosive, destroying;
+    public float bulletSelfDestruct;
+    public int hitAmount;
     public GameObject explosionPrefab, deathParticles, firePrefab, icePrefab, poisonPrefab, electricPrefab;
     public Player player;
+    public PiercingModifier piercing;
+    public ExplosiveModifier explosive;
     public FireModifier fire;
     public ElectricModifier electric;
     public IceModifier ice;
@@ -28,17 +30,14 @@ public class Bullet : MonoBehaviour
             gameObject.SetActive(false);
         }
         destroyCoroutine = StartCoroutine(Destroy());
-        destroying = false;
         GetComponent<TrailRenderer>().Clear();
+        hitAmount = 0;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (!destroying || isPiercing)
-        {
-            transform.position += direction.normalized * speed * Time.deltaTime;
-        }
+        transform.position += direction.normalized * speed * Time.deltaTime;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -47,82 +46,111 @@ public class Bullet : MonoBehaviour
         {
             if (other.CompareTag("Enemy"))
             {
-                Enemy enemy = other.GetComponent<Enemy>();
-                if (electric.enabled && !enemy.electrified)
-                {
-                    ElectricityManager em = Instantiate(electricPrefab).GetComponent<ElectricityManager>();
-                    em.electric = electric;
-                    em.player = player;
-                    em.enemies.Add(other);
-                    em.ready = true;
-                    enemy.TakeDamage(electric.damage, player, DamageType.AOE, NumberType.Whole);
-                }
-                if (fire.enabled && enemy.GetComponentInChildren<OnFire>() == null)
-                {
-                    OnFire onFire = Instantiate(firePrefab, enemy.transform).GetComponent<OnFire>();
-                    onFire.player = player;
-                    onFire.enemy = enemy;
-                    onFire.fireDamage = fire.damage;
-                    onFire.onFire = true;
-                }
-                if (ice.enabled && !enemy.frozen)
-                {
-                    Instantiate(icePrefab, enemy.transform);
-                    IEnumerator Freeze()
-                    {
-                        enemy.frozen = true;
-                        other.gameObject.GetComponent<NavMeshAgent>().speed = enemy.speed * ice.slowMultiplier;
-                        yield return new WaitForSeconds(2.5f);
-                        other.gameObject.GetComponent<NavMeshAgent>().speed = enemy.speed;
-                        enemy.frozen = false;
-                    }
-                    enemy.StartCoroutine(Freeze());
-                }
-                if (poison.enabled && !enemy.poisoned)
-                {
-                    Instantiate(poisonPrefab, enemy.transform);
-                    IEnumerator Poison()
-                    {
-                        enemy.poisoned = true;
-                        enemy.damageMultiplier = poison.damageMultiplier;
-                        yield return new WaitForSeconds(2.5f);
-                        enemy.damageMultiplier = 1;
-                        enemy.poisoned = false;
-                    }
-                    enemy.StartCoroutine(Poison());
-                }
-                if (isExplosive)
-                    enemy.TakeDamage(player.gun.GetComponent<Gun>().damage, player, DamageType.AOE, NumberType.Whole);
+                if (explosive.enabled)
+                    Explosive(other);
                 else
-                    enemy.TakeDamage(player.gun.GetComponent<Gun>().damage * player.gun.GetComponent<Gun>().damageMultiplier, player, DamageType.Hit, NumberType.Whole);
+                    Hit(other, other.GetComponent<Enemy>());
+                Piercing();
             }
-            CheckDestroy(other.CompareTag("Enemy"));
+            else
+                gameObject.SetActive(false);
         }
     }
 
-    private void CheckDestroy(bool isEnemy)
+    void Hit(Collider other, Enemy enemy)
     {
-        if (!destroying)
+        Electricity(other, enemy);
+        Fire(enemy);
+        Ice(other, enemy);
+        Poison(enemy);
+        if (explosive.enabled)
+            enemy.TakeDamage(player.gun.GetComponent<Gun>().damage * player.gun.GetComponent<Gun>().damageMultiplier, player, DamageType.AOE, NumberType.Whole);
+        else
+            enemy.TakeDamage(player.gun.GetComponent<Gun>().damage * player.gun.GetComponent<Gun>().damageMultiplier, player, DamageType.Hit, NumberType.Whole);
+    }
+    
+    void Piercing()
+    {
+        if (piercing.enabled)
         {
-            destroying = true;
-            if (isExplosive)
-            {
-                ObjectPooler.Instance.GetPooledObject(player.playerName + "BulletExplosion").SetActive(true);
-                gameObject.AddComponent<SphereCollider>().isTrigger = true;
-                GetComponent<SphereCollider>().radius = 15;
-                if (!isPiercing)
-                {
-                    GetComponent<MeshRenderer>().enabled = false;
-                    GetComponent<TrailRenderer>().enabled = false;
-                    GetComponent<Light>().enabled = false;
-                    gameObject.SetActive(false);
-                }
-            }
-            else if (!isPiercing)
+            if (hitAmount < piercing.amount)
+                hitAmount++;
+            else
                 gameObject.SetActive(false);
         }
-        if (!isEnemy)
+        else
             gameObject.SetActive(false);
+    }
+    
+    void Explosive(Collider other)
+    {
+        GameObject go = ObjectPooler.Instance.GetPooledObject(player.playerName + "BulletExplosion");
+        go.transform.position = transform.position;
+        go.SetActive(true);
+        Collider[] colliders = Physics.OverlapSphere(transform.position, explosive.radius, 1 << 9);
+        foreach (Collider collider in colliders)
+        {
+            Hit(collider, collider.GetComponent<Enemy>());
+        }
+    }
+
+    void Electricity(Collider other, Enemy enemy)
+    {
+        if (electric.enabled)
+        {
+            ElectricityManager em = Instantiate(electricPrefab).GetComponent<ElectricityManager>();
+            em.electric = electric;
+            em.player = player;
+            em.enemies.Add(other);
+            em.ready = true;
+            enemy.TakeDamage(electric.damage, player, DamageType.AOE, NumberType.Whole);
+        }
+    }
+
+    void Fire(Enemy enemy)
+    {
+        if (fire.enabled && enemy.GetComponentInChildren<OnFire>() == null)
+        {
+            OnFire onFire = Instantiate(firePrefab, enemy.transform).GetComponent<OnFire>();
+            onFire.player = player;
+            onFire.enemy = enemy;
+            onFire.fireDamage = fire.damage;
+            onFire.onFire = true;
+        }
+    }
+
+    void Ice(Collider other, Enemy enemy)
+    {
+        if (ice.enabled && !enemy.frozen)
+        {
+            Instantiate(icePrefab, enemy.transform);
+            IEnumerator Freeze()
+            {
+                enemy.frozen = true;
+                other.gameObject.GetComponent<NavMeshAgent>().speed = enemy.speed * ice.slowMultiplier;
+                yield return new WaitForSeconds(2.5f);
+                other.gameObject.GetComponent<NavMeshAgent>().speed = enemy.speed;
+                enemy.frozen = false;
+            }
+            enemy.StartCoroutine(Freeze());
+        }
+    }
+
+    void Poison(Enemy enemy)
+    {
+        if (poison.enabled && !enemy.poisoned)
+        {
+            Instantiate(poisonPrefab, enemy.transform);
+            IEnumerator Poison()
+            {
+                enemy.poisoned = true;
+                enemy.damageMultiplier = poison.damageMultiplier;
+                yield return new WaitForSeconds(2.5f);
+                enemy.damageMultiplier = 1;
+                enemy.poisoned = false;
+            }
+            enemy.StartCoroutine(Poison());
+        }
     }
 
     private void OnDisable()

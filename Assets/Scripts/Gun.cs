@@ -18,12 +18,16 @@ public class Gun : MonoBehaviour
     public int ammo;
     public bool isOwned = false;
     public bool inUse = false;
+    public bool pap;
     [HideInInspector]
     public float damageMultiplier = 1f;
     [HideInInspector]
     public float fireRateMultiplier = 1f;
     public float bulletSelfDestruct = 1f;
-    public bool isPiercing, isExplosive;
+    [SerializeField]
+    public PiercingModifier piercing;
+    [SerializeField]
+    public ExplosiveModifier explosive;
     [SerializeField]
     public SprayModifier spray;
     [SerializeField]
@@ -63,6 +67,20 @@ public class Gun : MonoBehaviour
                 return 1f;
         }
     }
+}
+
+[System.Serializable]
+public class PiercingModifier
+{
+    public bool enabled;
+    public int amount;
+}
+
+[System.Serializable]
+public class ExplosiveModifier
+{
+    public bool enabled;
+    public float radius;
 }
 
 [System.Serializable]
