@@ -26,7 +26,7 @@ public class Player : MonoBehaviour
     public Slider healthBar;
     public Color32 color;
     public Material material;
-    private bool dashOnCooldown, isDashing, regenOnCooldown, ammoIsFlashing;
+    private bool dashOnCooldown, regenOnCooldown, ammoIsFlashing;
     [HideInInspector]
     public float dashCooldown;
     public List<TypeCola> colasOwned;
@@ -123,14 +123,12 @@ public class Player : MonoBehaviour
                 IEnumerator Dash()
                 {
                     dashOnCooldown = true;
-                    isDashing = true;
                     ChangeSpeed(3);
                     yield return new WaitForSeconds(0.1f);
                     if (Input.GetMouseButton(0) || Input.GetMouseButton(1))
                         ChangeSpeed(0.5f * gun.GetSpeedModifier());
                     else
                         ChangeSpeed(1f);
-                    isDashing = false;
                     yield return new WaitForSeconds(dashCooldown);
                     dashOnCooldown = false;
                 }

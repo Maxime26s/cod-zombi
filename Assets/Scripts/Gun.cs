@@ -24,19 +24,12 @@ public class Gun : MonoBehaviour
     [HideInInspector]
     public float fireRateMultiplier = 1f;
     public float bulletSelfDestruct = 1f;
-    [SerializeField]
     public PiercingModifier piercing;
-    [SerializeField]
     public ExplosiveModifier explosive;
-    [SerializeField]
     public SprayModifier spray;
-    [SerializeField]
     public FireModifier fire;
-    [SerializeField]
     public ElectricModifier electric;
-    [SerializeField]
     public IceModifier ice;
-    [SerializeField]
     public PoisonModifier poison;
     public GameObject prefab;
 

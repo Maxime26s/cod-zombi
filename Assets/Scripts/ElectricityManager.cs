@@ -1,5 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class ElectricityManager : MonoBehaviour
@@ -21,15 +21,33 @@ public class ElectricityManager : MonoBehaviour
                 float closestDistance = Mathf.Infinity;
                 Collider closest = null;
                 Collider[] colliders = Physics.OverlapSphere(enemies[enemies.Count - 1].transform.position, electric.radius, 1 << 9);
+
+                KdTree<Collider> hits = new KdTree<Collider>();
+                hits.AddAll(colliders.ToList());
+                closest = hits.FindClosest(enemies[enemies.Count - 1].transform.position);
+                closestDistance = (closest.transform.position - enemies[enemies.Count - 1].transform.position).sqrMagnitude;
+
+                /*
                 foreach (Collider collider in colliders)
+                {  
+                float distance = (collider.transform.position - enemies[enemies.Count - 1].transform.position).sqrMagnitude;
+                if (distance < closestDistance && !IsEnemyTouched(collider))
                 {
-                    float distance = (collider.transform.position - enemies[enemies.Count - 1].transform.position).sqrMagnitude;
-                    if (distance < closestDistance && !IsEnemyTouched(collider))
+                    closestDistance = distance;
+                    closest = collider;
+                }
+                */
+
+                /*
+                for (Collider collider in colliders)
+                {
+                    if (!IsEnemyTouched(collider))
                     {
-                        closestDistance = distance;
+                        closestDistance = (collider.transform.position - enemies[enemies.Count - 1].transform.position).sqrMagnitude;
                         closest = collider;
                     }
-                }
+                }*/
+
                 if (closest != null)
                 {
 
@@ -53,6 +71,7 @@ public class ElectricityManager : MonoBehaviour
             }
         }  
     }
+
     bool IsEnemyTouched(Collider collider)
     {
         foreach (Collider enemy in enemies)

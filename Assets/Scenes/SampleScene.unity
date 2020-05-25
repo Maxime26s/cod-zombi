@@ -945,6 +945,11 @@ PrefabInstance:
       propertyPath: electricity
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 8437430834640843656, guid: e0074871fa9d8ae4cbdfc592d0dfab5f,
+        type: 3}
+      propertyPath: pap
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e0074871fa9d8ae4cbdfc592d0dfab5f, type: 3}
 --- !u!1001 &1342754736691676804

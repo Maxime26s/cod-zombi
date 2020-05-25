@@ -1,8 +1,7 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.AI;
+using System.Threading.Tasks;
 
 public class Bullet : MonoBehaviour
 {
@@ -22,7 +21,7 @@ public class Bullet : MonoBehaviour
 
     private void OnEnable()
     {
-        if(destroyCoroutine!=null)
+        if (destroyCoroutine != null)
             StopCoroutine(destroyCoroutine);
         IEnumerator Destroy()
         {
@@ -42,19 +41,16 @@ public class Bullet : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (!other.CompareTag("Player"))
+        if (other.CompareTag("Enemy"))
         {
-            if (other.CompareTag("Enemy"))
-            {
-                if (explosive.enabled)
-                    Explosive(other);
-                else
-                    Hit(other, other.GetComponent<Enemy>());
-                Piercing();
-            }
+            if (explosive.enabled)
+                Explosive(other);
             else
-                gameObject.SetActive(false);
+                Hit(other, other.GetComponent<Enemy>());
+            Piercing();
         }
+        else
+            gameObject.SetActive(false);
     }
 
     void Hit(Collider other, Enemy enemy)
@@ -68,7 +64,7 @@ public class Bullet : MonoBehaviour
         else
             enemy.TakeDamage(player.gun.GetComponent<Gun>().damage * player.gun.GetComponent<Gun>().damageMultiplier, player, DamageType.Hit, NumberType.Whole);
     }
-    
+
     void Piercing()
     {
         if (piercing.enabled)
@@ -81,7 +77,7 @@ public class Bullet : MonoBehaviour
         else
             gameObject.SetActive(false);
     }
-    
+
     void Explosive(Collider other)
     {
         GameObject go = ObjectPooler.Instance.GetPooledObject(player.playerName + "BulletExplosion");
