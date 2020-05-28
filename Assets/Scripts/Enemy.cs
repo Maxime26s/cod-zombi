@@ -22,7 +22,7 @@ public class Enemy : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        maxHealth = health;
+        maxHealth = health + 10 * GameManager.Instance.round;
         ai = GetComponent<NavMeshAgent>();
         player = GameObject.FindGameObjectWithTag("Player");
         ai.speed = speed;
@@ -53,9 +53,11 @@ public class Enemy : MonoBehaviour
             IEnumerator Attack(Player player)
             {
                 cd = true;
+                ai.enabled = false;
                 player.TakeDamage(5);
                 yield return new WaitForSeconds(0.1f);
                 cd = false;
+                ai.enabled = true;
             }
             StartCoroutine(Attack(collision.gameObject.GetComponent<Player>()));
         }

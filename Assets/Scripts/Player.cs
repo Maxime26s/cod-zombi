@@ -202,7 +202,7 @@ public class Player : MonoBehaviour
             ElectricCherry();
         if (!gun.spray.enabled)
         {
-            if (gun.ammo > 0)
+            if (gun.ammo > 0 || GameManager.Instance.infiniteAmmoEnabled)
             {
                 GameObject go = ObjectPooler.Instance.GetPooledObject(playerName + "Bullet");
                 BulletConstructor(go);
@@ -212,7 +212,7 @@ public class Player : MonoBehaviour
         }
         else
         {
-            if (gun.ammo > 0)
+            if (gun.ammo > 0 || GameManager.Instance.infiniteAmmoEnabled)
             {
                 for (int i = 0; i < gun.spray.bulletAmount; i++)
                 {
@@ -224,14 +224,15 @@ public class Player : MonoBehaviour
             else
                 Instantiate(bulletPrefab.GetComponent<Bullet>().deathParticles, bulletSpawnPoint.transform.position, transform.rotation).SetActive(true);
         }
-        if (gun.ammo > 0)
+        if (gun.ammo > 0 || GameManager.Instance.infiniteAmmoEnabled)
         {
             gun.ammo--;
             ammoText.text = gun.ammo.ToString();
+            ammoText.color = Color.white;
             if (gun.ammo == 0)
                 ammoText.color = Color.red;
         }
-        else if (!ammoIsFlashing)
+        else if (!ammoIsFlashing && !GameManager.Instance.infiniteAmmoEnabled)
         {
             IEnumerator NoAmmo()
             {

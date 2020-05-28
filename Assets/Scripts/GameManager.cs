@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using System.Linq;
 
 public class GameManager : MonoBehaviour
 {
@@ -24,14 +25,45 @@ public class GameManager : MonoBehaviour
     List<GameObject> guns = new List<GameObject>();
     List<GameObject> boxes = new List<GameObject>();
     public List<GameObject> powerUps = new List<GameObject>();
-    public TextMeshProUGUI entity;
-    public bool oneShotEnabled;
+    public TextMeshProUGUI entityText, roundText;
+    public bool oneShotEnabled, infiniteAmmoEnabled, pause;
     public float pointMultiplier;
+    public int round, zombieMax, zombieSpawned;
 
-    // Update is called once per frame
+    private void Start()
+    {
+        CheckRound();
+        players = GameObject.FindGameObjectsWithTag("Player").ToList();
+    }
+
     void Update()
     {
-        entity.text = enemies.Count.ToString();
+        entityText.text = enemies.Count.ToString();
+    }
+
+    public void EnemySpawned(GameObject enemy)
+    {
+        enemies.Add(enemy);
+        zombieSpawned++;
+        CheckRound();
+    }
+
+    void CheckRound()
+    {
+        if(zombieSpawned >= zombieMax)
+        {
+            IEnumerator ChangeRound()
+            {
+                pause = true;
+                round++;
+                zombieSpawned = 0;
+                zombieMax = 24 + 2 * round * players.Count;
+                roundText.text = round.ToString();
+                yield return new WaitForSeconds(5f);
+                pause = false;
+            }
+            StartCoroutine(ChangeRound());
+        }
     }
 
     public void Drop(Vector3 position)
@@ -109,5 +141,16 @@ public class GameManager : MonoBehaviour
             if (player.GetComponent<Player>().isDown)
                 player.GetComponent<Player>().Revive();
         }
+    }
+
+    public void InfiniteAmmo()
+    {
+        IEnumerator InfiniteAmmoManager()
+        {
+            infiniteAmmoEnabled = true;
+            yield return new WaitForSeconds(10f);
+            infiniteAmmoEnabled = false;
+        }
+        StartCoroutine(InfiniteAmmoManager());
     }
 }

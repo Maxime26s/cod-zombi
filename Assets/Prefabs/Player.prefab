@@ -96,6 +96,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6e08a435aa7f92a4aaf8989e1d787891, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerName: 
   speed: 7
   gravity: 20
   bulletPrefab: {fileID: 4088158279527532275, guid: 6b7603af79e85c242b6eafdfd984aae2,
@@ -119,8 +120,10 @@ MonoBehaviour:
   colasOwned: 
   isDown: 0
   beingRevived: 0
+  obstructions: []
   obstructionPlayerModifier: 9
   obstructionRadius: 1
+  obstructionBox: {x: 0, y: 0, z: 0}
   perksSprites:
   - {fileID: 210992130430962138, guid: e131b478caa0d964599986f76aeb5c77, type: 3}
   - {fileID: 7718430410883610042, guid: e131b478caa0d964599986f76aeb5c77, type: 3}
@@ -174,7 +177,7 @@ Rigidbody:
   m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 3
 --- !u!1001 &2920493843681437859
 PrefabInstance:
   m_ObjectHideFlags: 0

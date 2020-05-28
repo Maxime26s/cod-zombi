@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public enum TypePowerUp { MaxAmmo, OneShot, MOAB, Carpenter, DoublePoint, FireSale, ReviveAll }
+public enum TypePowerUp { MaxAmmo, OneShot, MOAB, Carpenter, DoublePoint, FireSale, ReviveAll, InfiniteAmmo }
 public class PowerUp : MonoBehaviour
 {
     public TypePowerUp type;
@@ -51,6 +51,9 @@ public class PowerUp : MonoBehaviour
                     break;
                 case TypePowerUp.ReviveAll:
                     GameManager.Instance.ReviveAll();
+                    break;
+                case TypePowerUp.InfiniteAmmo:
+                    GameManager.Instance.InfiniteAmmo();
                     break;
             }
             Destroy(gameObject);

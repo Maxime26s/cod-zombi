@@ -12,15 +12,15 @@ public class SpawnManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (spawning && !spawningCd && players.Count > 0)
+        if (spawning && !spawningCd && players.Count > 0 && GameManager.Instance.zombieSpawned < GameManager.Instance.zombieMax && !GameManager.Instance.pause)
         {
             IEnumerator Spawn()
             {
                 spawningCd = true;
                 GameObject spawner = spawners[Random.Range(0, spawners.Count)];
                 GameObject go = Instantiate(enemyPrefab, spawner.transform.position, Quaternion.identity);
-                GameManager.Instance.enemies.Add(go);
-                GameManager.Instance.enemies[GameManager.Instance.enemies.Count-1].GetComponent<Enemy>().window = spawner.GetComponent<Spawner>().window;
+                GameManager.Instance.EnemySpawned(go);
+                go.GetComponent<Enemy>().window = spawner.GetComponent<Spawner>().window;
                 yield return new WaitForSeconds(1f);
                 spawningCd = false;
             }
